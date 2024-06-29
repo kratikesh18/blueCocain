@@ -2,7 +2,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import axios from "axios";
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+export async function GET(req: NextApiRequest, res: NextApiResponse) {
   const { query, accessToken } = req.query;
 
   if (!query || !accessToken) {
@@ -27,4 +27,4 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   } catch (error) {
     res.status(500).json({ error: "Failed to search for tracks." });
   }
-};
+}
