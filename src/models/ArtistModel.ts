@@ -2,10 +2,10 @@ import mongoose, { Schema, Document, Types } from "mongoose";
 
 export interface Artist extends Document {
   name: string;
+  songs: Types.ObjectId[];
   bio?: string;
   genre?: string[];
   debutDate?: Date;
-  songs: Types.ObjectId[];
   albums?: Types.ObjectId[]; // References to Album model if you have one
 }
 
@@ -45,6 +45,7 @@ const ArtistSchema: Schema<Artist> = new Schema(
   }
 );
 
-const ArtistModel = mongoose.models.Artist || mongoose.model<Artist>("Artist", ArtistSchema);
+const ArtistModel =
+  mongoose.models.Artist || mongoose.model<Artist>("Artist", ArtistSchema);
 
 export default ArtistModel;

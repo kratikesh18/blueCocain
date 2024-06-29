@@ -10,12 +10,13 @@ interface LyricsLine {
 // Define the Lyrics interface
 export interface Lyrics extends Document {
   songName: string;
-  artist: Types.ObjectId; // Reference to the Artist model
+  singer: Types.ObjectId; // Reference to the Artist model
   albumName?: string;
   genre?: string;
   releaseDate?: Date;
   lyricsText: LyricsLine[];
   keywords: string[];
+  albumArt: string;
 }
 
 // Create the LyricsLine schema
@@ -43,7 +44,7 @@ const LyricsSchema: Schema<Lyrics> = new Schema(
       required: true,
       trim: true,
     },
-    artist: {
+    singer: {
       type: Schema.Types.ObjectId,
       ref: "Artist",
       required: true,
@@ -51,6 +52,10 @@ const LyricsSchema: Schema<Lyrics> = new Schema(
     albumName: {
       type: String,
       trim: true,
+    },
+    albumArt: {
+      type: String,
+      required: false,
     },
     genre: {
       type: String,
@@ -75,7 +80,6 @@ const LyricsSchema: Schema<Lyrics> = new Schema(
 
 // Export the Lyrics model
 const LyricsModel =
-  (mongoose.models.Lyrics as mongoose.Model<Lyrics>) ||
-  mongoose.model<Lyrics>("Lyrics", LyricsSchema);
+  mongoose.models.Lyrics || mongoose.model<Lyrics>("Lyrics", LyricsSchema);
 
 export default LyricsModel;
