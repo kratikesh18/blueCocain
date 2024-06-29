@@ -3,7 +3,7 @@ import TheLyrics from "@/components/TheLyrics";
 import { useParams } from "next/navigation";
 import React from "react";
 
-const page = () => {
+const LyricsPage = () => {
   const { songid } = useParams();
 
   return (
@@ -13,7 +13,7 @@ const page = () => {
   );
 };
 
-export default page;
+export default LyricsPage;
 
 //****************** USE LATER ***************/
 // "use client";
