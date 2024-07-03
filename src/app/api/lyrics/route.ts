@@ -24,7 +24,7 @@ export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
     const inputSearchKeyword = searchParams.get("searchQuery");
-
+    console.log("printing the keyword recieved to ", inputSearchKeyword);
     if (!inputSearchKeyword) {
       return NextResponse.json(
         {
@@ -36,11 +36,16 @@ export async function GET(req: NextRequest) {
     }
 
     const songListsDependingUponQuery = await LyricsModel.find({
-      $or: [{ keywords: inputSearchKeyword }, { songName: inputSearchKeyword }],
+      $or: [
+        { songName: inputSearchKeyword.toString() },
+        { keywords: inputSearchKeyword },
+      ],
     })
       .select("-lyricsText -__v -createdAt -updatedAt")
       .populate("singer", "name");
 
+    
+    console.log(songListsDependingUponQuery);
     if (songListsDependingUponQuery.length === 0) {
       return NextResponse.json(
         {

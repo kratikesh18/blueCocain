@@ -24,9 +24,9 @@ interface Lyrics {
   albumArt?: string;
 }
 
-interface LyricsDetails extends Lyrics {
+export interface LyricsDetails extends Lyrics {
   lyricsText: LyricsLine[];
-  keywords: string[];
+  keywords?: string[];
 }
 
 interface LyricsContextType {
@@ -73,7 +73,7 @@ export const LyricsProvider = ({ children }: { children: ReactNode }) => {
       const response = await axios.get(`/api/lyricsLines?id=${id}`);
       setLyricsDetails(response.data.results);
     } catch (error) {
-      setError("Error while fetching lyrics details");
+      setError("Error while fetching lysrics details");
     } finally {
       setLoading(false);
     }

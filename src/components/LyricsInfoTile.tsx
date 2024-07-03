@@ -1,30 +1,36 @@
 import React from "react";
+import { Button } from "./ui/button";
 
 const LyricsInfoTile = ({ lyricsDetails }: { lyricsDetails: any }) => {
   return (
-    <div className="flex pt-2 border-4 shadow-2xl w-full h-[20vh] bg-white rounded-lg p-4">
-      <div className="w-[15%] mr-4">
-        <img
-          src={lyricsDetails.albumArt}
-          alt={`${lyricsDetails.albumName} cover`}
-          className="h-full object-contain rounded-lg"
-        />
-      </div>
-      <div className="flex flex-col justify-between w-full">
-        <div>
-          <h1 className="text-2xl font-bold">{lyricsDetails.songName}</h1>
-          <h2 className="text-xl text-gray-600">{lyricsDetails.albumName}</h2>
-          <p className="text-lg text-gray-500">{lyricsDetails.genre}</p>
+    lyricsDetails && (
+      <div className="flex items-center justify-center  border-2 border-black/20 shadow-xl w-full h-fit rounded-lg  py-2 px-2 md:w-fit md:flex-col md:gap-4 md:mx-auto">
+        <div className="w-[28%] mr-4 md:w-[15rem] md:mx-auto">
+          <img
+            src={lyricsDetails.albumArt}
+            alt={`${lyricsDetails.albumName} cover`}
+            className="h-full  w-full object-fill rounded-lg md:shadow-md "
+          />
         </div>
-        <div className="flex justify-between">
-          <h3 className="text-xl">{lyricsDetails.singer.name}</h3>
-          <p className="text-lg text-gray-500">
-            {lyricsDetails.releaseDate &&
-              new Date(lyricsDetails.releaseDate).toLocaleDateString()}
-          </p>
+        <div className="flex justify-between w-full gap-4 ">
+          <div>
+            <h1 className="text-xl font-bold">{lyricsDetails.songName}</h1>
+            <h2 className="text-lg text-gray-600">{lyricsDetails.albumName}</h2>
+            <p className="text-base text-gray-500">{lyricsDetails.genre}</p>
+          </div>
+
+          <div className="flex flex-col justify-between ">
+            <h3 className="text-lg font-medium%">
+              {lyricsDetails.singer.name}
+            </h3>
+            <p className="text-base text-gray-500 self-end">
+              {lyricsDetails.releaseDate &&
+                new Date(lyricsDetails.releaseDate).toLocaleDateString()}
+            </p>
+          </div>
         </div>
       </div>
-    </div>
+    )
   );
 };
 

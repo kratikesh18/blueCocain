@@ -1,7 +1,7 @@
 import mongoose, { Schema, Types, Document } from "mongoose";
 
 // Define the LyricsLine interface
-interface LyricsLine {
+export interface LyricsLine {
   line: string;
   startTime: number; // Start time in seconds
   endTime: number; // End time in seconds
@@ -14,9 +14,10 @@ export interface Lyrics extends Document {
   albumName?: string;
   genre?: string;
   releaseDate?: Date;
-  lyricsText: LyricsLine[];
+  lyricsText?: LyricsLine[];
   keywords: string[];
   albumArt: string;
+  readyToPulish: boolean;
 }
 
 // Create the LyricsLine schema
@@ -29,10 +30,12 @@ const LyricsLineSchema: Schema<LyricsLine> = new Schema({
   startTime: {
     type: Number,
     required: true,
+    default: 0, // Default to 0, will be updated in pre-save hook
   },
   endTime: {
     type: Number,
     required: true,
+    default: 5, // Default to 5, will be updated in pre-save hook
   },
 });
 
@@ -66,17 +69,38 @@ const LyricsSchema: Schema<Lyrics> = new Schema(
     },
     lyricsText: {
       type: [LyricsLineSchema],
-      required: true,
+      required: false,
+      default: [],
     },
     keywords: {
       type: [String],
       required: false,
+    },
+    readyToPulish: {
+      type: Boolean,
+      default: false,
     },
   },
   {
     timestamps: true,
   }
 );
+
+// Pre-save hook to set startTime and endTime
+LyricsSchema.pre("save", function (next) {
+  const lyrics = this as Lyrics;
+  if (lyrics.lyricsText && lyrics.lyricsText.length > 0) {
+    let startTime = 0;
+    let endTime = 5;
+    lyrics.lyricsText.forEach((line, index) => {
+      line.startTime = startTime;
+      line.endTime = endTime;
+      startTime = endTime + 1; // Increment the start time for the next line
+      endTime = startTime + 4; // Increment the end time for the next line
+    });
+  }
+  next();
+});
 
 // Export the Lyrics model
 const LyricsModel =
