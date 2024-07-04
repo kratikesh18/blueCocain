@@ -33,10 +33,11 @@ export const Searchbar = () => {
         type="text"
         onChange={(e) => handleInputChange(e.target.value)}
         placeholder="Search for a Lyrics"
+        
         className="border-2 text-2xl active:border-none border-gray-500 sm:w-fit"
       />
       <Button onClick={handleSearch}>Search</Button>
-      {loading && <div>Loading....</div>}
+      {loading && <div className="loader"></div>}
       {error && <div>{error}</div>}
       {lyrics && (
         <div className=" flex flex-col gap-4  justify-center items-center w-[90%]">

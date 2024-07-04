@@ -19,26 +19,28 @@ const ArtistSchema: Schema<Artist> = new Schema(
     bio: {
       type: String,
       trim: true,
+      required: false,
     },
     genre: {
       type: [String],
       trim: true,
+      required: false,
     },
     debutDate: {
       type: Date,
+      default: Date.now(),
     },
-    songs: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Lyrics",
-      },
-    ],
-    albums: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Album", // Reference to Album model if you have one
-      },
-    ],
+    songs: {
+      type: [Schema.Types.ObjectId],
+      ref: "Lyrics",
+      required: false,
+    },
+
+    albums: {
+      type: [Schema.Types.ObjectId],
+      ref: "Album", // Reference to Album model if you have one
+      required: false,
+    },
   },
   {
     timestamps: true,

@@ -7,9 +7,9 @@ export async function GET(req: NextRequest) {
   await dbConnect();
 
   const { searchParams } = new URL(req.url);
-  console.log(searchParams);
+  // console.log(searchParams);
   const artistNameToSearch = searchParams.get("artistname");
-  console.log(artistNameToSearch);
+  // console.log(artistNameToSearch);
   try {
     const ArtistNamesArray = await ArtistModel.find({
       name: artistNameToSearch,

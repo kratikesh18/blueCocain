@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils"; // Utility function to combine class names
 
-type SearchResultType = {
+export type SearchResultType = {
   _id?: string;
   songName: string;
   singer: { _id?: string; name: string }; // Reference to the Artist model

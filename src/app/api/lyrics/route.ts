@@ -24,7 +24,9 @@ export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
     const inputSearchKeyword = searchParams.get("searchQuery");
-    console.log("printing the keyword recieved to ", inputSearchKeyword);
+    // console.log("printing the keyword recieved to ", inputSearchKeyword);
+    
+
     if (!inputSearchKeyword) {
       return NextResponse.json(
         {
@@ -44,8 +46,7 @@ export async function GET(req: NextRequest) {
       .select("-lyricsText -__v -createdAt -updatedAt")
       .populate("singer", "name");
 
-    
-    console.log(songListsDependingUponQuery);
+    // console.log(songListsDependingUponQuery);
     if (songListsDependingUponQuery.length === 0) {
       return NextResponse.json(
         {

@@ -17,15 +17,15 @@ export async function POST(req: NextRequest) {
   const { albumArt, albumName, songName, genre, singerName, releaseDate } =
     songDetails;
 
-  console.log(
-    "printing the data from the songdeatils destructure ",
-    albumArt,
-    albumName,
-    songName,
-    genre,
-    singerName,
-    releaseDate
-  );
+  // console.log(
+  //   "printing the data from the songdeatils destructure ",
+  //   albumArt,
+  //   albumName,
+  //   songName,
+  //   genre,
+  //   singerName,
+  //   releaseDate
+  // );
   const addedInfoToDB = await LyricsModel.create({
     albumArt,
     albumName,
@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
     releaseDate,
   });
   if (addedInfoToDB) {
-    console.log(addedInfoToDB);
+    // console.log(addedInfoToDB);
     return Response.json(
       {
         suscess: true,
@@ -45,7 +45,7 @@ export async function POST(req: NextRequest) {
       { status: 200 }
     );
   }
-  console.log(songDetails);
+  // console.log(songDetails);
   return Response.json(
     {
       success: true,

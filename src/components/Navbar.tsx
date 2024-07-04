@@ -7,11 +7,7 @@ import { Button } from "./ui/button";
 const Navbar = () => {
   return (
     <nav>
-      <div className="flex justify-between items-center  text-2xl font-bold text-center bg-black text-white py-2 px-2">
-        <Link href={"/"} />
-        <Link href={"/"} className="tracking-wider">
-          Lyric!fy
-        </Link>
+      <div className="flex justify-around items-center w-full text-2xl font-bold text-center bg-black text-white py-2 px-2">
         <div className="">
           <Link href={"/addLyrics"}>
             <svg
@@ -28,6 +24,25 @@ const Navbar = () => {
                 d="M12 4.5v15m7.5-7.5h-15"
               />
             </svg>
+          </Link>
+        </div>
+        <div>
+          <Link href={"/"} className="tracking-wider">
+            Lyric!fy
+          </Link>
+        </div>
+        <div className="flex justify-center items-center gap-1 text-base">
+          <Link
+            href={`/login`}
+            className=" p-2 rounded-md flex justify-center items-center gap-1 hover:underline  "
+          >
+            <span className="">Login</span>
+          </Link>
+          <Link
+            href={"/signup"}
+            className="p-2 rounded-md flex justify-center items-center gap-1 hover:underline"
+          >
+            SignUp
           </Link>
         </div>
       </div>

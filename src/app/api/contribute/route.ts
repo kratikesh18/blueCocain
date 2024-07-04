@@ -9,12 +9,12 @@ export async function POST(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
     const songId = searchParams.get("for");
-    console.log("pringing the songid from the contribute page", songId);
+    // console.log("pringing the songid from the contribute page", songId);
     // const { newLyricsArray: newLyricsArryOfObject } = await req.json();
     const { updatedLyrics: newLyricsArryOfObject } = await req.json();
 
     // console.log(someting);
-    console.log("printing in the api ", newLyricsArryOfObject);
+    // console.log("printing in the api ", newLyricsArryOfObject);
     // const newLyricsArryOfObject = [
     //   { line: "You should take it as a compliment", startTime: 0, endTime: 5 },
     //   {
@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
     const newUpdatedLyricsform = await lyricsObjectIfPresent.save();
     // console.log("printing the new lyricsupdated ", newUpdatedLyricsform);
 
-    console.log("printing the updated object", lyricsObjectIfPresent);
+    // console.log("printing the updated object", lyricsObjectIfPresent);
     return Response.json(
       {
         success: true,
