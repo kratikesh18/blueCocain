@@ -17,7 +17,7 @@ const SearchTile = ({ item }: { item: SearchResultType }) => {
     <Link
       href={`/lyrics/${item._id}`}
       className={cn(
-        "flex flex-col bg-white shadow-lg rounded-lg overflow-hidden border border-gray-300 transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-xl",
+        "flex flex-col bg-white shadow-xl  rounded-lg overflow-hidden border border-gray-300 transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-2xl",
         "hover:bg-gray-100 w-full max-w-lg mx-auto"
       )}
     >

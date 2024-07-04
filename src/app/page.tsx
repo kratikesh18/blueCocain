@@ -51,15 +51,16 @@ const HomePage = () => {
           <div>
             <div className="flex flex-col gap-4 p-7 overflow-auto ">
               {allItems && (
-                <h1 className="text-xl font-bold">
-                  Exlpore our newest additions
+                <h1 className="text-2xl font-bold">
+                  Explore our newest additions
                 </h1>
               )}
-
-              {allItems &&
-                allItems.map((item) => (
-                  <SearchTile item={item} key={item._id} />
-                ))}
+              <div className="grid md:grid-cols-3 gap-4 md:px-8 ">
+                {allItems &&
+                  allItems.map((item) => (
+                    <SearchTile item={item} key={item._id} />
+                  ))}
+              </div>
             </div>
           </div>
         )}

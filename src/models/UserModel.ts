@@ -4,8 +4,8 @@ export interface User extends Document {
   username: string;
   email: string;
   password: string;
-  isVerified: boolean;
-  userType: string;
+  // isVerified: boolean;
+  // userType: string;
   contributedLyrics?: Types.ObjectId[];
 }
 const UserSchema: Schema<User> = new Schema({
@@ -28,14 +28,20 @@ const UserSchema: Schema<User> = new Schema({
     type: String,
     required: true,
   },
-  isVerified: {
-    type: Boolean,
-    default: false,
-  },
-  userType: {
-    type: String,
-    enum: ["artist", "user"],
-    required: true,
+  // isVerified: {
+  //   type: Boolean,
+  //   default: false,
+  // },
+  // userType: {
+  //   type: String,
+  //   enum: ["artist", "user"],
+  //   required: true,
+  // },
+  contributedLyrics: {
+    type: [Types.ObjectId],
+    ref: "Lyrics",
+    required: false,
+    default: [],
   },
 });
 

@@ -26,21 +26,24 @@ const Navbar = () => {
             </svg>
           </Link>
         </div>
+
         <div>
           <Link href={"/"} className="tracking-wider">
-            Lyric!fy
+            Lyr!csF<span className="text-sm">or</span>Y
+            <span className="text-sm">ou</span>
           </Link>
         </div>
-        <div className="flex justify-center items-center gap-1 text-base">
+
+        <div className=" flex justify-center items-center gap-2 text-base">
           <Link
             href={`/login`}
-            className=" p-2 rounded-md flex justify-center items-center gap-1 hover:underline  "
+            className="  rounded-md flex justify-center items-center gap-1 hover:underline  "
           >
             <span className="">Login</span>
           </Link>
           <Link
             href={"/signup"}
-            className="p-2 rounded-md flex justify-center items-center gap-1 hover:underline"
+            className="   rounded-md flex justify-center items-center gap-1 hover:underline"
           >
             SignUp
           </Link>

@@ -21,6 +21,8 @@ export const Searchbar = () => {
       setLyrics(null);
     }
   }, [searchQuery]);
+
+  // useless function 
   const handleSearch = () => {
     if (searchQuery !== "") {
       fetchLyrics(searchQuery);
@@ -28,15 +30,16 @@ export const Searchbar = () => {
   };
 
   return (
-    <div className="flex mt-4 max-w-md justify-center items-center mx-auto flex-col gap-4">
+    <div className="flex mt-4  justify-center items-center mx-auto flex-col gap-4">
       <Input
         type="text"
         onChange={(e) => handleInputChange(e.target.value)}
         placeholder="Search for a Lyrics"
         
-        className="border-2 text-2xl active:border-none border-gray-500 sm:w-fit"
+        className="border-2 py-8 px-4 w-fit text-2xl rounded-2xl active:border-none border-gray-500 "
       />
-      <Button onClick={handleSearch}>Search</Button>
+
+      {/* <Button onClick={handleSearch}>Search</Button> */}
       {loading && <div className="loader"></div>}
       {error && <div>{error}</div>}
       {lyrics && (
