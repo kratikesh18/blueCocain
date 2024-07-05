@@ -4,6 +4,8 @@ import "./globals.css";
 import { SessionProvider } from "next-auth/react";
 import Navbar from "@/components/Navbar";
 import { LyricsProvider } from "@/context/LyricsContext";
+import AuthProvider from "@/context/AuthProvider";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,15 +21,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <LyricsProvider>
-      <html lang="en">
-        {/* <SessionProvider > */}
-        <body className={inter.className}>
-          <Navbar />
-          {children}
-        </body>
-        {/* </SessionProvider> */}
-      </html>
-    </LyricsProvider>
+    <html lang="en">
+      <AuthProvider>
+        <LyricsProvider>
+          <body className={inter.className}>
+            <Navbar />
+            {children}
+            <Toaster />
+          </body>
+        </LyricsProvider>
+      </AuthProvider>
+    </html>
   );
 }

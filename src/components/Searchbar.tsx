@@ -22,7 +22,7 @@ export const Searchbar = () => {
     }
   }, [searchQuery]);
 
-  // useless function 
+  // useless function
   const handleSearch = () => {
     if (searchQuery !== "") {
       fetchLyrics(searchQuery);
@@ -35,7 +35,6 @@ export const Searchbar = () => {
         type="text"
         onChange={(e) => handleInputChange(e.target.value)}
         placeholder="Search for a Lyrics"
-        
         className="border-2 py-8 px-4 w-fit text-2xl rounded-2xl active:border-none border-gray-500 "
       />
 
