@@ -54,9 +54,8 @@ const SearchPopOverNav = () => {
       {lyrics && (
         <div className="flex flex-col gap-4 justify-center items-center w-full">
           {lyrics.map((item) => (
-            <Link href={`/lyrics/${item._id}`}>
+            <Link href={`/lyrics/${item._id}`} key={item._id}>
               <div className="flex border-2 border-gray-400 rounded-md h-[9rem] w-[99%]">
-                
                 <div className="flex-shrink-0 w-1/3">
                   <img
                     src={item.albumArt}

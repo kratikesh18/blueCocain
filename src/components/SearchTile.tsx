@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils"; // Utility function to combine class names
+import Image from "next/image";
 
 export type SearchResultType = {
   _id?: string;
@@ -9,7 +10,7 @@ export type SearchResultType = {
   albumName?: string;
   genre?: string;
   releaseDate?: Date;
-  albumArt?: string;
+  albumArt: string;
 };
 
 const SearchTile = ({ item }: { item: SearchResultType }) => {
@@ -23,7 +24,7 @@ const SearchTile = ({ item }: { item: SearchResultType }) => {
     >
       <div className="flex">
         <div className="flex-shrink-0 w-1/3">
-          <img
+          <Image
             src={item.albumArt}
             alt={`${item.albumName} cover`}
             className="w-full h-full object-cover"

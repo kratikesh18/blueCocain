@@ -1,12 +1,13 @@
 import React from "react";
 import { Button } from "./ui/button";
+import Image from "next/image";
 
 const LyricsInfoTile = ({ lyricsDetails }: { lyricsDetails: any }) => {
   return (
     lyricsDetails && (
       <div className="flex items-center justify-center  border-2 border-black/20 shadow-xl w-full h-fit rounded-lg  py-2 px-2 md:w-fit md:flex-col md:gap-4 md:mx-auto">
         <div className="w-[28%] mr-4 md:w-[15rem] md:mx-auto">
-          <img
+          <Image
             src={lyricsDetails.albumArt}
             alt={`${lyricsDetails.albumName} cover`}
             className="h-full  w-full object-fill rounded-lg md:shadow-md "
