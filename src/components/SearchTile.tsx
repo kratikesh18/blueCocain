@@ -10,7 +10,7 @@ export type SearchResultType = {
   albumName?: string;
   genre?: string;
   releaseDate?: Date;
-  albumArt: string;
+  albumArt?: string;
 };
 
 const SearchTile = ({ item }: { item: SearchResultType }) => {
@@ -25,7 +25,7 @@ const SearchTile = ({ item }: { item: SearchResultType }) => {
       <div className="flex">
         <div className="flex-shrink-0 w-1/3">
           <Image
-            src={item.albumArt}
+            src={item.albumArt!}
             alt={`${item.albumName} cover`}
             className="w-full h-full object-cover"
           />
