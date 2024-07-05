@@ -3,18 +3,18 @@ import React, { createContext, useContext, useState, ReactNode } from "react";
 import axios from "axios";
 
 // Define interfaces
-interface Artist {
+export interface Artist {
   _id?: string;
   name: string;
 }
 
-interface LyricsLine {
+export interface LyricsLine {
   line: string;
   startTime: number; // Start time in seconds
   endTime: number; // End time in seconds
 }
 
-interface Lyrics {
+export interface Lyrics {
   _id: string;
   songName: string;
   singer: Artist;
@@ -29,7 +29,7 @@ export interface LyricsDetails extends Lyrics {
   keywords?: string[];
 }
 
-interface LyricsContextType {
+export interface LyricsContextType {
   lyrics: Lyrics[] | null;
   lyricsDetails: LyricsDetails | null;
   loading: boolean;

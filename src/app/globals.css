@@ -89,6 +89,7 @@
   }
   .loader:before {
     content:"Loading...";
+
   }
   
   @keyframes l33{

@@ -10,7 +10,7 @@ import { Toaster } from "@/components/ui/toaster";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Lyr!csForYou : A Lyrics Library",
+  title: "BlueCocain : A Lyrics Library",
   description:
     "A Lyrics Library For Free, where you can find lyrics of all songs, Made by indian",
 };
