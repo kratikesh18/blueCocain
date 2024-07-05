@@ -24,8 +24,8 @@ const SearchTile = ({ item }: { item: SearchResultType }) => {
     >
       <div className="flex">
         <div className="flex-shrink-0 w-1/3">
-          <Image
-            src={item.albumArt!}
+          <img
+            src={item.albumArt}
             alt={`${item.albumName} cover`}
             className="w-full h-full object-cover"
           />

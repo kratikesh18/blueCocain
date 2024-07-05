@@ -5,6 +5,7 @@ import { Lyrics } from "@/context/LyricsContext";
 import axios from "axios";
 import Link from "next/link";
 import SearchTile from "../SearchTile";
+import Image from "next/image";
 
 const SearchPopOverNav = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
