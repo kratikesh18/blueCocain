@@ -31,8 +31,8 @@ export function ScrollAreaHorizontalDemo() {
     <ScrollArea className="whitespace-nowrap rounded-md pl-2">
       <div className="flex w-max space-x-4 p-4">
         {allItems?.map((item) => (
-          <Link href={`/lyrics/${item._id}`}>
-            <figure key={item._id} className="shrink-0 ">
+          <Link href={`/lyrics/${item._id}`} key={item._id}>
+            <figure className="shrink-0 ">
               <div className="overflow-hidden rounded-md">
                 <img
                   src={item.albumArt}
