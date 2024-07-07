@@ -19,55 +19,61 @@ const Navbar = () => {
   const router = useRouter();
 
   return (
-    <nav>
-      <div className="flex justify-around items-center w-full text-2xl font-bold text-center bg-black text-white py-3 px-2">
-        <div>
-          <Link href="/addLyrics">
+    <nav className="bg-black text-white py-3 px-4 shadow-lg ">
+      <div className="container mx-auto flex justify-between items-center">
+        <div className="flex items-center gap-4">
+          <Link
+            href="/addLyrics"
+            className="hover:opacity-75 transition-opacity"
+          >
             <AddIcon />
           </Link>
         </div>
 
-        <div>
-          <Link href="/" className="tracking-wider">
-            {/* Lyr!csF<span className="text-sm">or</span>Y
-            <span className="text-sm">ou</span> */}
-            blueCocain
+        <div className="text-2xl font-bold tracking-wider">
+          <Link href="/" className="hover:text-gray-300 transition-colors">
+            <h1 className="bg-gradient-to-b from-gray-200 via-white to-gray-600 text-transparent bg-clip-text text-2xl">
+              blueCocain
+            </h1>
           </Link>
         </div>
 
-        <div className="flex justify-center items-center gap-4">
+        <div className="flex items-center gap-4">
+          {/* A searchbar not  */}
           {pathname !== "/" && (
             <Popover>
               <PopoverTrigger>
-                <SearchIcon />
+                <div className="hover:opacity-75 transition-opacity">
+                  <SearchIcon />
+                </div>
               </PopoverTrigger>
-              <PopoverContent className="mt-4 w-fit border-2  border-gray-400">
+              <PopoverContent className="mt-4 w-fit border-2 border-gray-400 bg-white text-black">
                 <SearchPopOverNav />
               </PopoverContent>
             </Popover>
           )}
+
           {status === "loading" ? (
-            <div>Loading...</div>
+            <div className="loader"></div>
           ) : session ? (
             <Popover>
               <PopoverTrigger>
-                <UserIcon />
+                <div className="hover:opacity-75 transition-opacity">
+                  <UserIcon />
+                </div>
               </PopoverTrigger>
-              <PopoverContent className="w-fit border-2 border-gray-400 mt-4">
+              <PopoverContent className="w-fit border-2 border-gray-400 mt-4 bg-white text-black">
                 <PopOverNav session={session} />
               </PopoverContent>
             </Popover>
           ) : (
-            <div className="flex justify-center items-center gap-2 text-base">
-              <Link
-                href="/login"
-                className="rounded-md flex justify-center items-center gap-1 hover:underline"
-              >
-                <span>Login</span>
+            <div className="flex gap-2 text-base">
+              <Link href="/login" className="hover:underline transition-colors">
+                Login
               </Link>
               <Link
                 href="/signup"
-                className="rounded-md flex justify-center items-center gap-1 hover:underline"
+                className="hover:underline transition-colors"
               >
                 SignUp
               </Link>

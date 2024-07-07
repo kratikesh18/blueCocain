@@ -6,5 +6,5 @@ export const NewLyricsSchema = z.object({
   albumName: z.string(),
   albumArtUrl: z.string(),
   genre: z.string(),
-  releaseDate: z.date(),
+  releaseDate: z.string(),
 });

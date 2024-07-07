@@ -7,6 +7,7 @@ export interface Artist extends Document {
   genre?: string[];
   debutDate?: Date;
   albums?: Types.ObjectId[]; // References to Album model if you have one
+  keywords: string[];
 }
 
 const ArtistSchema: Schema<Artist> = new Schema(
@@ -41,11 +42,16 @@ const ArtistSchema: Schema<Artist> = new Schema(
       ref: "Album", // Reference to Album model if you have one
       required: false,
     },
+    keywords: {
+      type: [String],
+      required: false,
+    },
   },
   {
     timestamps: true,
   }
 );
+
 
 const ArtistModel =
   mongoose.models.Artist || mongoose.model<Artist>("Artist", ArtistSchema);

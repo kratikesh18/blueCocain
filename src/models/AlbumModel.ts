@@ -6,6 +6,7 @@ export interface Album extends Document {
   releaseDate: Date;
   tracks: Schema.Types.ObjectId[]; // References to Lyrics model
   genre?: string;
+  keywords?: string[];
 }
 
 const AlbumSchema: Schema<Album> = new Schema({

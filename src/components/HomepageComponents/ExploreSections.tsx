@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import SearchTile, { SearchResultType } from "@/components/SearchTile";
 import axios from "axios";
+
 const ExploreSections = ({}) => {
   const [allItems, setAllItems] = useState<SearchResultType[] | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -22,21 +23,22 @@ const ExploreSections = ({}) => {
     }
     getAllLyrics();
   }, []);
+
   return (
-    <div className="">
+    <div className="bg-black min-h-screen">
       {loading ? (
         <div className="h-full w-full flex justify-center items-center mt-8">
           <div className="loader "></div>
         </div>
       ) : (
         <div>
-          <div className="flex flex-col gap-4 p-7 overflow-auto ">
+          <div className="flex flex-col gap-4 p-7 overflow-auto text-white">
             {allItems && (
               <h1 className="text-2xl font-bold">
                 Explore our newest additions
               </h1>
             )}
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 md:px-8 ">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 md:px-8">
               {allItems &&
                 allItems.map((item) => (
                   <SearchTile item={item} key={item._id} />

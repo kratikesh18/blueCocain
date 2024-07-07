@@ -18,8 +18,8 @@ const SearchTile = ({ item }: { item: SearchResultType }) => {
     <Link
       href={`/lyrics/${item._id}`}
       className={cn(
-        "flex flex-col bg-white shadow-xl  rounded-lg overflow-hidden border border-gray-300 transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-2xl",
-        "hover:bg-gray-100 w-full max-w-lg mx-auto"
+        "flex flex-col bg-purple-950 shadow-xl rounded-lg overflow-hidden border border-gray-700 transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-2xl",
+        "hover:bg-gray-700 w-full max-w-lg mx-auto"
       )}
     >
       <div className="flex">
@@ -32,15 +32,15 @@ const SearchTile = ({ item }: { item: SearchResultType }) => {
         </div>
         <div className="flex flex-col justify-between p-4 w-2/3">
           <div>
-            <h1 className="text-lg font-bold text-gray-900">{item.songName}</h1>
-            <h2 className="text-md text-gray-700">{item.albumName}</h2>
-            <p className="text-sm text-gray-500">{item.genre}</p>
+            <h1 className="text-lg font-bold text-white">{item.songName}</h1>
+            <h2 className="text-md text-gray-300">{item.albumName}</h2>
+            <p className="text-sm text-gray-400">{item.genre}</p>
           </div>
           <div className="mt-2">
-            <h3 className="text-base font-medium text-gray-800">
+            <h3 className="text-base font-medium text-gray-200">
               {item.singer.name}
             </h3>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-gray-400">
               {item.releaseDate &&
                 new Date(item.releaseDate).toLocaleDateString()}
             </p>
