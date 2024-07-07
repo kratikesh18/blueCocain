@@ -6,7 +6,7 @@ import { NextRequest } from "next/server";
 export async function POST(req: NextRequest) {
   await dbConnect();
   const { data: songDetails } = await req.json();
-
+  console.log("printing the songDetails", songDetails);
   if (!songDetails) {
     return Response.json(
       {
@@ -16,14 +16,14 @@ export async function POST(req: NextRequest) {
       { status: 404 }
     );
   }
-  const { albumArt, albumName, songName, genre, singerName, releaseDate } =
+  const { albumArtUrl, albumName, songName, genre, singerName, releaseDate } =
     songDetails;
 
   // finding the _id from the Artistname
   const ArtistDetailsByName = await ArtistModel.findOne({ name: singerName });
 
   const addedInfoToDB = await LyricsModel.create({
-    albumArt,
+    albumArt: albumArtUrl,
     albumName,
     songName,
     genre,

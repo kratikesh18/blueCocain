@@ -27,6 +27,9 @@ export function ScrollAreaHorizontalDemo() {
     }
     getAllLyrics();
   }, []);
+  if (loading) {
+    return <div className="loader"></div>;
+  }
   return (
     <ScrollArea className="whitespace-nowrap rounded-md pl-2">
       <div className="flex w-max space-x-4 p-4">

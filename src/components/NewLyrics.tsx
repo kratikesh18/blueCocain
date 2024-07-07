@@ -10,6 +10,7 @@ import { Form, FormField, FormItem, FormLabel, FormMessage } from "./ui/form";
 import { useDebounce } from "@/hooks/useDebounce"; // Custom debounce hook
 import ArtistSearchResult from "@/components/HomepageComponents/ArtistSearchResult";
 import { toast } from "./ui/use-toast";
+import { useRouter } from "next/navigation";
 
 interface SingerDetails {
   name: string;
@@ -23,7 +24,7 @@ const GatherSongDetails: React.FC = () => {
   const [artistDetails, setArtistDetails] = useState<SingerDetails[] | null>(
     null
   );
-
+  const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
@@ -54,6 +55,8 @@ const GatherSongDetails: React.FC = () => {
       if (response.status === 200) {
         toast({ title: "Lyrics added successfully!" });
         form.reset();
+        console.log(response);
+        router.push(`/lyrics/${response.data.result._id}`);
       }
     } catch (error: any) {
       console.error(error.message);
