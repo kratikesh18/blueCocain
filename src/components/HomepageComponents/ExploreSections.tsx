@@ -34,7 +34,7 @@ const ExploreSections = ({}) => {
         <div>
           <div className="flex flex-col gap-4 p-7 overflow-auto text-white">
             {allItems && (
-              <h1 className="text-2xl font-bold">
+              <h1 className="text-xl text-pretty font-bold md:text-2xl">
                 Explore our newest additions
               </h1>
             )}

@@ -12,6 +12,7 @@ import axios from "axios";
 import { Toaster } from "./ui/toaster";
 import { useToast } from "./ui/use-toast";
 import { LyricsLine as LyricsLineType } from "@/models/LyricsModel";
+import { ScrollArea } from "./ui/scroll-area";
 
 interface TheLyricsProps {
   songId?: string | null;
@@ -96,7 +97,8 @@ const TheLyrics: React.FC<TheLyricsProps> = ({
       <div className="md:w-1/2">
         <LyricsInfoTile lyricsDetails={lyricsDetails} />
       </div>
-      <div className="flex flex-col gap-4 text-left h-full text-2xl font-semibold w-full mt-4 p-4 bg-violet-900 shadow-lg rounded-lg overflow-y-auto md:w-1/2 md:overflow-y-scroll">
+
+      <div className="flex flex-col gap-4 text-left h-full text-2xl font-semibold w-full mt-4 p-4 bg-violet-900 shadow-lg rounded-lg overflow-y-auto md:w-1/2 md:overflow-y-scroll scrollbar-thin scrollbar-thumb-violet-600 scrollbar-track-violet-900">
         {isEditing ? (
           <LyricsEditor
             updatedLyrics={updatedLyrics}
@@ -115,15 +117,15 @@ const TheLyrics: React.FC<TheLyricsProps> = ({
             />
           ))
         )}
+        {isEditing && (
+          <div className="mt-4 self-center ">
+            <Button onClick={submitForReview} className="bg-green-700 font-semibold text-lg ">
+              Mark for review
+            </Button>
+            <Toaster />
+          </div>
+        )}
       </div>
-      {isEditing && (
-        <div className="mt-4">
-          <Button onClick={submitForReview} className="bg-green-700">
-            Mark for review
-          </Button>
-          <Toaster />
-        </div>
-      )}
     </div>
   );
 };

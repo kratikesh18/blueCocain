@@ -1,11 +1,49 @@
 "use client";
 import LIkeIcon from "@/components/icons/LIkeIcon";
-import { ScrollAreaHorizontalDemo } from "@/components/specials/TryScrollArea";
+import { SearchResultType } from "@/components/SearchTile";
+import { ScrollAreas } from "@/components/specials/ScrollAreas";
+import { Artist } from "@/models/ArtistModel";
+import axios from "axios";
 import { useSession } from "next-auth/react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 const ProfilePage = () => {
   const { data: session } = useSession();
+
+  const [allItems, setAllItems] = useState<SearchResultType[] | null>(null);
+  const [allSingers, setAllSingers] = useState<Artist[] | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    async function getAllLyrics() {
+      setLoading(true);
+      try {
+        const response = await axios.get(`/api/allLyrics`);
+        if (!response) {
+          throw new Error("failed to fetch All Lyrics");
+        }
+        setAllItems(response.data.result);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    async function getAllSingers() {
+      setLoading(true);
+      try {
+        const response = await axios.get(`/api/getAllArtistsDetails`);
+        console.log(response.data);
+        setAllSingers(response.data.result);
+      } catch (error: any) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    getAllLyrics();
+    getAllSingers();
+  }, []);
 
   return (
     <div className="min-h-screen px-8 py-6 bg-gray-950 flex flex-col md:px-12 md:py-8">
@@ -32,19 +70,19 @@ const ProfilePage = () => {
         <h1 className="text-white text-2xl font-semibold flex items-center gap-2 mb-4">
           Your Favorite Songs <LIkeIcon />
         </h1>
-        <ScrollAreaHorizontalDemo />
+        <ScrollAreas allItems={allItems} />
       </div>
       <div className="mt-4 w-full ">
         <h1 className="text-white text-2xl font-semibold flex items-center gap-2 mb-4">
           Your Top Artists
         </h1>
-        <ScrollAreaHorizontalDemo />
+        <ScrollAreas allSingers={allSingers} />
       </div>
       <div className="mt-4 w-full ">
         <h1 className="text-white text-2xl font-semibold flex items-center gap-2 mb-4">
           Your Top Contributions
         </h1>
-        <ScrollAreaHorizontalDemo />
+        <ScrollAreas allLiked={allItems} />
       </div>
     </div>
   );

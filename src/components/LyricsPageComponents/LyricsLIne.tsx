@@ -1,6 +1,7 @@
 import React from "react";
 import { LyricsLine as LyricsLineType } from "@/models/LyricsModel";
 import { Input } from "../ui/input";
+import { Button } from "../ui/button";
 
 interface LyricsLineProps {
   line: LyricsLineType;
@@ -12,6 +13,7 @@ interface LyricsLineProps {
     field: string,
     value: string | number
   ) => void;
+  deleteLine: (index: number) => void;
 }
 
 const LyricsLine: React.FC<LyricsLineProps> = ({
@@ -20,6 +22,7 @@ const LyricsLine: React.FC<LyricsLineProps> = ({
   isCurrent,
   index,
   handleLineChange,
+  deleteLine,
 }) => {
   return (
     <div
@@ -31,15 +34,31 @@ const LyricsLine: React.FC<LyricsLineProps> = ({
         <div className="flex">
           <Input
             type="text"
-            className="text-2xl font-semibold border-b-2 border-black"
+            className="text-2xl font-semibold border-b-2 border-black text-gray-300"
             defaultValue={line.line}
             onChange={(e) => handleLineChange(index, "line", e.target.value)}
           />
         </div>
       ) : (
-        <h1 className={`${isCurrent ? "text-gray-100" : "text-transparent/85"}`}>{line.line}</h1>
+        <div>
+          <h1 className={`${isCurrent ? "text-white" : "text-gray-400/90"}`}>
+            {line.line}
+          </h1>
+        </div>
       )}
-      <div className="flex justify-between text-xs text-gray-200">
+      {isEditing && (
+        <Button
+          onClick={() => deleteLine(index)}
+          className="bg-red-500 hover:bg-red-700"
+        >
+          Delete
+        </Button>
+      )}
+      <div
+        className={`flex justify-between text-xs mt-[4px] ${
+          isCurrent ? "text-white" : "text-gray-400/70"
+        }`}
+      >
         <p>{new Date(line.startTime * 1000).toISOString().substr(14, 5)}</p>
         <p>{new Date(line.endTime * 1000).toISOString().substr(14, 5)}</p>
       </div>

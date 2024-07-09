@@ -16,7 +16,6 @@ import SearchPopOverNav from "./specials/SearchPopOverNav";
 const Navbar = () => {
   const { data: session, status } = useSession();
   const pathname = usePathname();
-  const router = useRouter();
 
   return (
     <nav className="bg-black text-white py-3 px-4 shadow-lg ">

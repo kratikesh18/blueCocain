@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 
 interface SingerDetails {
@@ -43,7 +44,18 @@ const ArtistSearchResult: React.FC<ArtistSearchResultProps> = ({
       )}
       {artistname && !artistDetails && (
         <div className="text-sm text-gray-300">
-          {findingArtist ? "Searching..." : "No Artists Found: Contribute"}
+          {findingArtist ? (
+            <div>
+              <h1>Searching....</h1>
+            </div>
+          ) : (
+            <span className="flex gap-2">
+              <h1 className="text-gray-400">No Artist Found :</h1>
+              <Link href={`/newArtistProfile`} className="text-white underline">
+                Create Artist Profile
+              </Link>
+            </span>
+          )}
         </div>
       )}
     </>
