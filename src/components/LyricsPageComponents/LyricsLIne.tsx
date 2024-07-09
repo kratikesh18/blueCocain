@@ -13,7 +13,6 @@ interface LyricsLineProps {
     field: string,
     value: string | number
   ) => void;
-  deleteLine: (index: number) => void;
 }
 
 const LyricsLine: React.FC<LyricsLineProps> = ({
@@ -22,7 +21,6 @@ const LyricsLine: React.FC<LyricsLineProps> = ({
   isCurrent,
   index,
   handleLineChange,
-  deleteLine,
 }) => {
   return (
     <div
@@ -46,14 +44,7 @@ const LyricsLine: React.FC<LyricsLineProps> = ({
           </h1>
         </div>
       )}
-      {isEditing && (
-        <Button
-          onClick={() => deleteLine(index)}
-          className="bg-red-500 hover:bg-red-700"
-        >
-          Delete
-        </Button>
-      )}
+
       <div
         className={`flex justify-between text-xs mt-[4px] ${
           isCurrent ? "text-white" : "text-gray-400/70"

@@ -3,7 +3,7 @@ import { LyricsLine as LyricsLineType } from "@/models/LyricsModel";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import LyricsLine from "./LyricsLIne";
-
+import { ScrollArea } from "../ui/scroll-area";
 
 interface LyricsEditorProps {
   updatedLyrics: LyricsLineType[];
@@ -37,10 +37,6 @@ const LyricsEditor: React.FC<LyricsEditorProps> = ({
     setNewLine("");
   };
 
-  const deleteLine = (index: number) => {
-    setUpdatedLyrics((prev) => prev.filter((_, i) => i !== index));
-  };
-
   return (
     <>
       {updatedLyrics.map((line, index) => (
@@ -51,7 +47,6 @@ const LyricsEditor: React.FC<LyricsEditorProps> = ({
           isCurrent={false}
           index={index}
           handleLineChange={handleLineChange}
-          deleteLine={deleteLine}
         />
       ))}
       <form onSubmit={addLine} className="flex gap-2 mt-4">
