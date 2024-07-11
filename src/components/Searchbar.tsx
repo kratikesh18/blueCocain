@@ -31,7 +31,11 @@ export const Searchbar = () => {
       />
 
       {loading && <div className="loader"></div>}
-      {error && <div className="text-red-500">{error}</div>}
+      {error && (
+        <div className={`text-red-700 ${error ? "block" : "hidden"}`}>
+          {error}
+        </div>
+      )}
       {lyrics && (
         <div className="flex flex-col gap-4 justify-center items-center w-[90%]">
           {lyrics.map((item) => (

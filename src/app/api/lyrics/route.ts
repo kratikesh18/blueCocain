@@ -25,7 +25,6 @@ export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
     const inputSearchKeyword = searchParams.get("searchQuery");
     // console.log("printing the keyword recieved to ", inputSearchKeyword);
-    
 
     if (!inputSearchKeyword) {
       return NextResponse.json(

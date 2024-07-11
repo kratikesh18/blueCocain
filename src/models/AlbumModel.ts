@@ -2,10 +2,11 @@ import mongoose, { Document, Schema } from "mongoose";
 
 export interface Album extends Document {
   albumName: string;
+  albumArt: string;
   by: Schema.Types.ObjectId; // Reference to the Artist model
   releaseDate: Date;
   tracks: Schema.Types.ObjectId[]; // References to Lyrics model
-  genre?: string;
+  genre: string;
   keywords?: string[];
 }
 
@@ -17,6 +18,10 @@ const AlbumSchema: Schema<Album> = new Schema({
   by: {
     type: Schema.Types.ObjectId,
     ref: "Artist",
+    required: true,
+  },
+  albumArt: {
+    type: String,
     required: true,
   },
   releaseDate: {

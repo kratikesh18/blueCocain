@@ -6,6 +6,7 @@ import axios from "axios";
 import Link from "next/link";
 import SearchTile from "../SearchTile";
 import Image from "next/image";
+import { cn } from "@/lib/utils";
 
 const SearchPopOverNav = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -29,6 +30,7 @@ const SearchPopOverNav = () => {
       setLoading(false);
     }
   };
+
   useEffect(() => {
     if (searchQuery !== "") {
       fetchLyrics(searchQuery);
@@ -55,28 +57,39 @@ const SearchPopOverNav = () => {
       {lyrics && (
         <div className="flex flex-col gap-4 justify-center items-center w-full">
           {lyrics.map((item) => (
-            <Link href={`/lyrics/${item._id}`} key={item._id}>
-              <div className="flex border-2 border-gray-400 rounded-md h-[9rem] w-[99%]">
-                <div className="flex-shrink-0 w-1/3">
+            <Link
+              href={`/lyrics/${item._id}`}
+              className={cn(
+                "flex flex-col h-fit bg-purple-950 shadow-xl rounded-lg overflow-hidden border border-gray-700 transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-2xl",
+                "hover:bg-gray-700 w-4  mx-auto"
+              )}
+            >
+              <div className="flex">
+                <div className="flex-shrink-0 w-1/3 relative">
                   <img
                     src={item.albumArt}
                     alt={`${item.albumName} cover`}
                     className="w-full h-full object-cover"
+                    style={{ aspectRatio: "1/1" }}
                   />
                 </div>
-
                 <div className="flex flex-col justify-between p-4 w-2/3">
                   <div>
-                    <h1 className="text-base font-semibold text-gray-900">
+                    <h1 className="text-base font-bold text-white md:text-lg">
                       {item.songName}
                     </h1>
-                    <h2 className="text-sm text-gray-700">{item.albumName}</h2>
+                    <h2 className="text-base text-gray-300 md:text-md">
+                      {item.albumName}
+                    </h2>
+                    <p className="text-xs text-gray-400 md:text-sm">
+                      {item.genre}
+                    </p>
                   </div>
                   <div className="mt-2">
-                    <h3 className="text-base font-semibold text-gray-800">
+                    <h3 className="textbase font-normal text-gray-200 md:text-base">
                       {item.singer.name}
                     </h3>
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm text-gray-400">
                       {item.releaseDate &&
                         new Date(item.releaseDate).toLocaleDateString()}
                     </p>

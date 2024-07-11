@@ -16,7 +16,7 @@ export interface Lyrics extends Document {
   releaseDate?: Date;
   lyricsText?: LyricsLine[];
   keywords: string[];
-  albumArt: string;
+  albumArt?: string;
   readyToPulish: boolean;
 }
 

@@ -18,7 +18,8 @@ export async function GET(req: NextRequest) {
     const response = await LyricsModel.find()
       .select("-lyricsText -__v -keywords -createdAt -updatedAt")
       .populate("singer", "name")
-      .sort({ createdAt: -1 });
+      .sort({ createdAt: -1 })
+      .limit(6);
 
     if (!response) {
       return Response.json(

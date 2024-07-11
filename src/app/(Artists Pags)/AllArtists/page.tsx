@@ -2,6 +2,7 @@
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { Artist } from "@/models/ArtistModel";
 import axios from "axios";
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 const AllArtistsPage = () => {
@@ -39,7 +40,11 @@ const AllArtistsPage = () => {
   return (
     <div className="min-h-screen bg-gray-950 py-10">
       <div className="container mx-auto px-4">
-        <h1 className="text-3xl font-bold text-white mb-8">All Artists</h1>
+        <div className="text-white mb-8 flex justify-between items-center">
+          <h1 className="text-3xl font-bold">All Artists</h1>
+          <Link href={"/newArtistProfile"}>Create an Artists Profile</Link>
+        </div>
+
         {error && <span className="text-red-400">{error}</span>}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
           {allArtistDetails &&

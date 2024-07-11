@@ -91,6 +91,31 @@ const TheLyrics: React.FC<TheLyricsProps> = ({
   if (!lyricsDetails) return <LoadingSpinner />;
 
   const currentLine = getCurrentLine();
+  const bgColors = [
+    "bg-rose-900",
+    "bg-emerald-900",
+    "bg-orange-900",
+    "bg-red-900",
+    "bg-purple-900",
+    "bg-violet-900",
+    "bg-indigo-900",
+    "bg-yellow-900",
+    "bg-pink-900",
+    "bg-green-900",
+    "bg-blue-950",
+    "bg-teal-900",
+    "bg-cyan-900",
+    "bg-amber-900",
+    "bg-lime-900",
+    "bg-fuchsia-900",
+  ];
+
+  let colorToBg = null;
+  if (songId) {
+    const songIdBase10 = Math.ceil(parseInt(songId, 16));
+    const colorIndex = songIdBase10 % bgColors.length;
+    colorToBg = bgColors[colorIndex];
+  }
 
   return (
     <div className="flex flex-col justify-center h-screen items-center p-4 md:flex-row bg-black">
@@ -98,7 +123,9 @@ const TheLyrics: React.FC<TheLyricsProps> = ({
         <LyricsInfoTile lyricsDetails={lyricsDetails} />
       </div>
 
-      <div className="flex flex-col gap-4 text-left h-full text-2xl font-semibold w-full mt-4 p-4 bg-violet-900 shadow-lg rounded-lg overflow-y-auto md:w-1/2 md:overflow-y-scroll scrollbar-thin scrollbar-thumb-violet-600 scrollbar-track-violet-900">
+      <div
+        className={`flex flex-col gap-4 text-left h-full text-2xl font-semibold w-full mt-4 p-4 ${colorToBg} shadow-lg rounded-lg overflow-y-auto md:w-1/2 md:overflow-y-scroll scrollbar-thin scrollbar-thumb-black/20 scrollbar-track-black/20`}
+      >
         {isEditing ? (
           <LyricsEditor
             updatedLyrics={updatedLyrics}
@@ -119,7 +146,10 @@ const TheLyrics: React.FC<TheLyricsProps> = ({
         )}
         {isEditing && (
           <div className="mt-4 self-center ">
-            <Button onClick={submitForReview} className="bg-green-700 font-semibold text-lg ">
+            <Button
+              onClick={submitForReview}
+              className="bg-green-700 font-semibold text-lg "
+            >
               Mark for review
             </Button>
             <Toaster />

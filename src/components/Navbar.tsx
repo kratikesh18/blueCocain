@@ -18,8 +18,8 @@ const Navbar = () => {
   const pathname = usePathname();
 
   return (
-    <nav className="bg-black text-white py-3 px-4 shadow-lg ">
-      <div className="container mx-auto flex justify-between items-center">
+    <nav className=" bg-black text-white py-3 px-4 shadow-lg  ">
+      <div className="container mx-auto flex justify-between items-center ">
         <div className="flex items-center gap-4">
           <Link
             href="/addLyrics"

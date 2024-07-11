@@ -15,8 +15,8 @@ const ArtistSchema: Schema<Artist> = new Schema(
   {
     name: {
       type: String,
-      required: true,
       trim: true,
+      required: true,
     },
     bio: {
       type: String,

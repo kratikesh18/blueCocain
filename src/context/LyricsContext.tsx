@@ -58,9 +58,10 @@ export const LyricsProvider = ({ children }: { children: ReactNode }) => {
     setError(null);
     try {
       const response = await axios.get(`/api/lyrics?searchQuery=${query}`);
+      console.log(response);
       setLyrics(response.data.results);
-    } catch (error) {
-      setError("Error while fetching lyrics");
+    } catch (error: any) {
+      setError("Lyrics Not found");
     } finally {
       setLoading(false);
     }

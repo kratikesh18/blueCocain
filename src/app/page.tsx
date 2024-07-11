@@ -4,7 +4,7 @@ import ExploreSections from "@/components/HomepageComponents/ExploreSections";
 
 const HomePage = () => {
   return (
-    <div>
+    <div className="min-h-screen bg-black">
       <Searchbar />
       <ExploreSections />
     </div>
