@@ -11,6 +11,7 @@ import { useDebounce } from "@/hooks/useDebounce"; // Custom debounce hook
 import ArtistSearchResult from "@/components/HomepageComponents/ArtistSearchResult";
 import { toast } from "./ui/use-toast";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 interface SingerDetails {
   name: string;
@@ -18,6 +19,8 @@ interface SingerDetails {
 }
 
 const GatherSongDetails: React.FC = () => {
+  const { data: session } = useSession();
+  const currentUserId = session?.user._id;
   const [artistname, setArtistname] = useState("");
   const [findingArtist, setFindingArtist] = useState(false);
   const debouncedArtistName = useDebounce(artistname, 300);
@@ -51,7 +54,10 @@ const GatherSongDetails: React.FC = () => {
   const handleSubmit = async (data: z.infer<typeof NewLyricsSchema>) => {
     setIsSubmitting(true);
     try {
-      const response = await axios.post(`/api/addnewlyrics`, { data });
+      const response = await axios.post(`/api/addnewlyrics`, {
+        data,
+        currentUserId,
+      });
       if (response.status === 200) {
         toast({ title: "Lyrics added successfully!" });
         form.reset();

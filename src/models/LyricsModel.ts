@@ -18,6 +18,7 @@ export interface Lyrics extends Document {
   keywords: string[];
   albumArt?: string;
   readyToPulish: boolean;
+  contributedBy: Types.ObjectId[];
 }
 
 // Create the LyricsLine schema
@@ -79,6 +80,11 @@ const LyricsSchema: Schema<Lyrics> = new Schema(
     readyToPulish: {
       type: Boolean,
       default: false,
+    },
+    contributedBy: {
+      type: [Schema.Types.ObjectId],
+      ref: "User",
+      required: true,
     },
   },
   {

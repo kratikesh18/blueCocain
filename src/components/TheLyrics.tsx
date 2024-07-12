@@ -13,6 +13,7 @@ import { Toaster } from "./ui/toaster";
 import { useToast } from "./ui/use-toast";
 import { LyricsLine as LyricsLineType } from "@/models/LyricsModel";
 import { ScrollArea } from "./ui/scroll-area";
+import EditIcon from "./icons/EditIcon";
 
 interface TheLyricsProps {
   songId?: string | null;
@@ -126,13 +127,15 @@ const TheLyrics: React.FC<TheLyricsProps> = ({
       <div
         className={`flex flex-col gap-4 text-left h-full text-2xl font-semibold w-full mt-4 p-4 ${colorToBg} shadow-lg rounded-lg overflow-y-auto md:w-1/2 md:overflow-y-scroll scrollbar-thin scrollbar-thumb-black/20 scrollbar-track-black/20`}
       >
-        {isEditing ? (
+        {isEditing && (
           <LyricsEditor
             updatedLyrics={updatedLyrics}
             setUpdatedLyrics={setUpdatedLyrics}
             handleLineChange={handleLineChange}
           />
-        ) : (
+        )}
+        {!isEditing &&
+          updatedLyrics.length > 0 &&
           updatedLyrics.map((line, index) => (
             <LyricsLine
               key={index}
@@ -142,8 +145,21 @@ const TheLyrics: React.FC<TheLyricsProps> = ({
               index={index}
               handleLineChange={handleLineChange}
             />
-          ))
+          ))}
+        {!isEditing && updatedLyrics.length == 0 && (
+          <div className="h-full w-full flex justify-center flex-col items-center text-white">
+            <h1>No Lyrics Found Start Contributing</h1>
+            <Button
+              onClick={() => {
+                setIsEditing(true);
+              }}
+              className="rounded-full mt-8 h-16 w-16 "
+            >
+              <EditIcon />
+            </Button>
+          </div>
         )}
+
         {isEditing && (
           <div className="mt-4 self-center ">
             <Button

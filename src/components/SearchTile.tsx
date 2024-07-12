@@ -32,16 +32,18 @@ const SearchTile = ({ item }: { item: SearchResultType }) => {
         </div>
         <div className="flex flex-col justify-between p-4 w-2/3">
           <div>
-            <h1 className="text-base font-bold text-white md:text-lg">
+            <h1 className="text-base font-bold text-white truncate md:text-lg ">
               {item.songName}
             </h1>
-            <h2 className="text-base text-gray-300 md:text-md">
+            <h2 className="text-base text-gray-300 md:text-md truncate">
               {item.albumName}
             </h2>
-            <p className="text-xs text-gray-400 md:text-sm">{item.genre}</p>
+            <p className="text-xs text-gray-400 md:text-sm truncate">
+              {item.genre}
+            </p>
           </div>
           <div className="mt-2">
-            <h3 className="textbase font-normal text-gray-200 md:text-base">
+            <h3 className="textbase font-normal text-gray-200 md:text-base truncate">
               {item.singer.name}
             </h3>
             <p className="text-sm text-gray-400">

@@ -2,85 +2,114 @@
 import dbConnect from "@/lib/dbConnect";
 import AlbumModel from "@/models/AlbumModel";
 import ArtistModel, { Artist } from "@/models/ArtistModel";
-import LyricsModel from "@/models/LyricsModel";
-import { NextRequest } from "next/server";
+import LyricsModel, { Lyrics } from "@/models/LyricsModel";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
-  await dbConnect();
-  const { data: songDetails } = await req.json();
-  console.log("printing the songDetails", songDetails);
-  if (!songDetails) {
-    return Response.json(
-      {
-        success: false,
-        message: "Song details not found",
-      },
-      { status: 404 }
-    );
-  }
-  const { albumArtUrl, albumName, songName, genre, singerName, releaseDate } =
-    songDetails;
+  try {
+    await dbConnect();
+    const { data: songDetails, currentUserId } = await req.json();
+    console.log("Printing the songDetails:", songDetails);
 
-  // finding the _id from the Artistname
-  const ArtistDetailsByName: Artist | null = await ArtistModel.findOne({
-    name: singerName,
-  });
+    if (!songDetails) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Song details not found",
+        },
+        { status: 404 }
+      );
+    }
 
-  //adding the song to the album
-  if (ArtistDetailsByName) {
-    const addedInfoToDB = await LyricsModel.create({
+    const {
+      albumArtUrl,
       albumName,
       songName,
       genre,
-      singer: ArtistDetailsByName._id,
+      singerName,
       releaseDate,
+      currentUser,
+    } = songDetails;
+
+    // Find the artist by name
+    const artistDetailsByName: Artist | null = await ArtistModel.findOne({
+      name: singerName,
     });
 
-    ArtistDetailsByName.songs.push(addedInfoToDB._id);
-    await ArtistDetailsByName.save();
-
-    const AlbumAlreadyExists = await AlbumModel.findOne({
-      albumName: albumName,
-    });
-
-    if (AlbumAlreadyExists) {
-      AlbumAlreadyExists.tracks.push(addedInfoToDB._id);
-      await AlbumAlreadyExists.save();
+    if (!artistDetailsByName) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Artist not found",
+        },
+        { status: 404 }
+      );
     }
 
-    if (!AlbumAlreadyExists) {
-      // create a new album
+    // Add the song to the Lyrics collection
+    const newSong = await LyricsModel.create({
+      albumName,
+      songName,
+      genre,
+      singer: artistDetailsByName._id,
+      releaseDate,
+      contributedBy: currentUserId,
+    });
+
+    console.log("new song created", newSong);
+
+    // Add the song to the artist's song list
+    artistDetailsByName.songs.push(newSong._id);
+    await artistDetailsByName.save();
+
+    // Check if the album already exists
+    const existingAlbum = await AlbumModel.findOne({ albumName });
+
+    if (existingAlbum && newSong) {
+      // Add the song to the existing album
+      existingAlbum.tracks.push(newSong._id);
+      await existingAlbum.save();
+    } else {
+      console.log("Printing the albumArt url", albumArtUrl);
+      // Create a new album and add the song to it
       const newAlbum = await AlbumModel.create({
-        albumName: albumName,
-        by: ArtistDetailsByName._id,
-        releaseDate: releaseDate,
+        albumName,
+        by: artistDetailsByName._id,
+        releaseDate,
         genre,
-        albumArt: albumArtUrl,
-        tracks: addedInfoToDB._id,
+        albumArt: albumArtUrl.toString(),
+        tracks: [newSong._id], // Use an array here
       });
+
       if (!newAlbum) {
         console.log("Error while creating the Album for the song");
+        return NextResponse.json(
+          {
+            success: false,
+            message: "Failed to create new album",
+          },
+          { status: 500 }
+        );
       }
     }
 
-    if (addedInfoToDB) {
-      // console.log(addedInfoToDB);
-      return Response.json(
-        {
-          suscess: true,
-          message: "Lyrics added sucessfully",
-          result: addedInfoToDB,
-        },
-        { status: 200 }
-      );
-    }
+    // Successfully added song and handled album
+    return NextResponse.json(
+      {
+        success: true,
+        message: "Lyrics added successfully",
+        result: newSong,
+      },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error("Error processing request:", error);
+    return NextResponse.json(
+      {
+        success: false,
+        message: "Internal server error",
+      },
+      { status: 500 }
+    );
   }
-  // console.log(songDetails);
-  return Response.json(
-    {
-      success: true,
-      message: "API is woking fine",
-    },
-    { status: 200 }
-  );
 }

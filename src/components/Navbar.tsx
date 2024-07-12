@@ -1,15 +1,15 @@
 "use client";
 import Link from "next/link";
 import React from "react";
-import { Button } from "./ui/button";
-import { signOut, useSession } from "next-auth/react";
-import { usePathname, useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { usePathname } from "next/navigation";
 import SearchIcon from "./icons/SearchIcon";
 import AddIcon from "./icons/AddIcon";
 import UserIcon from "./icons/UserIcon";
 import { PopOverNav } from "./specials/PopOverNav";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import SearchPopOverNav from "./specials/SearchPopOverNav";
+import LibraryIcon from "./icons/LibraryIcon";
 
 // SVG Icon Components
 
@@ -53,18 +53,28 @@ const Navbar = () => {
           )}
 
           {status === "loading" ? (
-            <div className="loader"></div>
+            <div>
+              {" "}
+              <h1 className="text-white">Loading...</h1>
+            </div>
           ) : session ? (
-            <Popover>
-              <PopoverTrigger>
-                <div className="hover:opacity-75 transition-opacity">
-                  <UserIcon />
-                </div>
-              </PopoverTrigger>
-              <PopoverContent className="w-fit border-2 border-gray-400 mt-4 bg-black text-gray-200">
-                <PopOverNav session={session} />
-              </PopoverContent>
-            </Popover>
+            <div className="flex justify-center items-center gap-4">
+              {pathname !== "/Library" && (
+                <Link href={"/Library"}>
+                  <LibraryIcon />
+                </Link>
+              )}
+              <Popover>
+                <PopoverTrigger>
+                  <div className="hover:opacity-75 transition-opacity">
+                    <UserIcon />
+                  </div>
+                </PopoverTrigger>
+                <PopoverContent className="w-fit border-2 border-gray-400 mt-4 bg-black text-gray-200">
+                  <PopOverNav session={session} />
+                </PopoverContent>
+              </Popover>
+            </div>
           ) : (
             <div className="flex gap-2 text-base">
               <Link href="/login" className="hover:underline transition-colors">
