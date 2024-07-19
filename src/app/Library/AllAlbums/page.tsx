@@ -40,16 +40,24 @@ const AlbumsPage = () => {
           albumDetails.map((eachAlbum, index) => (
             <div
               key={index}
-              className="bg-gray-800 p-4 rounded-lg shadow-md transition transform hover:scale-105"
+              className="bg-gray-800 flex gap-4 p-4 rounded-lg shadow-md transition transform hover:scale-105"
             >
-              <h2 className="text-xl font-semibold text-white mb-2">
-                {eachAlbum.albumName}
-              </h2>
-              <p className="text-gray-400">Genre: {eachAlbum.genre}</p>
-              <p className="text-gray-400">
-                Release Date:{" "}
-                {new Date(eachAlbum.releaseDate).toLocaleDateString()}
-              </p>
+              <div>
+                <img
+                  src={eachAlbum.albumArt}
+                  className="w-[10rem] h-[10rem] overflow-hidden object-cover"
+                />
+              </div>
+              <div>
+                <h2 className="text-xl font-semibold text-white mb-2">
+                  {eachAlbum.albumName}
+                </h2>
+                <p className="text-gray-400">Genre: {eachAlbum.genre}</p>
+                <p className="text-gray-400">
+                  Release Date:{" "}
+                  {new Date(eachAlbum.releaseDate).toLocaleDateString()}
+                </p>
+              </div>
               {/* Add more fields as necessary */}
             </div>
           ))}

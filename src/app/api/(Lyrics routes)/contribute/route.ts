@@ -13,17 +13,6 @@ export async function POST(req: NextRequest) {
     // const { newLyricsArray: newLyricsArryOfObject } = await req.json();
     const { updatedLyrics: newLyricsArryOfObject } = await req.json();
 
-    // console.log(someting);
-    // console.log("printing in the api ", newLyricsArryOfObject);
-    // const newLyricsArryOfObject = [
-    //   { line: "You should take it as a compliment", startTime: 0, endTime: 5 },
-    //   {
-    //     line: "That I got drunk and made fun of the way you talk",
-    //     startTime: 6,
-    //     endTime: 10,
-    //   },
-    // ];
-
     //finding the lyrics based on the provided songid
     const lyricsObjectIfPresent = await LyricsModel.findById(songId);
 
@@ -60,3 +49,17 @@ export async function POST(req: NextRequest) {
     );
   }
 }
+
+
+
+//Garbage code 
+    // console.log(someting);
+    // console.log("printing in the api ", newLyricsArryOfObject);
+    // const newLyricsArryOfObject = [
+    //   { line: "You should take it as a compliment", startTime: 0, endTime: 5 },
+    //   {
+    //     line: "That I got drunk and made fun of the way you talk",
+    //     startTime: 6,
+    //     endTime: 10,
+    //   },
+    // ];

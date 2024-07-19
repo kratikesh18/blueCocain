@@ -11,14 +11,15 @@ export interface LyricsLine {
 export interface Lyrics extends Document {
   songName: string;
   singer: Types.ObjectId; // Reference to the Artist model
-  albumName?: string;
+  contributedBy: Types.ObjectId[];
+  albumDetails: Types.ObjectId;
+  readyToPulish: boolean;
+  keywords: string[];
   genre?: string;
   releaseDate?: Date;
   lyricsText?: LyricsLine[];
-  keywords: string[];
   albumArt?: string;
-  readyToPulish: boolean;
-  contributedBy: Types.ObjectId[];
+  albumName?: string;
 }
 
 // Create the LyricsLine schema
@@ -84,6 +85,11 @@ const LyricsSchema: Schema<Lyrics> = new Schema(
     contributedBy: {
       type: [Schema.Types.ObjectId],
       ref: "User",
+      required: true,
+    },
+    albumDetails: {
+      type: Schema.Types.ObjectId,
+      ref: "Album",
       required: true,
     },
   },

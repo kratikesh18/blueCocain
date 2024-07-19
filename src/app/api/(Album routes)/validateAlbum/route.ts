@@ -8,22 +8,25 @@ export async function GET(req: NextRequest) {
 
   const { searchParams } = new URL(req.url);
   // console.log(searchParams);
+  const AlbumIdToSearch = searchParams.get("albumId");
   const AlbumNameToSearch = searchParams.get("albumname");
-  // console.log(artistNameToSearch);
+  // console.log(AlbumIdToSearch, AlbumNameToSearch);
+
   try {
     const AlbumNameArray = await AlbumModel.find({
-      albumName: AlbumNameToSearch,
-    }).select(
-      "-bio -genre -debutDate -songs -albums -__v -createdAt -updatedAt"
-    );
+      $or: [{ _id: AlbumIdToSearch }, { albumName: AlbumNameToSearch }],
+    })
+      .select(" -tracks -__v -createdAt -updatedAt")
+      .populate("by", "name -_id");
 
     if (AlbumNameArray.length === 0) {
       return Response.json(
         {
-          success: false,
-          message: "No Albums not found",
+          success: true,
+          message: "No Albums not found You Can create one",
+          result: [],
         },
-        { status: 404 }
+        { status: 200 }
       );
     }
     return Response.json(

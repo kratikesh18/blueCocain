@@ -6,6 +6,7 @@ export type SearchResultType = {
   _id?: string;
   songName: string;
   singer: { _id?: string; name: string }; // Reference to the Artist model
+  albumDetails?: { albumArt: string };
   albumName?: string;
   genre?: string;
   releaseDate?: Date;
@@ -24,7 +25,7 @@ const SearchTile = ({ item }: { item: SearchResultType }) => {
       <div className="flex">
         <div className="flex-shrink-0 w-1/3 relative">
           <img
-            src={item.albumArt}
+            src={item.albumArt || item.albumDetails?.albumArt}
             alt={`${item.albumName} cover`}
             className="w-full h-full object-cover"
             style={{ aspectRatio: "1/1" }}

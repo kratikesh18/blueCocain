@@ -1,11 +1,10 @@
 "use server";
 import dbConnect from "@/lib/dbConnect";
-import mongoose from "mongoose";
-import { NextRequest, NextResponse } from "next/server";
-
-// Import and log models to ensure they are correctly imported
-import ArtistModel from "@/models/ArtistModel";
 import LyricsModel from "@/models/LyricsModel";
+
+import { NextRequest, NextResponse } from "next/server";
+import ArtistModel from "@/models/ArtistModel";
+import mongoose from "mongoose";
 
 console.log("ArtistModel", ArtistModel);
 console.log("LyricsModel", LyricsModel);
@@ -23,34 +22,29 @@ export async function GET(req: NextRequest) {
   await dbConnect();
   try {
     const { searchParams } = new URL(req.url);
-    const inputSearchKeyword = searchParams.get("searchQuery");
-    // console.log("printing the keyword recieved to ", inputSearchKeyword);
+    const songId = searchParams.get("id");
 
-    if (!inputSearchKeyword) {
+    if (!songId) {
       return NextResponse.json(
         {
           success: false,
-          message: "Search query is missing",
+          message: "Search id is missing",
         },
         { status: 400 }
       );
     }
 
-    const songListsDependingUponQuery = await LyricsModel.find({
-      $or: [
-        { songName: inputSearchKeyword.toString() },
-        { keywords: inputSearchKeyword },
-      ],
-    })
-      .select("-lyricsText -__v -createdAt -updatedAt")
-      .populate("singer", "name");
+    const lyricsOfTheSong = await LyricsModel.findById(songId)
+      .select("-__v -createdAt -updatedAt")
+      .populate("singer", "name")
+      .populate("contributedBy", "username")
+      .populate("albumDetails", "albumArt");
 
-    // console.log(songListsDependingUponQuery);
-    if (songListsDependingUponQuery.length === 0) {
+    if (lyricsOfTheSong.length === 0) {
       return NextResponse.json(
         {
           success: false,
-          message: "No songs found, please check your spelling and try again",
+          message: "No songs found, please provide valid id and try again",
         },
         { status: 400 }
       );
@@ -60,7 +54,7 @@ export async function GET(req: NextRequest) {
       {
         success: true,
         message: "Lyrics found",
-        results: songListsDependingUponQuery,
+        results: lyricsOfTheSong,
       },
       { status: 200 }
     );

@@ -3,9 +3,9 @@ import mongoose, { Document, Schema } from "mongoose";
 export interface Album extends Document {
   albumName: string;
   albumArt: string;
+  tracks: Schema.Types.ObjectId[]; // References to Lyrics model
   by: Schema.Types.ObjectId; // Reference to the Artist model
   releaseDate: Date;
-  tracks: Schema.Types.ObjectId[]; // References to Lyrics model
   genre: string;
   keywords?: string[];
 }
@@ -15,15 +15,16 @@ const AlbumSchema: Schema<Album> = new Schema({
     type: String,
     required: true,
   },
+  albumArt: {
+    type: String,
+    required: true,
+  },
   by: {
     type: Schema.Types.ObjectId,
     ref: "Artist",
     required: true,
   },
-  albumArt: {
-    type: String,
-    required: true,
-  },
+
   releaseDate: {
     type: Date,
     required: true,
@@ -32,7 +33,7 @@ const AlbumSchema: Schema<Album> = new Schema({
     {
       type: Schema.Types.ObjectId,
       ref: "Lyrics",
-      required: true,
+      required: false,
     },
   ],
   genre: {

@@ -12,7 +12,6 @@ import axios from "axios";
 import { Toaster } from "./ui/toaster";
 import { useToast } from "./ui/use-toast";
 import { LyricsLine as LyricsLineType } from "@/models/LyricsModel";
-import { ScrollArea } from "./ui/scroll-area";
 import EditIcon from "./icons/EditIcon";
 
 interface TheLyricsProps {
@@ -159,7 +158,6 @@ const TheLyrics: React.FC<TheLyricsProps> = ({
             </Button>
           </div>
         )}
-
         {isEditing && (
           <div className="mt-4 self-center ">
             <Button

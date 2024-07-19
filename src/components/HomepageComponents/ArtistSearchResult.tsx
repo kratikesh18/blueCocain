@@ -23,40 +23,39 @@ const ArtistSearchResult: React.FC<ArtistSearchResultProps> = ({
 }) => {
   return (
     <>
-      {artistDetails && (
+      {artistDetails && artistDetails.length > 0 ? (
         <p className="text-sm text-gray-400 mt-1">
-          <div>
-            Found Artist:{" "}
-            {artistDetails.map((eachArtist) => (
-              <span
-                key={eachArtist._id}
-                onClick={() => {
-                  setFieldValue(eachArtist.name);
-                  setArtistname(eachArtist.name);
-                }}
-                className="font-semibold text-gray-200 border-2 p-1 underline cursor-pointer"
-              >
-                {eachArtist.name}
-              </span>
-            ))}
-          </div>
-        </p>
-      )}
-      {artistname && !artistDetails && (
-        <div className="text-sm text-gray-300">
-          {findingArtist ? (
-            <div>
-              <h1>Searching....</h1>
-            </div>
-          ) : (
-            <span className="flex gap-2">
-              <h1 className="text-gray-400">No Artist Found :</h1>
-              <Link href={`/newArtistProfile`} className="text-white underline">
-                Create Artist Profile
-              </Link>
+          Found Artist:{" "}
+          {artistDetails.map((eachArtist) => (
+            <span
+              key={eachArtist._id}
+              onClick={() => {
+                setFieldValue(eachArtist.name);
+                setArtistname(eachArtist.name);
+              }}
+              className="font-semibold text-gray-200 border-2 p-1 underline cursor-pointer"
+            >
+              {eachArtist.name}
             </span>
-          )}
-        </div>
+          ))}
+        </p>
+      ) : (
+        artistname && (
+          <div className="text-sm text-gray-300">
+            {findingArtist ? (
+              <div>
+                <h1>Searching....</h1>
+              </div>
+            ) : (
+              <span className="flex gap-2">
+                <h1 className="text-gray-400">No Artist Found :</h1>
+                <Link href="/newArtistProfile" className="text-white underline">
+                  Create Artist Profile
+                </Link>
+              </span>
+            )}
+          </div>
+        )
       )}
     </>
   );

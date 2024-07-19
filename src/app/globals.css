@@ -152,3 +152,15 @@
             calc(-5 * var(--w)) 0 #fff, calc(-6 * var(--w)) 0 #fff, calc(-7 * var(--w)) 0 #fff, calc(-8 * var(--w)) 0 #fff, calc(-9 * var(--w)) 0 #fff;
     }
 }
+
+
+/* styles.css */
+
+.theme-text-style {
+  background: linear-gradient(to bottom, #e2e8f0, #ffffff, #718096);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+}
+

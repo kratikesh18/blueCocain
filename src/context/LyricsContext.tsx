@@ -18,6 +18,7 @@ export interface Lyrics {
   _id: string;
   songName: string;
   singer: Artist;
+  albumDetails: { albumArt: string };
   albumName?: string;
   genre?: string;
   releaseDate?: Date;
@@ -72,6 +73,7 @@ export const LyricsProvider = ({ children }: { children: ReactNode }) => {
     setError(null);
     try {
       const response = await axios.get(`/api/lyricsLines?id=${id}`);
+      console.log("Printing the result in context", response.data.results);
       setLyricsDetails(response.data.results);
     } catch (error) {
       setError("Error while fetching lysrics details");

@@ -14,7 +14,7 @@ export async function GET(req: NextRequest) {
     const ArtistNamesArray = await ArtistModel.find({
       name: artistNameToSearch,
     }).select(
-      "-bio -genre -debutDate -songs -albums -__v -createdAt -updatedAt"
+      "-bio -genre -debutDate -songs -albums -artistProfileImage -keywords -__v -createdAt -updatedAt"
     );
 
     if (ArtistNamesArray.length === 0) {

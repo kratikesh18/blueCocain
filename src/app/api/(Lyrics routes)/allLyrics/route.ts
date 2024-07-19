@@ -1,7 +1,7 @@
+"use server";
 import dbConnect from "@/lib/dbConnect";
-import ArtistModel from "@/models/ArtistModel";
-import LyricsModel from "@/models/LyricsModel";
 import mongoose from "mongoose";
+import LyricsModel from "@/models/LyricsModel";
 import { NextRequest } from "next/server";
 
 // Explicitly register the models with mongoose
@@ -12,12 +12,14 @@ if (!mongoose.models.Artist) {
 if (!mongoose.models.Lyrics) {
   mongoose.model("Lyrics", new mongoose.Schema({ songName: String }));
 }
+
 export async function GET(req: NextRequest) {
   await dbConnect();
   try {
     const response = await LyricsModel.find()
       .select("-lyricsText -__v -keywords -createdAt -updatedAt")
       .populate("singer", "name")
+      .populate("albumDetails", "albumArt")
       .sort({ createdAt: -1 })
       .limit(6);
 

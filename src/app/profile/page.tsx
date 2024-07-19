@@ -1,5 +1,6 @@
 "use client";
 import LIkeIcon from "@/components/icons/LIkeIcon";
+import LoadingSpinner from "@/components/LoadingSpinner";
 import { SearchResultType } from "@/components/SearchTile";
 import { ScrollAreas } from "@/components/specials/ScrollAreas";
 import { Artist } from "@/models/ArtistModel";
@@ -8,7 +9,7 @@ import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
 
 const ProfilePage = () => {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
 
   const [allItems, setAllItems] = useState<SearchResultType[] | null>(null);
   const [allSingers, setAllSingers] = useState<Artist[] | null>(null);
@@ -44,6 +45,10 @@ const ProfilePage = () => {
     getAllLyrics();
     getAllSingers();
   }, []);
+
+  if (loading || status === "loading") {
+    return <LoadingSpinner />;
+  }
 
   return (
     <div className="min-h-screen px-8 py-6 bg-gray-950 flex flex-col md:px-12 md:py-8">

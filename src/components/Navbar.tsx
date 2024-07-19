@@ -11,15 +11,13 @@ import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import SearchPopOverNav from "./specials/SearchPopOverNav";
 import LibraryIcon from "./icons/LibraryIcon";
 
-// SVG Icon Components
-
 const Navbar = () => {
   const { data: session, status } = useSession();
   const pathname = usePathname();
 
   return (
-    <nav className=" bg-black text-white py-3 px-4 shadow-lg  ">
-      <div className="container mx-auto flex justify-between items-center ">
+    <nav className="bg-black text-white py-3 px-4 shadow-lg">
+      <div className="container mx-auto flex justify-between items-center">
         <div className="flex items-center gap-4">
           <Link
             href="/addLyrics"
@@ -38,7 +36,6 @@ const Navbar = () => {
         </div>
 
         <div className="flex items-center gap-4">
-          {/* A searchbar not  */}
           {pathname !== "/" && (
             <Popover>
               <PopoverTrigger>
@@ -46,7 +43,7 @@ const Navbar = () => {
                   <SearchIcon />
                 </div>
               </PopoverTrigger>
-              <PopoverContent className="mt-4 w-fit border-2 border-gray-400 bg-black text-white">
+              <PopoverContent className="mt-4 mr-4 w-fit border-2 border-gray-400  text-white">
                 <SearchPopOverNav />
               </PopoverContent>
             </Popover>
@@ -54,13 +51,12 @@ const Navbar = () => {
 
           {status === "loading" ? (
             <div>
-              {" "}
               <h1 className="text-white">Loading...</h1>
             </div>
           ) : session ? (
             <div className="flex justify-center items-center gap-4">
               {pathname !== "/Library" && (
-                <Link href={"/Library"}>
+                <Link href="/Library">
                   <LibraryIcon />
                 </Link>
               )}
@@ -70,7 +66,7 @@ const Navbar = () => {
                     <UserIcon />
                   </div>
                 </PopoverTrigger>
-                <PopoverContent className="w-fit border-2 border-gray-400 mt-4 bg-black text-gray-200">
+                <PopoverContent className="mr-4 w-fit border-2 border-gray-400 mt-4 bg-black text-gray-200">
                   <PopOverNav session={session} />
                 </PopoverContent>
               </Popover>

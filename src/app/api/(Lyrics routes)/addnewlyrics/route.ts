@@ -8,8 +8,15 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(req: NextRequest) {
   try {
     await dbConnect();
-    const { data: songDetails, currentUserId } = await req.json();
-    console.log("Printing the songDetails:", songDetails);
+    const { data: songDetails, currentUserId, albumId } = await req.json();
+    console.log(
+      "Printing the songDetails:",
+      songDetails,
+      "Printing currentUserid",
+      currentUserId,
+      "Printing albumId",
+      albumId
+    );
 
     if (!songDetails) {
       return NextResponse.json(
@@ -21,15 +28,8 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const {
-      albumArtUrl,
-      albumName,
-      songName,
-      genre,
-      singerName,
-      releaseDate,
-      currentUser,
-    } = songDetails;
+    const { albumArtUrl, albumName, songName, genre, singerName, releaseDate } =
+      songDetails;
 
     // Find the artist by name
     const artistDetailsByName: Artist | null = await ArtistModel.findOne({
@@ -54,6 +54,7 @@ export async function POST(req: NextRequest) {
       singer: artistDetailsByName._id,
       releaseDate,
       contributedBy: currentUserId,
+      albumDetails: albumId,
     });
 
     console.log("new song created", newSong);

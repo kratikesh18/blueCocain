@@ -4,10 +4,11 @@ import ExploreSections from "@/components/HomepageComponents/ExploreSections";
 
 const HomePage = () => {
   return (
-    <div className="min-h-screen bg-black">
+    <main className="min-h-screen bg-black">
       <Searchbar />
       <ExploreSections />
-    </div>
+      {/* <footer className="text-white text-center">blueCocain &copy; All rights reserved </footer> */}
+    </main>
   );
 };
 
