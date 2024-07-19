@@ -10,10 +10,10 @@ interface AlbumDetails {
   albumName: string;
   by: { name: string };
   releaseDate: string;
-  genre:string
+  genre: string;
 }
 
-function addNewLyricsPage() {
+function AddNewLyricsPage() {
   const { albumId } = useParams();
 
   const [albumDetails, setAlbumDetails] = useState<AlbumDetails | null>(null);
@@ -48,4 +48,4 @@ function addNewLyricsPage() {
   );
 }
 
-export default addNewLyricsPage;
+export default AddNewLyricsPage;

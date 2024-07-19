@@ -9,14 +9,14 @@ export async function POST(req: NextRequest) {
   try {
     await dbConnect();
     const { data: songDetails, currentUserId, albumId } = await req.json();
-    console.log(
-      "Printing the songDetails:",
-      songDetails,
-      "Printing currentUserid",
-      currentUserId,
-      "Printing albumId",
-      albumId
-    );
+    // console.log(
+    //   "Printing the songDetails:",
+    //   songDetails,
+    //   "Printing currentUserid",
+    //   currentUserId,
+    //   "Printing albumId",
+    //   albumId
+    // );
 
     if (!songDetails) {
       return NextResponse.json(
