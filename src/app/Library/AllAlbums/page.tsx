@@ -3,6 +3,7 @@ import { Album } from "@/models/AlbumModel";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import LoadingSpinner from "@/components/LoadingSpinner";
+import Link from "next/link";
 
 const AlbumsPage = () => {
   const [loading, setLoading] = useState(false);
@@ -33,14 +34,17 @@ const AlbumsPage = () => {
   }
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold text-center mb-8">All Albums</h1>
+    <div className="container mx-auto p-4 bg-gradient-to-b from-gray-800 via-slate-900 to-black min-h-screen">
+      <h1 className="text-3xl font-bold text-center mb-8 theme-text-style">
+        All Albums
+      </h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {albumDetails &&
           albumDetails.map((eachAlbum, index) => (
-            <div
+            <Link
+              href={`/Library/AllAlbums/AlbumDetails/${eachAlbum._id}`}
               key={index}
-              className="bg-gray-800 flex gap-4 p-4 rounded-lg shadow-md transition transform hover:scale-105"
+              className="bg-transparent backdrop-blur-xl border-[1px] border-white/20 flex gap-4 p-4 rounded-lg shadow-md transition transform hover:scale-105"
             >
               <div>
                 <img
@@ -59,7 +63,7 @@ const AlbumsPage = () => {
                 </p>
               </div>
               {/* Add more fields as necessary */}
-            </div>
+            </Link>
           ))}
       </div>
     </div>

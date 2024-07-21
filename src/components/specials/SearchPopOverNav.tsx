@@ -4,8 +4,6 @@ import { debounce } from "lodash";
 import { Lyrics } from "@/context/LyricsContext";
 import axios from "axios";
 import Link from "next/link";
-import SearchTile from "../SearchTile";
-import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 const SearchPopOverNav = () => {
@@ -59,9 +57,10 @@ const SearchPopOverNav = () => {
         <div className="flex flex-col gap-4 justify-center items-center w-full">
           {lyrics.map((item) => (
             <Link
+              key={item._id}
               href={`/lyrics/${item._id}`}
               className={cn(
-                " flex flex-col h-fit bg-purple-950 shadow-xl rounded-lg overflow-hidden border border-gray-700 transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-2xl",
+                " flex flex-col h-fit bg-inherit shadow-xl rounded-lg overflow-hidden border border-gray-700 transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-2xl",
                 "hover:bg-gray-700 max-w-sm mx-auto "
               )}
             >

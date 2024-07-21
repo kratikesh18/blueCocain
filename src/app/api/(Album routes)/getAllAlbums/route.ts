@@ -8,13 +8,26 @@ if (!mongoose.models.Artist) {
   mongoose.model("Artist", new mongoose.Schema({ name: String }));
 }
 if (!mongoose.models.Album) {
-  mongoose.model("Album", new mongoose.Schema({ name: String }));
+  mongoose.model(
+    "Album",
+    new mongoose.Schema({
+      by: {
+        type: mongoose.Types.ObjectId,
+        ref: "Artist",
+      },
+    })
+  );
 }
 
 export async function GET(req: NextRequest) {
   await dbConnect();
   try {
-    const allAlbums = await AlbumModel.find().populate("by", "name");
+    const allAlbums = await AlbumModel.find().populate({
+      path: "by",
+      select: "name",
+      model: "Artist",
+      strictPopulate: false,
+    });
     return Response.json(
       {
         success: true,

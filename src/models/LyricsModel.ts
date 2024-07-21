@@ -1,4 +1,5 @@
 import mongoose, { Schema, Types, Document } from "mongoose";
+import AlbumModel from "./AlbumModel";
 
 // Define the LyricsLine interface
 export interface LyricsLine {
@@ -54,6 +55,16 @@ const LyricsSchema: Schema<Lyrics> = new Schema(
       ref: "Artist",
       required: true,
     },
+    albumDetails: {
+      type: Schema.Types.ObjectId,
+      ref: "Album",
+      required: true,
+    },
+    contributedBy: {
+      type: [Schema.Types.ObjectId],
+      ref: "User",
+      required: true,
+    },
     albumName: {
       type: String,
       trim: true,
@@ -81,16 +92,6 @@ const LyricsSchema: Schema<Lyrics> = new Schema(
     readyToPulish: {
       type: Boolean,
       default: false,
-    },
-    contributedBy: {
-      type: [Schema.Types.ObjectId],
-      ref: "User",
-      required: true,
-    },
-    albumDetails: {
-      type: Schema.Types.ObjectId,
-      ref: "Album",
-      required: true,
     },
   },
   {

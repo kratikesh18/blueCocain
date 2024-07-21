@@ -43,7 +43,7 @@ const Navbar = () => {
                   <SearchIcon />
                 </div>
               </PopoverTrigger>
-              <PopoverContent className="mt-4 mr-4 w-fit border-2 border-gray-400  text-white">
+              <PopoverContent className="mt-4 mr-4 w-fit bg-transparent backdrop-blur-3xl border-gray-400  text-white">
                 <SearchPopOverNav />
               </PopoverContent>
             </Popover>
@@ -66,7 +66,7 @@ const Navbar = () => {
                     <UserIcon />
                   </div>
                 </PopoverTrigger>
-                <PopoverContent className="mr-4 w-fit border-2 border-gray-400 mt-4 bg-black text-gray-200">
+                <PopoverContent className="mr-4 w-fit  mt-4 bg-transparent backdrop-blur-3xl text-gray-200">
                   <PopOverNav session={session} />
                 </PopoverContent>
               </Popover>
