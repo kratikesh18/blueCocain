@@ -14,9 +14,7 @@ const useSingerDetails = (PropertyId: string) => {
     const fetchProperty = async () => {
       setLoading(true);
       try {
-        const response = await axios.get(
-          
-        );
+        const response = await axios.get(``);
 
         setSingerDetailsFromHook(response.data);
       } catch (error: any) {
