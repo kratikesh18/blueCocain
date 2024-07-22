@@ -28,7 +28,12 @@ export async function GET(req: NextRequest) {
     if (!getFull) {
       response = await LyricsModel.find()
         .select("-lyricsText -__v -keywords -createdAt -updatedAt")
-        .populate("singer", "name")
+        .populate({
+          path: "singer",
+          select: "name",
+          model: "Artist",
+          strictPopulate: false,
+        })
         .populate({
           path: "albumDetails",
           select: "albumArt",

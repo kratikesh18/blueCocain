@@ -36,9 +36,24 @@ export async function GET(req: NextRequest) {
 
     const lyricsOfTheSong = await LyricsModel.findById(songId)
       .select("-__v -createdAt -updatedAt")
-      .populate("singer", "name")
-      .populate("contributedBy", "username")
-      .populate("albumDetails", "albumArt");
+      .populate({
+        path: "singer",
+        select: "name",
+        model: "Artist",
+        strictPopulate: false,
+      })
+      .populate({
+        path: "contributedBy",
+        select: "username",
+        model: "User",
+        strictPopulate: false,
+      })
+      .populate({
+        path: "albumDetails",
+        select: "albumArt",
+        model: "Album",
+        strictPopulate: false,
+      });
 
     if (lyricsOfTheSong.length === 0) {
       return NextResponse.json(

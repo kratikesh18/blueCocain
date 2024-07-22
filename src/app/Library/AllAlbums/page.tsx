@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import Link from "next/link";
 
+
 const AlbumsPage = () => {
   const [loading, setLoading] = useState(false);
   const [albumDetails, setAlbumDetails] = useState<Album[] | null>(null);

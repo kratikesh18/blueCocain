@@ -43,7 +43,17 @@ export async function GET(req: NextRequest) {
       ],
     })
       .select("-lyricsText -__v -createdAt -updatedAt")
-      .populate("singer", "name").populate("albumDetails");
+      .populate({
+        path: "singer",
+        select: "name",
+        model: "Artist",
+        strictPopulate: false,
+      })
+      .populate({
+        path: "albumDetails",
+        model: "Album",
+        strictPopulate: false,
+      });
 
     // console.log(songListsDependingUponQuery);
     if (songListsDependingUponQuery.length === 0) {

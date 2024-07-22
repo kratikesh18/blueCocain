@@ -17,14 +17,13 @@ export function ScrollAreas({
   if (allItems && !allSingers && !allLiked) {
     return (
       <ScrollArea className="whitespace-nowrap rounded-md pl-2">
-
         <div className="flex w-max space-x-4 p-4">
           {allItems?.map((item) => (
             <Link href={`/lyrics/${item._id}`} key={item._id} className="">
               <figure className="shrink-0 ">
                 <div className="overflow-hidden rounded-md">
                   <img
-                    src={item.albumArt}
+                    src={item.albumArt || item.albumDetails?.albumArt}
                     alt={`Photo by ${item.albumArt}`}
                     className="aspect-[6/4] h-32 w-full object-cover"
                   />

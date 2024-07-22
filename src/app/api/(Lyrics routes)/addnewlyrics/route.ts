@@ -1,4 +1,5 @@
 "use server";
+import useSingerDetails from "@/hooks/useSingerDetails";
 import dbConnect from "@/lib/dbConnect";
 import AlbumModel from "@/models/AlbumModel";
 import ArtistModel, { Artist } from "@/models/ArtistModel";
@@ -8,16 +9,8 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(req: NextRequest) {
   try {
     await dbConnect();
-    const { data: songDetails, currentUserId, albumId } = await req.json();
-    // console.log(
-    //   "Printing the songDetails:",
-    //   songDetails,
-    //   "Printing currentUserid",
-    //   currentUserId,
-    //   "Printing albumId",
-    //   albumId
-    // );
 
+    const { data: songDetails, currentUserId, albumId } = await req.json();
     if (!songDetails) {
       return NextResponse.json(
         {
@@ -30,6 +23,8 @@ export async function POST(req: NextRequest) {
 
     const { albumArtUrl, albumName, songName, genre, singerName, releaseDate } =
       songDetails;
+
+    console.log(albumArtUrl, albumName, songName, singerName, releaseDate);
 
     // Find the artist by name
     const artistDetailsByName: Artist | null = await ArtistModel.findOne({
@@ -56,34 +51,31 @@ export async function POST(req: NextRequest) {
       contributedBy: currentUserId,
       albumDetails: albumId,
     });
-
-    console.log("new song created", newSong);
+    console.log(newSong);
 
     // Add the song to the artist's song list
-    artistDetailsByName.songs.push(newSong._id);
+    artistDetailsByName.songs.push(newSong?._id);
     await artistDetailsByName.save();
 
     // Check if the album already exists
-    const existingAlbum = await AlbumModel.findOne({ albumName });
+    let existingAlbum = await AlbumModel.findOne({ albumName });
 
-    if (existingAlbum && newSong) {
+    if (existingAlbum) {
       // Add the song to the existing album
       existingAlbum.tracks.push(newSong._id);
       await existingAlbum.save();
     } else {
-      console.log("Printing the albumArt url", albumArtUrl);
       // Create a new album and add the song to it
       const newAlbum = await AlbumModel.create({
         albumName,
         by: artistDetailsByName._id,
         releaseDate,
         genre,
-        albumArt: albumArtUrl.toString(),
-        tracks: [newSong._id], // Use an array here
+        albumArt: albumArtUrl,
+        tracks: [newSong._id],
       });
 
       if (!newAlbum) {
-        console.log("Error while creating the Album for the song");
         return NextResponse.json(
           {
             success: false,
@@ -94,7 +86,6 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // Successfully added song and handled album
     return NextResponse.json(
       {
         success: true,

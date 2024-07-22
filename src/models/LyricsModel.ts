@@ -11,7 +11,7 @@ export interface LyricsLine {
 // Define the Lyrics interface
 export interface Lyrics extends Document {
   songName: string;
-  singer: Types.ObjectId; // Reference to the Artist model
+  singer: mongoose.Schema.Types.ObjectId; // Reference to the Artist model
   contributedBy: Types.ObjectId[];
   albumDetails: Types.ObjectId;
   readyToPulish: boolean;
