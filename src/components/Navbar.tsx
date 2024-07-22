@@ -29,7 +29,7 @@ const Navbar = () => {
 
         <div className="text-2xl font-bold tracking-wider">
           <Link href="/" className="hover:text-gray-300 transition-colors">
-            <h1 className="bg-gradient-to-b from-gray-200 via-white to-gray-600 text-transparent bg-clip-text text-2xl">
+            <h1 className="theme-text-style text-2xl">
               blueCocain
             </h1>
           </Link>

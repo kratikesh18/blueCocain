@@ -49,14 +49,14 @@ const SignUpPage = () => {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center min-h-screen bg-gray-800 text-white">
-      <h1 className="text-3xl font-bold tracking-tight lg:text-4xl mb-6">
-        Join Lyr!csForyou
+    <div className="flex flex-col justify-center items-center min-h-screen bg-gradient-to-b from-gray-700 via-gray-800 to-black text-white ">
+      <h1 className="text-3xl theme-text-style font-bold tracking-tight lg:text-4xl mb-6">
+        Join blueCocain
       </h1>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmitSignup)}
-          className="bg-gray-900 p-8 rounded-lg shadow-md w-full max-w-md space-y-6"
+          className="shadow-lg  p-8 rounded-lg w-full max-w-md space-y-6 border-[1px] border-gray-500/60 "
         >
           <FormField
             name="username"

@@ -19,6 +19,7 @@ import { useRouter } from "next/navigation";
 
 const LoginPage = () => {
   const [loading, setLoading] = useState(false);
+
   const router = useRouter();
   const form = useForm<z.infer<typeof SignInSchema>>({
     resolver: zodResolver(SignInSchema),
@@ -31,6 +32,7 @@ const LoginPage = () => {
   const { toast } = useToast();
 
   const onSubmitLogin = async (data: z.infer<typeof SignInSchema>) => {
+    setLoading(true);
     const result = await signIn("credentials", {
       redirect: false,
       identifier: data.identifier,
@@ -44,27 +46,34 @@ const LoginPage = () => {
           description: "Incorrect username or password",
           variant: "destructive",
         });
+        setLoading(false);
       } else {
         toast({
           title: "Login Failed with Errors",
           description: result.error,
           variant: "destructive",
         });
+        setLoading(false);
       }
     }
     if (result?.url) {
+      setLoading(false);
       router.replace("/profile");
     }
   };
+
+  
   return (
-    <div className="flex flex-col justify-center items-center min-h-screen bg-gray-800 text-white">
-      <h1 className="text-3xl font-bold tracking-tight lg:text-4xl mb-6">
-        Join Lyr!csForyou
+    <div className="flex flex-col justify-center items-center min-h-screen bg-gradient-to-b from-gray-700 to-black text-white">
+      <h1 className="text-3xl theme-text-style font-bold tracking-tight lg:text-4xl mb-6">
+        Join blueCocain
       </h1>
+      <p>Contribute & Enjoy</p>
+      <p>Its Free!</p>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmitLogin)}
-          className="bg-gray-900 p-8 rounded-lg shadow-md w-full max-w-md space-y-6"
+          className="backdrop-blur-xl border-[1px] border-gray-400/30  p-8 rounded-lg shadow-md w-full max-w-md space-y-6"
         >
           <FormField
             name="identifier"

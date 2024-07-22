@@ -6,20 +6,31 @@ export const config = {
 };
 
 export async function middleware(request: NextRequest) {
+  // Retrieve the token from the request
   const token = await getToken({ req: request });
-  // console.log("printing the token ", token);
+  console.log("token found", token);
+  // Get the URL from the request
   const url = request.nextUrl;
 
+  // If the user is logged in and tries to access signup or login, redirect to profile
   if (
     token &&
     (url.pathname.startsWith("/signup") || url.pathname.startsWith("/login"))
   ) {
-    return NextResponse.redirect(new URL("/profile", request.url)); // Redirect to profile if user is logged in and trying to access signup or login
+    console.log(
+      "token found and tryin to reach authentication redirected to profile"
+    );
+    return NextResponse.redirect(new URL("/profile", request.url));
   }
 
+  // If the user is not logged in and tries to access profile, redirect to login
   if (!token && url.pathname.startsWith("/profile")) {
-    return NextResponse.redirect(new URL("/login", request.url)); // Redirect to login if user is not logged in and trying to access profile
+    console.log(
+      "Without toaken trying to accces profile , redirecting to the authentication"
+    );
+    return NextResponse.redirect(new URL("/login", request.url));
   }
 
-  return NextResponse.next(); // Allow the request if none of the above conditions are met
+  // Allow the request if none of the above conditions are met
+  return NextResponse.next();
 }

@@ -18,9 +18,9 @@ export function PopOverNav({ session }: { session: Session }) {
           <HomeIcon />
         </Link>
       ) : (
-        <Link href={"/profile"} className="flex">
+        <Link href={"/profile"} className="flex justify-center items-center gap-1">
           <span>Profile</span>
-          <UserIcon />
+          <UserIcon  />
         </Link>
       )}
       <Button className="" onClick={() => signOut()}>
