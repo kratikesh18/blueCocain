@@ -6,9 +6,13 @@ export const config = {
 };
 
 export async function middleware(request: NextRequest) {
-  // Retrieve the token from the request
-  const token = await getToken({ req: request });
-  console.log("token found", token);
+  // Ensure the token is fetched properly
+  const token = await getToken({
+    req: request,
+    secret: process.env.NEXTAUTH_SECRET,
+  });
+  console.log("Token found:", token);
+
   // Get the URL from the request
   const url = request.nextUrl;
 
@@ -18,7 +22,7 @@ export async function middleware(request: NextRequest) {
     (url.pathname.startsWith("/signup") || url.pathname.startsWith("/login"))
   ) {
     console.log(
-      "token found and tryin to reach authentication redirected to profile"
+      "User is authenticated and trying to access auth page, redirecting to profile"
     );
     return NextResponse.redirect(new URL("/profile", request.url));
   }
@@ -26,7 +30,7 @@ export async function middleware(request: NextRequest) {
   // If the user is not logged in and tries to access profile, redirect to login
   if (!token && url.pathname.startsWith("/profile")) {
     console.log(
-      "Without toaken trying to accces profile , redirecting to the authentication"
+      "User is not authenticated and trying to access profile, redirecting to login"
     );
     return NextResponse.redirect(new URL("/login", request.url));
   }

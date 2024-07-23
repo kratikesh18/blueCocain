@@ -17,10 +17,16 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import { toast } from "@/components/ui/use-toast";
 import { Toaster } from "@/components/ui/toaster";
+import { useSession } from "next-auth/react";
 
 const SignUpPage = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+
+  const { status  } = useSession();
+  if (status === "authenticated") {
+    router.push("/profile");
+  }
 
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),

@@ -6,6 +6,7 @@ import { ScrollAreas } from "@/components/specials/ScrollAreas";
 import { Artist } from "@/models/ArtistModel";
 import axios from "axios";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 const ProfilePage = () => {
@@ -15,6 +16,7 @@ const ProfilePage = () => {
   const [allSingers, setAllSingers] = useState<Artist[] | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
+  const router = useRouter();
   useEffect(() => {
     async function getAllLyrics() {
       setLoading(true);
@@ -50,6 +52,9 @@ const ProfilePage = () => {
     return <LoadingSpinner />;
   }
 
+  if (status === "unauthenticated") {
+    router.push("/login");
+  }
   return (
     <div className="min-h-screen px-8 py-6 bg-gray-950 flex flex-col md:px-12 md:py-8">
       <div className="flex justify-around md:justify-between items-center">

@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 const LoginPage = () => {
@@ -29,6 +29,10 @@ const LoginPage = () => {
     },
   });
 
+  const { status } = useSession();
+  if (status === "authenticated") {
+    router.push("/profile");
+  }
   const { toast } = useToast();
 
   const onSubmitLogin = async (data: z.infer<typeof SignInSchema>) => {
@@ -62,7 +66,6 @@ const LoginPage = () => {
     }
   };
 
-  
   return (
     <div className="flex flex-col justify-center items-center min-h-screen bg-gradient-to-b from-gray-700 to-black text-white">
       <h1 className="text-3xl theme-text-style font-bold tracking-tight lg:text-4xl mb-6">
