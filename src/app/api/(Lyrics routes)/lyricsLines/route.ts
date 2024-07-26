@@ -5,9 +5,11 @@ import LyricsModel from "@/models/LyricsModel";
 import { NextRequest, NextResponse } from "next/server";
 import ArtistModel from "@/models/ArtistModel";
 import mongoose from "mongoose";
+import AlbumModel from "@/models/AlbumModel";
 
 console.log("ArtistModel", ArtistModel);
 console.log("LyricsModel", LyricsModel);
+
 
 // Explicitly register the models with mongoose
 if (!mongoose.models.Artist) {
