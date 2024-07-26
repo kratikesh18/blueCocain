@@ -59,37 +59,28 @@ export async function POST(req: NextRequest) {
 
     console.log("printing the Created songData", newSongCreated);
 
-    // Add the new song to the artist's songs array using $push
-    await ArtistModel.findByIdAndUpdate(
-      singerDetails._id,
-      {
-        $push: { songs: newSongCreated._id },
-      },
-      { new: true } // This ensures you get the updated artist details
-    );
-
-    // Fetch the album and check if it has the tracks array initialized
-    const fetchedAlbum = await AlbumModel.findByIdAndUpdate(
-      albumId,
-      {
-        $push: { tracks: newSongCreated._id },
-      },
-      { new: true } // This ensures you get the updated album
-    );
-
-    if (!fetchedAlbum) {
-      throw new Error("Error while updating the albumDetails");
-    }
-
-    console.log(
-      "printing the updated version of the fetched album",
-      fetchedAlbum
-    );
+    // Add the new song to the artist's songs array and album's tracks array using Promise.all
+    await Promise.all([
+      ArtistModel.findByIdAndUpdate(
+        singerDetails._id,
+        {
+          $push: { songs: newSongCreated._id },
+        },
+        { new: true } // This ensures you get the updated artist details
+      ),
+      AlbumModel.findByIdAndUpdate(
+        albumId,
+        {
+          $push: { tracks: newSongCreated._id },
+        },
+        { new: true } // This ensures you get the updated album
+      )
+    ]);
 
     return NextResponse.json(
       {
         success: true,
-        message: "Lyrics Creation successful",
+        message: "Lyrics creation successful",
         result: newSongCreated,
       },
       { status: 200 }
