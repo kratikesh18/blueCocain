@@ -74,8 +74,10 @@ export async function POST(req: NextRequest) {
           $push: { tracks: newSongCreated._id },
         },
         { new: true } // This ensures you get the updated album
-      )
-    ]);
+      ),
+    ])
+      .then(() => console.log("Data added successfully"))
+      .catch((err) => console.log("error Occured: ", err));
 
     return NextResponse.json(
       {
