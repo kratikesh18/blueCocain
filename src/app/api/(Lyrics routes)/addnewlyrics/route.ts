@@ -59,30 +59,37 @@ export async function POST(req: NextRequest) {
 
     console.log("printing the Created songData", newSongCreated);
 
-    // Add the new song to the artist's songs array
-    singerDetails.songs.push(newSongCreated._id as mongoose.Types.ObjectId);
-    await singerDetails.save();
+    // Add the new song to the artist's songs array using $push
+    await ArtistModel.findByIdAndUpdate(
+      singerDetails._id,
+      {
+        $push: { songs: newSongCreated._id },
+      },
+      { new: true } // This ensures you get the updated artist details
+    );
 
     // Fetch the album and check if it has the tracks array initialized
-    const fetchedAlbum = await AlbumModel.findByIdAndUpdate(albumId, {
-      $push: { tracks: newSongCreated._id },
-    });
+    const fetchedAlbum = await AlbumModel.findByIdAndUpdate(
+      albumId,
+      {
+        $push: { tracks: newSongCreated._id },
+      },
+      { new: true } // This ensures you get the updated album
+    );
+
+    if (!fetchedAlbum) {
+      throw new Error("Error while updating the albumDetails");
+    }
 
     console.log(
       "printing the updated version of the fetched album",
       fetchedAlbum
     );
 
-    if (!fetchedAlbum) {
-      throw new Error("Erro while updating the albumDetails");
-    }
-
-    console.log("Printing the fetched Album:", fetchedAlbum);
-
     return NextResponse.json(
       {
         success: true,
-        message: "Lyrics Creation successfull",
+        message: "Lyrics Creation successful",
         result: newSongCreated,
       },
       { status: 200 }
@@ -95,13 +102,3 @@ export async function POST(req: NextRequest) {
     );
   }
 }
-
-// // Initialize tracks if it doesn't exist
-// if (!Array.isArray(fetchedAlbum.tracks)) {
-//   fetchedAlbum.tracks = [];
-// }
-
-// fetchedAlbum.tracks.push(
-//   newSongCreated._id as mongoose.Schema.Types.ObjectId
-// );
-// await fetchedAlbum.save();
