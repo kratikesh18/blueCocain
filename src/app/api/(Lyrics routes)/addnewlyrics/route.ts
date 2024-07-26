@@ -64,20 +64,18 @@ export async function POST(req: NextRequest) {
     await singerDetails.save();
 
     // Fetch the album and check if it has the tracks array initialized
-    const fetchedAlbum: Album | null = await AlbumModel.findById(albumId);
-    if (!fetchedAlbum) {
-      throw new Error("Album with the provided Id not found");
-    }
+    const fetchedAlbum = await AlbumModel.findByIdAndUpdate(albumId, {
+      $push: { tracks: newSongCreated._id },
+    });
 
-    // Initialize tracks if it doesn't exist
-    if (!Array.isArray(fetchedAlbum.tracks)) {
-      fetchedAlbum.tracks = [];
-    }
-
-    fetchedAlbum.tracks.push(
-      newSongCreated._id as mongoose.Schema.Types.ObjectId
+    console.log(
+      "printing the updated version of the fetched album",
+      fetchedAlbum
     );
-    await fetchedAlbum.save();
+
+    if (!fetchedAlbum) {
+      throw new Error("Erro while updating the albumDetails");
+    }
 
     console.log("Printing the fetched Album:", fetchedAlbum);
 
@@ -97,3 +95,13 @@ export async function POST(req: NextRequest) {
     );
   }
 }
+
+// // Initialize tracks if it doesn't exist
+// if (!Array.isArray(fetchedAlbum.tracks)) {
+//   fetchedAlbum.tracks = [];
+// }
+
+// fetchedAlbum.tracks.push(
+//   newSongCreated._id as mongoose.Schema.Types.ObjectId
+// );
+// await fetchedAlbum.save();
