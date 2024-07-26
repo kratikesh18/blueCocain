@@ -49,7 +49,10 @@ const ArtistSearchResult: React.FC<ArtistSearchResultProps> = ({
             ) : (
               <span className="flex gap-2">
                 <h1 className="text-gray-400">No Artist Found :</h1>
-                <Link href="/newArtistProfile" className="text-white underline">
+                <Link
+                  href={`/addLyrics/newArtistProfile/${artistname}`}
+                  className="text-white underline"
+                >
                   Create Artist Profile
                 </Link>
               </span>

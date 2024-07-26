@@ -3,7 +3,7 @@ import mongoose, { Document, Schema } from "mongoose";
 export interface Album extends Document {
   albumName: string;
   albumArt: string;
-  tracks: mongoose.Schema.Types.ObjectId[]; // References to Lyrics model
+  tracks: Schema.Types.ObjectId[]; // References to Lyrics model
   by: Schema.Types.ObjectId; // Reference to the Artist model
   releaseDate: Date;
   genre: string;
@@ -29,13 +29,12 @@ const AlbumSchema: Schema<Album> = new Schema({
     type: Date,
     required: true,
   },
-  tracks: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Lyrics",
-      required: false,
-    },
-  ],
+  tracks: {
+    type: [Schema.Types.ObjectId],
+    ref: "Lyrics",
+    required: false,
+  },
+
   genre: {
     type: String,
     required: false,

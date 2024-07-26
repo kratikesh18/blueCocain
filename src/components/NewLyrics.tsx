@@ -74,14 +74,20 @@ const GatherSongDetails: React.FC<{ albumdetailsProps: AlbumDetails }> = ({
         albumId: albumdetailsProps._id,
       });
 
-      if (response.status === 200) {
-        toast({ title: "Lyrics added successfully!" });
-        form.reset();
-        router.push(`/lyrics/${response.data.result._id}`);
-      }
+      toast({
+        title: "Lyrics added successfully!",
+        description: response.data.message,
+      });
+      form.reset();
+      router.push(`/lyrics/${response.data.result._id}`);
+      
     } catch (error: any) {
       console.error(error.message);
-      toast({ title: "Failed to add lyrics", variant: "destructive" });
+      toast({
+        title: "Failed to add lyrics",
+        description: error.message,
+        variant: "destructive",
+      });
     } finally {
       setIsSubmitting(false);
     }
@@ -186,7 +192,12 @@ const GatherSongDetails: React.FC<{ albumdetailsProps: AlbumDetails }> = ({
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-white">Album Art URL</FormLabel>
+                  <FormLabel className="text-white">
+                    Album Art URL{" "}
+                    <span className="text-xs italic text-gray-400">
+                      Not Mandatory
+                    </span>
+                  </FormLabel>
                   <Input
                     {...field}
                     placeholder="https://example.org/img"

@@ -21,12 +21,17 @@ const ArtistSchema: Schema<Artist> = new Schema(
     bio: {
       type: String,
       trim: true,
-      required: false,
+      required: true,
+    },
+    artistProfileImage: {
+      type: String,
+      required: true,
+      default: "",
     },
     genre: {
       type: [String],
       trim: true,
-      required: false,
+      required: true,
     },
     debutDate: {
       type: Date,
@@ -46,11 +51,6 @@ const ArtistSchema: Schema<Artist> = new Schema(
     keywords: {
       type: [String],
       required: false,
-    },
-    artistProfileImage: {
-      type: String,
-      required: true,
-      default: "",
     },
   },
   {

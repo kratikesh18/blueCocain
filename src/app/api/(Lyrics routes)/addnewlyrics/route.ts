@@ -1,107 +1,99 @@
 "use server";
-import useSingerDetails from "@/hooks/useSingerDetails";
 import dbConnect from "@/lib/dbConnect";
-import AlbumModel from "@/models/AlbumModel";
+import AlbumModel, { Album } from "@/models/AlbumModel";
 import ArtistModel, { Artist } from "@/models/ArtistModel";
 import LyricsModel, { Lyrics } from "@/models/LyricsModel";
+import mongoose from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
+  await dbConnect();
   try {
-    await dbConnect();
-
     const { data: songDetails, currentUserId, albumId } = await req.json();
-    if (!songDetails) {
+    console.log("printing data:", songDetails);
+    console.log(
+      "printing currentUserId:",
+      currentUserId,
+      "Printing albumId: ",
+      albumId
+    );
+
+    const { songName, albumName, genre, singerName, releaseDate } = songDetails;
+
+    if (
+      [
+        songName,
+        albumName,
+        genre,
+        singerName,
+        releaseDate,
+        currentUserId,
+        albumId,
+      ].some((field) => !field?.trim())
+    ) {
       return NextResponse.json(
         {
           success: false,
-          message: "Song details not found",
+          message: "Empty fields are not acceptable",
         },
         { status: 404 }
       );
     }
 
-    const { albumArtUrl, albumName, songName, genre, singerName, releaseDate } =
-      songDetails;
-
-    console.log(albumArtUrl, albumName, songName, singerName, releaseDate);
-
-    // Find the artist by name
-    const artistDetailsByName: Artist | null = await ArtistModel.findOne({
+    const singerDetails: Artist | null = await ArtistModel.findOne({
       name: singerName,
     });
-
-    if (!artistDetailsByName) {
-      return NextResponse.json(
-        {
-          success: false,
-          message: "Artist not found",
-        },
-        { status: 404 }
-      );
+    if (!singerDetails) {
+      throw new Error("Artist with the name not found");
     }
 
-    // Add the song to the Lyrics collection
-    const newSong = await LyricsModel.create({
-      albumName,
+    const newSongCreated: Lyrics = await LyricsModel.create({
       songName,
+      singer: singerDetails._id,
+      albumName,
       genre,
-      singer: artistDetailsByName._id,
       releaseDate,
-      contributedBy: currentUserId,
       albumDetails: albumId,
+      contributedBy: currentUserId,
     });
-    console.log(newSong);
 
-    // Add the song to the artist's song list
-    artistDetailsByName.songs.push(newSong?._id);
-    await artistDetailsByName.save();
+    console.log("printing the Created songData", newSongCreated);
 
-    // Check if the album already exists
-    let existingAlbum = await AlbumModel.findOne({ albumName });
+    // Add the new song to the artist's songs array
+    singerDetails.songs.push(newSongCreated._id as mongoose.Types.ObjectId);
+    await singerDetails.save();
 
-    if (existingAlbum) {
-      // Add the song to the existing album
-      existingAlbum.tracks.push(newSong._id);
-      await existingAlbum.save();
-    } else {
-      // Create a new album and add the song to it
-      const newAlbum = await AlbumModel.create({
-        albumName,
-        by: artistDetailsByName._id,
-        releaseDate,
-        genre,
-        albumArt: albumArtUrl,
-        tracks: [newSong._id],
-      });
-
-      if (!newAlbum) {
-        return NextResponse.json(
-          {
-            success: false,
-            message: "Failed to create new album",
-          },
-          { status: 500 }
-        );
-      }
+    // Fetch the album and check if it has the tracks array initialized
+    const fetchedAlbum: Album | null = await AlbumModel.findById(albumId);
+    if (!fetchedAlbum) {
+      throw new Error("Album with the provided Id not found");
     }
+
+    // Initialize tracks if it doesn't exist
+    if (!Array.isArray(fetchedAlbum.tracks)) {
+      fetchedAlbum.tracks = [];
+    }
+
+    fetchedAlbum.tracks.push(
+      newSongCreated._id as mongoose.Schema.Types.ObjectId
+    );
+    await fetchedAlbum.save();
+
+    console.log("Printing the fetched Album:", fetchedAlbum);
 
     return NextResponse.json(
       {
         success: true,
-        message: "Lyrics added successfully",
-        result: newSong,
+        message: "Lyrics Creation successfull",
+        result: newSongCreated,
       },
       { status: 200 }
     );
-  } catch (error) {
-    console.error("Error processing request:", error);
+  } catch (error: any) {
+    console.log("Error Occurred:", error.message);
     return NextResponse.json(
-      {
-        success: false,
-        message: "Internal server error",
-      },
-      { status: 500 }
+      { success: false, message: `Error Occurred: ${error.message}` },
+      { status: 404 }
     );
   }
 }

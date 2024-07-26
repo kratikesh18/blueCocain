@@ -17,7 +17,12 @@ export async function GET(req: NextRequest) {
       $or: [{ _id: AlbumIdToSearch }, { albumName: AlbumNameToSearch }],
     })
       .select(" -tracks -__v -createdAt -updatedAt")
-      .populate("by", "name -_id");
+      .populate({
+        path: "by",
+        select: "name -_id",
+        model: "Artist",
+        strictPopulate: false,
+      });
 
     if (AlbumNameArray.length === 0) {
       return Response.json(
