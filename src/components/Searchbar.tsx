@@ -22,7 +22,7 @@ export const Searchbar = () => {
   }, [searchQuery]);
 
   return (
-    <div className="flex py-8 justify-center items-center mx-auto flex-col gap-4 bg-black">
+    <div className="flex py-8 justify-center items-center mx-auto flex-col gap-4">
       <Input
         type="text"
         onChange={(e) => handleInputChange(e.target.value)}
