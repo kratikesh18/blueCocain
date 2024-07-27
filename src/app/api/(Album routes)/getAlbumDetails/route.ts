@@ -29,15 +29,18 @@ export async function GET(req: NextRequest) {
         path: "by",
         select: "name",
         model: "Artist",
+        strictPopulate: false,
       })
       .populate({
         path: "tracks",
         select: "-lyricsText",
         model: "Lyrics",
+        strictPopulate: false,
         populate: {
           path: "singer",
           select: "name",
           model: "Artist",
+          strictPopulate: false,
         },
       });
 
