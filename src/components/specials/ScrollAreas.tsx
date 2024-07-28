@@ -47,7 +47,7 @@ export function ScrollAreas({
       <ScrollArea className="whitespace-nowrap rounded-md pl-2">
         <div className="flex w-max space-x-4 p-4">
           {allSingers?.map((eachArtist, index) => (
-            <Link href={`/lyrics/${eachArtist._id}`} key={index}>
+            <Link href={`/artist/${eachArtist._id}`} key={index}>
               <figure className="shrink-0 ">
                 <div className="overflow-hidden rounded-md">
                   <img

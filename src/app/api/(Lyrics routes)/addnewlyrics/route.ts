@@ -60,25 +60,32 @@ export async function POST(req: NextRequest) {
     console.log("printing the Created songData", newSongCreated);
 
     // Add the new song to the artist's songs array and album's tracks array using Promise.all
-    await Promise.all([
-      ArtistModel.findByIdAndUpdate(
-        singerDetails._id,
-        {
-          $push: { songs: newSongCreated._id },
-        },
-        { new: true } // This ensures you get the updated artist details
-      ),
-      AlbumModel.findByIdAndUpdate(
-        albumId,
-        {
-          $push: { tracks: newSongCreated._id },
-        },
-        { new: true } // This ensures you get the updated album
-      ),
-    ])
-      .then(() => console.log("Data added successfully"))
-      .catch((err) => console.log("error Occured: ", err));
 
+    const artistUpdate = await ArtistModel.findByIdAndUpdate(
+      singerDetails._id,
+      {
+        $push: { songs: newSongCreated._id },
+      },
+      { new: true } // This ensures you get the updated artist details
+    );
+    artistUpdate ? console.log("artistupdated") : null;
+
+    const albumUpdate = await AlbumModel.findByIdAndUpdate(
+      albumId,
+      {
+        $push: { tracks: newSongCreated._id },
+      },
+      { new: true } // This ensures you get the updated album
+    );
+
+    albumUpdate ? console.log("albumUpdated") : null;
+
+    if (!artistUpdate || !albumUpdate) {
+      LyricsModel.findByIdAndDelete(newSongCreated._id);
+      throw new Error(
+        "Error updating the artistUpdate or album Update with the newSongID. The created Song has been deleted."
+      );
+    }
     return NextResponse.json(
       {
         success: true,

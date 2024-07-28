@@ -44,7 +44,7 @@ const SearchPopOverNav = () => {
         type="text"
         onChange={(e) => handleInputChange(e.target.value)}
         placeholder="Search for a Lyrics"
-        className="border-2 py-5 px-4 w-fit text-xl rounded-2xl active:border-none "
+        className="border-2 py-5 px-4 w-fit text-xl rounded-md active:border-none "
       />
 
       {/* <Button onClick={handleSearch}>Search</Button> */}

@@ -16,9 +16,9 @@ const Navbar = () => {
   const pathname = usePathname();
 
   return (
-    <nav className="bg-black text-white py-3 px-4 shadow-lg">
-      <div className="container mx-auto flex justify-between items-center">
-        <div className="flex items-center gap-4">
+    <nav className="bg-black text-white py-3 md:px-4 shadow-lg">
+      <div className="container flex gap-4 items-center justify-between  ">
+        <div className="flex items-center md:gap-4">
           <Link
             href="/addLyrics"
             className="hover:opacity-75 transition-opacity"
@@ -29,22 +29,19 @@ const Navbar = () => {
 
         <div className="text-2xl font-bold tracking-wider">
           <Link href="/" className="hover:text-gray-300 transition-colors">
-            <h1 className="theme-text-style text-2xl">
-              blueCocain
-            </h1>
+            <h1 className="theme-text-style text-2xl">blueCocain</h1>
           </Link>
         </div>
 
-
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-1 md:gap-4">
           {pathname !== "/" && (
             <Popover>
               <PopoverTrigger>
-                <div className="hover:opacity-75 transition-opacity">
+                <div className=" hover:opacity-75 transition-opacity">
                   <SearchIcon />
                 </div>
               </PopoverTrigger>
-              <PopoverContent className="mt-4 mr-4 w-fit bg-transparent backdrop-blur-3xl border-gray-400  text-white">
+              <PopoverContent className="mt-4 mr-4 w-fit border-transparent  bg-white/10 backdrop-blur-3xl text-white ">
                 <SearchPopOverNav />
               </PopoverContent>
             </Popover>
@@ -55,7 +52,7 @@ const Navbar = () => {
               <h1 className="text-white">Loading...</h1>
             </div>
           ) : session ? (
-            <div className="flex justify-center items-center gap-4">
+            <div className="flex justify-center items-center gap-1 md:gap-4">
               {pathname !== "/Library" && (
                 <Link href="/Library">
                   <LibraryIcon />
@@ -67,7 +64,7 @@ const Navbar = () => {
                     <UserIcon />
                   </div>
                 </PopoverTrigger>
-                <PopoverContent className="mr-4 w-fit  mt-4 bg-transparent backdrop-blur-3xl text-gray-200">
+                <PopoverContent className="w-fit mr-4 mt-4 bg-transparent backdrop-blur-3xl text-gray-200">
                   <PopOverNav session={session} />
                 </PopoverContent>
               </Popover>

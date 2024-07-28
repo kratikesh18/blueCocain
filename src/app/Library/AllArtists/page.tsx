@@ -49,7 +49,8 @@ const AllArtistsPage = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
           {allArtistDetails &&
             allArtistDetails.map((eachArtist, index) => (
-              <div
+              <Link
+                href={`/artist/${eachArtist._id}`}
                 key={index}
                 className="bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-2xl transition duration-300"
               >
@@ -67,7 +68,7 @@ const AllArtistsPage = () => {
                 {/* <p className="text-gray-400 text-center mt-2">
                   {new Date(eachArtist.debutDate).toLocaleDateString()}
                 </p> */}
-              </div>
+              </Link>
             ))}
         </div>
       </div>
