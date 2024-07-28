@@ -15,7 +15,7 @@ import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import axios from "axios";
 import { toast } from "@/components/ui/use-toast";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import SparklesIcon from "@/components/icons/SparklesIcon";
 import LoadingSpinner from "@/components/LoadingSpinner";
 
@@ -26,6 +26,7 @@ interface AiGeneratedDataType {
 }
 
 const NewArtistProfilePage = () => {
+  const router = useRouter();
   const params = useParams();
   const artistName = decodeURIComponent(params?.artistName as string);
   const [loading, setLoading] = useState(false);
@@ -51,6 +52,7 @@ const NewArtistProfilePage = () => {
         title: "Success",
         description: response.data.message,
       });
+      router.back();
     } catch (error: any) {
       toast({
         title: "Failed",
