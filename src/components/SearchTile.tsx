@@ -5,8 +5,8 @@ import { cn } from "@/lib/utils"; // Utility function to combine class names
 export type SearchResultType = {
   _id?: string;
   songName: string;
-  singer: { _id?: string; name: string }; // Reference to the Artist model
-  albumDetails?: { albumArt: string };
+  singer: { _id: string; name: string }; // Reference to the Artist model
+  albumDetails?: { _id: string; albumArt: string; albumName: string };
   albumName?: string;
   genre?: string;
   releaseDate?: Date;
@@ -36,17 +36,27 @@ const SearchTile = ({ item }: { item: SearchResultType }) => {
             <h1 className="text-base font-bold text-white truncate md:text-lg ">
               {item.songName}
             </h1>
-            <h2 className="text-base text-gray-300 md:text-md truncate">
-              {item.albumName}
-            </h2>
+            <Link
+              href={
+                item.albumDetails?._id
+                  ? `/Library/AllAlbums/AlbumDetails/${item.albumDetails._id}`
+                  : "#"
+              }
+              className="text-base text-gray-300 md:text-md truncate hover:underline"
+            >
+              {item.albumDetails?.albumName || item.albumName}
+            </Link>
             <p className="text-xs text-gray-400 md:text-sm truncate">
               {item.genre}
             </p>
           </div>
           <div className="mt-2">
-            <h3 className="textbase font-normal text-gray-200 md:text-base truncate">
+            <Link
+              href={`/artist/${item.singer._id}`}
+              className="textbase font-normal text-gray-200 md:text-base truncate hover:underline"
+            >
               {item.singer.name}
-            </h3>
+            </Link>
             <p className="text-sm text-gray-400">
               {item.releaseDate &&
                 new Date(item.releaseDate).toLocaleDateString()}

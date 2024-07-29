@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json(
         {
           success: false,
-          message: "Album already exists with the same name",
+          message: "Album already exists with the same name and release date",
         },
         { status: 400 }
       );
@@ -46,7 +46,7 @@ export async function POST(req: NextRequest) {
     if (!newAlbum) {
       throw new Error("Error while creating the album");
     }
-    console.log("Album Created successfully ", newAlbum);
+    console.log("Album created successfully: ", newAlbum);
 
     // Update the artist's albums array
     const updatedSinger = await ArtistModel.findByIdAndUpdate(
