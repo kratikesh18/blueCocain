@@ -8,7 +8,7 @@ const AllLyricsPage = () => {
   const [allItems, setAllItems] = useState<SearchResultType[] | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
-  useEffect(() => {
+  useEffect(() => {                                                               
     async function getAllLyrics() {
       setLoading(true);
       try {

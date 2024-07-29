@@ -52,7 +52,7 @@ export interface LyricsContextType {
 export const LyricsContext = createContext<LyricsContextType | undefined>(
   undefined
 );
-type SearchResultType = {};
+
 
 // LyricsProvider component
 export const LyricsProvider = ({ children }: { children: ReactNode }) => {

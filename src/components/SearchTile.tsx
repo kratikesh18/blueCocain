@@ -2,9 +2,17 @@ import React from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils"; // Utility function to combine class names
 import { Lyrics } from "@/context/LyricsContext";
-
-
-const SearchTile = ({ item }: { item: Lyrics }) => {
+export interface SearchResultType {
+  _id?: string;
+  songName: string;
+  singer: { _id?: string; name: string }; // Reference to the Artist model
+  albumDetails?: { albumArt: string; _id?: string; albumName?: string };
+  albumName?: string;
+  genre?: string;
+  releaseDate?: Date;
+  albumArt?: string;
+}
+const SearchTile = ({ item }: { item: Lyrics | SearchResultType }) => {
   return (
     <Link
       href={`/lyrics/${item._id}`}
