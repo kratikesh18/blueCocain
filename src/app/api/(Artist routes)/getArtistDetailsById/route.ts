@@ -21,7 +21,12 @@ export async function GET(req: NextRequest) {
         model: "Lyrics",
         strictPopulate: false,
       })
-      .populate({ path: "albums", model: "Album", strictPopulate: false });
+      .populate({
+        path: "albums",
+        model: "Album",
+        strictPopulate: false,
+        options: { sort: { createdAt: -1 } },
+      });
 
     if (fetchedArtistDetails) {
       return Response.json({

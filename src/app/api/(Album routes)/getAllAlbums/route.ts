@@ -22,12 +22,13 @@ if (!mongoose.models.Album) {
 export async function GET(req: NextRequest) {
   await dbConnect();
   try {
-    const allAlbums = await AlbumModel.find().populate({
-      path: "by",
-      select: "name",
-      model: "Artist",
-      strictPopulate: false,
-    });
+    const allAlbums = await AlbumModel.find()
+      .populate({
+        path: "by",
+        select: "name",
+        model: "Artist",
+        strictPopulate: false,
+      })
     return Response.json(
       {
         success: true,

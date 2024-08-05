@@ -27,6 +27,7 @@ const ArtistProfile: React.FC<ArtistProfileProps> = ({ artist }) => {
             </p>
           </div>
         </div>
+        
         <div className="flex flex-col items-center  ">
           <img
             src={artist.artistProfileImage}

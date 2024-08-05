@@ -75,7 +75,12 @@ const AlbumDetailsPage = () => {
                   <Link href={`/lyrics/${track._id}`}>
                     <div className="flex p-1 w-full justify-between px-10 backdrop-blur-md border-[1px] border-gray-300/60  ">
                       <h1 className="hover:underline ">{track.songName}</h1>
-                      <h1 className="hover:underline">{track.singer.name}</h1>
+                      <Link
+                        href={`/artist/${track.singer._id}`}
+                        className="hover:underline"
+                      >
+                        <h1>{track.singer.name}</h1>
+                      </Link>
                     </div>
                   </Link>
                 </li>

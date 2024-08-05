@@ -3,6 +3,7 @@ import dbConnect from "@/lib/dbConnect";
 import AlbumModel, { Album } from "@/models/AlbumModel";
 import ArtistModel, { Artist } from "@/models/ArtistModel";
 import LyricsModel, { Lyrics } from "@/models/LyricsModel";
+import UserModel from "@/models/UserModel";
 import mongoose from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -80,7 +81,16 @@ export async function POST(req: NextRequest) {
 
     albumUpdate ? console.log("albumUpdated") : null;
 
-    if (!artistUpdate || !albumUpdate) {
+    const userUpdate = await UserModel.findByIdAndUpdate(
+      currentUserId,
+      {
+        $push: { contributedLyrics: newSongCreated._id },
+      },
+      { new: true }
+    );
+    userUpdate ? console.log("UserUpdated") : null;
+
+    if (!artistUpdate || !albumUpdate || !userUpdate) {
       LyricsModel.findByIdAndDelete(newSongCreated._id);
       throw new Error(
         "Error updating the artistUpdate or album Update with the newSongID. The created Song has been deleted."

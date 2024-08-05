@@ -10,36 +10,37 @@ export interface Album extends Document {
   keywords?: string[];
 }
 
-const AlbumSchema: Schema<Album> = new Schema({
-  albumName: {
-    type: String,
-    required: true,
+const AlbumSchema: Schema<Album> = new Schema(
+  {
+    albumName: {
+      type: String,
+      required: true,
+    },
+    albumArt: {
+      type: String,
+      required: true,
+    },
+    by: {
+      type: Schema.Types.ObjectId,
+      ref: "Artist",
+      required: true,
+    },
+    releaseDate: {
+      type: Date,
+      required: true,
+    },
+    tracks: {
+      type: [Schema.Types.ObjectId],
+      ref: "Lyrics",
+      required: false,
+    },
+    genre: {
+      type: String,
+      required: false,
+    },
   },
-  albumArt: {
-    type: String,
-    required: true,
-  },
-  by: {
-    type: Schema.Types.ObjectId,
-    ref: "Artist",
-    required: true,
-  },
-
-  releaseDate: {
-    type: Date,
-    required: true,
-  },
-  tracks: {
-    type: [Schema.Types.ObjectId],
-    ref: "Lyrics",
-    required: false,
-  },
-
-  genre: {
-    type: String,
-    required: false,
-  },
-});
+  { timestamps: true }
+);
 
 const AlbumModel =
   (mongoose.models.Album as mongoose.Model<Album>) ||

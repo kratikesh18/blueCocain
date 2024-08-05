@@ -2,9 +2,16 @@ import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/models/UserModel";
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import SpotifyProvider from "next-auth/providers/spotify";
 import bcrypt from "bcryptjs";
+
 export const authOptions: NextAuthOptions = {
   providers: [
+    SpotifyProvider({
+      clientId: process.env.SPOTIFY_CLIENT_ID as string,
+      clientSecret: process.env.SPOTIFY_CLIENT_SECRET as string,
+    }),
+
     CredentialsProvider({
       id: "credentials",
       name: "Credentials",
@@ -71,6 +78,6 @@ export const authOptions: NextAuthOptions = {
   },
   pages: {
     signIn: `/login`,
-    newUser:"/signup",
+    newUser: "/signup",
   },
 };

@@ -1,11 +1,14 @@
 "use client";
+import CameraIcon from "@/components/icons/CameraIcon";
 import LIkeIcon from "@/components/icons/LIkeIcon";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { SearchResultType } from "@/components/SearchTile";
+import ProfileImage from "@/components/specials/ProfileImage";
 import { ScrollAreas } from "@/components/specials/ScrollAreas";
+import { Button } from "@/components/ui/button";
 import { Artist } from "@/models/ArtistModel";
 import axios from "axios";
-import { useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
@@ -52,28 +55,41 @@ const ProfilePage = () => {
     return <LoadingSpinner />;
   }
 
-  if (status === "unauthenticated") {
+  if (status === "unauthenticated" || !session) {
     router.push("/login");
+  }
+  if (!session) {
+    return <div>No session found</div>;
   }
   return (
     <div className="min-h-screen px-8 py-6 bg-gray-950 flex flex-col md:px-12 md:py-8">
-      <div className="flex justify-around md:justify-between items-center">
-        <div>
+      <div className="flex flex-col-reverse items-center md:justify-between  md:flex-row  ">
+        <div className="text-center md:text-left mt-4 md:mt-0 ">
           <h1 className="bg-gradient-to-b from-gray-200 via-white to-gray-600 text-transparent bg-clip-text text-5xl font-bold md:text-6xl">
             Hey, {session?.user.username}
           </h1>
-          <p className="bg-gradient-to-b from-gray-200 via-white to-gray-600 text-transparent bg-clip-text">
-            The President at blueCocain,
-          </p>
-          <p className="bg-gradient-to-b from-gray-200 via-white to-gray-600 text-transparent bg-clip-text">
-            contributed 69+ Lyrics.
-          </p>
+          <div className="mt-2">
+            <p className="bg-gradient-to-b from-gray-200 via-white to-gray-600 text-transparent bg-clip-text">
+              The President at blueCocain,
+            </p>
+            <p className="bg-gradient-to-b from-gray-200 via-white to-gray-600 text-transparent bg-clip-text">
+              contributed 69+ Lyrics.
+            </p>
+          </div>
+
+          <div className="mt-4">
+            <Button
+              onClick={() => {
+                signIn("spotify");
+              }}
+              className="bg-green-700"
+            >
+              Connect Spotify
+            </Button>
+          </div>
         </div>
-        <img
-          src="https://media.licdn.com/dms/image/D4D03AQH11qYMu73TJg/profile-displayphoto-shrink_200_200/0/1711821636406?e=2147483647&v=beta&t=8tntS0jZstDzVW-QR66LwELyu49LrwAxzq-7G4PY0RY"
-          alt={session?.user.username}
-          className="rounded-full w-1/4 md:w-[10rem] md:relative md:right-32"
-        />
+
+        <ProfileImage session={session} />
       </div>
 
       <div className="mt-16 w-full md:mt-20">

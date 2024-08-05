@@ -1,7 +1,7 @@
 "use server";
 import dbConnect from "@/lib/dbConnect";
-import AlbumModel from "@/models/AlbumModel";
-import ArtistModel from "@/models/ArtistModel";
+import AlbumModel, { Album } from "@/models/AlbumModel";
+import ArtistModel, { Artist } from "@/models/ArtistModel";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
@@ -9,9 +9,22 @@ export async function POST(req: NextRequest) {
   try {
     const { albumArtUrl, albumName, genre, singerName, releaseDate } =
       await req.json();
-
+    console.log(albumArtUrl, albumName, genre, singerName, releaseDate);
+    if (
+      [albumArtUrl, albumName, genre, singerName, releaseDate].some(
+        (field) => field.trim() == ""
+      )
+    ) {
+      return NextResponse.json(
+        { success: false, message: "All fields are required" },
+        { status: 400 }
+      );
+    }
     // Check if an album with the same name and release date already exists
-    const existingAlbum = await AlbumModel.findOne({ albumName, releaseDate });
+    const existingAlbum = await AlbumModel.findOne({
+      albumName,
+      releaseDate,
+    });
     if (existingAlbum) {
       return NextResponse.json(
         {
@@ -48,13 +61,13 @@ export async function POST(req: NextRequest) {
     }
     console.log("Album created successfully: ", newAlbum);
 
-    // Update the artist's albums array
     const updatedSinger = await ArtistModel.findByIdAndUpdate(
       findingArtist._id,
       { $push: { albums: newAlbum._id } },
       { new: true }
     );
 
+    console.log("printing the updated Singer ", updatedSinger);
     if (!updatedSinger) {
       await AlbumModel.findByIdAndDelete(newAlbum._id);
       throw new Error(
