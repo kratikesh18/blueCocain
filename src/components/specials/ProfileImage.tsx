@@ -3,19 +3,18 @@ import CameraIcon from "../icons/CameraIcon";
 import { Button } from "../ui/button";
 import axios from "axios";
 import { Session } from "next-auth";
-interface fileUploadedType {
+
+interface FileUploadedType {
   fileUrl: string;
 }
+
 const ProfileImage = ({ session }: { session: Session }) => {
   const [file, setFile] = useState<File | null>(null);
-
-  const [fileuploadResponse, setfileuploadResponse] =
-    useState<fileUploadedType | null>(null);
-
-  const [imagePreviewUrl, setImagePreviewUrl] = useState<any>();
+  const [fileuploadResponse, setFileUploadResponse] =
+    useState<FileUploadedType | null>(null);
+  const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null);
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    // console.log("printing the event ", e);
     if (e.target.files) {
       setFile(e.target.files[0]);
     }
@@ -26,11 +25,10 @@ const ProfileImage = ({ session }: { session: Session }) => {
 
     const formData = new FormData();
     formData.append("file", file);
-    console.log(formData);
+
     try {
       const res = await axios.post("/api/upload", formData);
-      setfileuploadResponse(res.data);
-      console.log(fileuploadResponse);
+      setFileUploadResponse(res.data);
 
       if (res.status === 200) {
         console.log("File uploaded successfully", res.data);
@@ -43,6 +41,7 @@ const ProfileImage = ({ session }: { session: Session }) => {
       setFile(null);
     }
   };
+
   useEffect(() => {
     const fetchProfileImage = async () => {
       try {
@@ -54,37 +53,32 @@ const ProfileImage = ({ session }: { session: Session }) => {
     };
     fetchProfileImage();
   }, [handleSubmit]);
+
   return (
-    <div className="rounded-full w-1/3 md:w-[10rem] relative md:right-32">
-      <div className="absolute opacity-0 hover:opacity-100">
-        <div className="w-1/4 h-[10rem] relative flex justify-center items-center md:w-[10rem] bg-gray-500/60 rounded-full overflow-hidden ">
-          <input
-            type="file"
-            className="bg-red-500 w-full h-full opacity-0 absolute "
-            onChange={handleFileChange}
-          />
-          <span
-            className="flex flex-col justify-center items-center text-gray-200
-            "
-          >
+    <div className="relative w-[10rem] h-[10rem] rounded-full overflow-clip  aspect-square bg-fuchsia-400 md:w-40 mx-auto">
+      <div className="relative group">
+        <input
+          type="file"
+          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+          onChange={handleFileChange}
+        />
+        <div className="absolute inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-200 rounded-full">
+          <span className="flex flex-col items-center text-white">
             <CameraIcon />
-            Add Photo
+            <span>Add Photo</span>
           </span>
         </div>
+
+        <img
+          src={imagePreviewUrl || "/default-profile.png"} // Fallback image if no profile image
+          alt={`${session?.user.username}'s Image`}
+          loading="lazy"
+          className=" h-[10rem] w-[10rem] object-cover"
+        />
       </div>
 
-      <img
-        src={imagePreviewUrl}
-        alt={`${session?.user.username}'s Image`}
-        loading="lazy"
-        className=" rounded-full aspect-square object-cover scale-1500"
-      />
-
       {file && (
-        <div
-          className="flex justify-center items-center mt-4
-        "
-        >
+        <div className="flex justify-center mt-4">
           <Button onClick={handleSubmit}>Upload Image</Button>
         </div>
       )}

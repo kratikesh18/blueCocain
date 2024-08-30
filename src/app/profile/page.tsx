@@ -39,7 +39,7 @@ const ProfilePage = () => {
       setLoading(true);
       try {
         const response = await axios.get(`/api/getAllArtistsDetails`);
-        console.log(response.data);
+        // console.log(response.data);
         setAllSingers(response.data.result);
       } catch (error: any) {
         console.log(error);
@@ -47,6 +47,10 @@ const ProfilePage = () => {
         setLoading(false);
       }
     }
+    async function lamo() {
+      console.log(session);
+    }
+    lamo();
     getAllLyrics();
     getAllSingers();
   }, []);
@@ -61,6 +65,11 @@ const ProfilePage = () => {
   if (!session) {
     return <div>No session found</div>;
   }
+  const handleSpotifyLogin = () => {
+    const whateverREsponse = signIn("spotify");
+    console.log(whateverREsponse);
+  };
+
   return (
     <div className="min-h-screen px-8 py-6 bg-gray-950 flex flex-col md:px-12 md:py-8">
       <div className="flex flex-col-reverse items-center md:justify-between  md:flex-row  ">
@@ -79,12 +88,16 @@ const ProfilePage = () => {
 
           <div className="mt-4">
             <Button
-              onClick={() => {
-                signIn("spotify");
-              }}
-              className="bg-green-700"
+              onClick={handleSpotifyLogin}
+              className="bg-green-950 h-[3rem] w-fit"
             >
-              Connect Spotify
+              Connect
+              <div className="aspect-auto  h-full w-full ml-2">
+                <img
+                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Spotify_logo_with_text.svg/559px-Spotify_logo_with_text.svg.png?20160123211747"
+                  className="h-full w-full"
+                />
+              </div>
             </Button>
           </div>
         </div>
