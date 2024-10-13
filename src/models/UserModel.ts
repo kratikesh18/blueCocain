@@ -1,5 +1,5 @@
 import mongoose, { Schema, Types } from "mongoose";
-import bcrypt from "bcryptjs";
+
 export interface User extends Document {
   username: string;
   email: string;
