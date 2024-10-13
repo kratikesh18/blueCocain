@@ -92,7 +92,7 @@ const ProfilePage = () => {
               className="bg-green-950 h-[3rem] w-fit"
             >
               Connect
-              <div className="aspect-auto  h-full w-full ml-2">
+              <div className="aspect-auto h-full w-full ml-2">
                 <img
                   src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Spotify_logo_with_text.svg/559px-Spotify_logo_with_text.svg.png?20160123211747"
                   className="h-full w-full"

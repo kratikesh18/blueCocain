@@ -42,7 +42,7 @@ const AllArtistsPage = () => {
       <div className="container mx-auto px-4">
         <div className="text-white mb-8 flex justify-between items-center">
           <h1 className="text-3xl font-bold">All Artists</h1>
-          <Link href={"/newArtistProfile"}>Create an Artists Profile</Link>
+          <Link href={"/"}>Create an Artists Profile</Link>
         </div>
 
         {error && <span className="text-red-400">{error}</span>}

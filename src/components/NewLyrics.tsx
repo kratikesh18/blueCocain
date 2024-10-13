@@ -37,9 +37,7 @@ const GatherSongDetails: React.FC<{ albumdetailsProps: AlbumDetails }> = ({
   const [findingArtist, setFindingArtist] = useState(false);
   const debouncedArtistName = useDebounce(artistname, 300);
 
-  const [artistDetails, setArtistDetails] = useState<SingerDetails[] | null>(
-    null
-  );
+  const [artistDetails, setArtistDetails] = useState<SingerDetails[] | null>(null);
 
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -47,22 +45,25 @@ const GatherSongDetails: React.FC<{ albumdetailsProps: AlbumDetails }> = ({
   useEffect(() => {
     const findArtists = async () => {
       setFindingArtist(true);
-      if (debouncedArtistName) {
-        try {
-          const response = await axios.get(
-            `/api/validateArtist?artistname=${debouncedArtistName}`
-          );
-          setArtistDetails(response.data.result);
-        } catch (error) {
-          console.error(error);
-        } finally {
-          setFindingArtist(false);
+      try {
+        if (debouncedArtistName) {
+          const response = await axios.get(`/api/validateArtist?artistname=${debouncedArtistName}`);
+          setArtistDetails(response.data.result || []);
+        } else {
+          setArtistDetails(null);
         }
-      } else {
-        setArtistDetails(null);
+      } catch (error) {
+        console.error("Artist search error:", error);
+      } finally {
+        setFindingArtist(false);
       }
     };
+
     findArtists();
+
+    return () => {
+      setFindingArtist(false); // Cleanup
+    };
   }, [debouncedArtistName]);
 
   const handleSubmit = async (data: z.infer<typeof NewLyricsSchema>) => {
@@ -78,11 +79,11 @@ const GatherSongDetails: React.FC<{ albumdetailsProps: AlbumDetails }> = ({
         title: "Lyrics added successfully!",
         description: response.data.message,
       });
+
       form.reset();
       router.push(`/lyrics/${response.data.result._id}`);
-      
     } catch (error: any) {
-      console.error(error.message);
+      console.error("Failed to add lyrics:", error.message);
       toast({
         title: "Failed to add lyrics",
         description: error.message,
@@ -101,37 +102,29 @@ const GatherSongDetails: React.FC<{ albumdetailsProps: AlbumDetails }> = ({
       albumName: albumdetailsProps.albumName || "",
       genre: albumdetailsProps.genre || "",
       albumArtUrl: "",
-      releaseDate:
-        new Date(albumdetailsProps.releaseDate).toISOString().split("T")[0] ||
-        new Date().toISOString().split("T")[0],
+      releaseDate: new Date(albumdetailsProps.releaseDate).toISOString().split("T")[0] || new Date().toISOString().split("T")[0],
     },
   });
 
   if (status === "loading") {
     return <LoadingSpinner />;
   }
+
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-800 to-black/90  flex items-center justify-center pt-20">
-      <div className=" p-8 rounded-lg shadow-lg w-full max-w-2xl bg-transparent border-[1px]">
+    <div className="min-h-screen bg-gradient-to-b from-gray-800 to-black/90 flex items-center justify-center pt-20">
+      <div className="p-8 rounded-lg shadow-lg w-full max-w-2xl bg-transparent border-[1px]">
         <h1 className="text-3xl font-bold text-center mb-6 bg-gradient-to-b from-gray-200 via-white to-gray-600 text-transparent bg-clip-text">
           Add New Lyrics
         </h1>
         <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(handleSubmit)}
-            className="space-y-4"
-          >
+          <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
             <FormField
               name="songName"
               control={form.control}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="text-white">Song Name</FormLabel>
-                  <Input
-                    {...field}
-                    type="text"
-                    className="bg-gray-700 text-white"
-                  />
+                  <Input {...field} type="text" className="bg-gray-700 text-white" />
                   <FormMessage />
                 </FormItem>
               )}
@@ -167,11 +160,7 @@ const GatherSongDetails: React.FC<{ albumdetailsProps: AlbumDetails }> = ({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="text-white">Album</FormLabel>
-                  <Input
-                    {...field}
-                    className="bg-gray-700 text-white"
-                    disabled
-                  />
+                  <Input {...field} className="bg-gray-700 text-white" disabled />
                   <FormMessage />
                 </FormItem>
               )}
@@ -195,14 +184,10 @@ const GatherSongDetails: React.FC<{ albumdetailsProps: AlbumDetails }> = ({
                   <FormLabel className="text-white">
                     Album Art URL{" "}
                     <span className="text-xs italic text-gray-400">
-                      Not Mandatory
+                      (Optional)
                     </span>
                   </FormLabel>
-                  <Input
-                    {...field}
-                    placeholder="https://example.org/img"
-                    className="bg-gray-700 text-white"
-                  />
+                  <Input {...field} placeholder="https://example.org/img" className="bg-gray-700 text-white" />
                   <FormMessage />
                 </FormItem>
               )}
@@ -213,20 +198,12 @@ const GatherSongDetails: React.FC<{ albumdetailsProps: AlbumDetails }> = ({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="text-white">Release Date</FormLabel>
-                  <Input
-                    {...field}
-                    type="date"
-                    className="bg-gray-700 text-white"
-                  />
+                  <Input {...field} type="date" className="bg-gray-700 text-white" />
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Button
-              type="submit"
-              className="w-full py-2 bg-blue-600 hover:bg-blue-700"
-              disabled={isSubmitting}
-            >
+            <Button type="submit" className="w-full py-2 bg-blue-600 hover:bg-blue-700" disabled={isSubmitting}>
               {isSubmitting ? "Adding Lyrics..." : "Add Lyrics"}
             </Button>
           </form>

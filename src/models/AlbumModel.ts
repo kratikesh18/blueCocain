@@ -31,15 +31,13 @@ const AlbumSchema: Schema<Album> = new Schema(
     },
     tracks: {
       type: [Schema.Types.ObjectId],
-      ref: "Lyrics",
-      required: false,
+      ref: "Lyrics"
     },
     genre: {
       type: String,
-      required: false,
     },
   },
-  { timestamps: true }
+  { timestamps: true , strict:true}
 );
 
 const AlbumModel =

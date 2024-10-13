@@ -57,13 +57,13 @@ const AlbumDetailsPage = () => {
             />
             <div>
               <h1 className="text-3xl">{detailsPageData.albumName}</h1>
-              <p>By: {detailsPageData.by.name}</p>{" "}
+              <p><span className="text-gray-400">By:</span> {detailsPageData.by.name}</p>{" "}
               {/* Adjust this line if 'by' contains an object with artist details */}
               <p>
-                Release Date:{" "}
+              <span className="text-gray-400">Release Date:</span>{" "}
                 {new Date(detailsPageData.releaseDate).toDateString()}
               </p>
-              <p>Genre: {detailsPageData.genre}</p>
+              <p><span className="text-gray-400">Genre:</span> {detailsPageData.genre}</p>
             </div>
           </div>
 

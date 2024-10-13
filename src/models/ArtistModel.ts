@@ -55,6 +55,7 @@ const ArtistSchema: Schema<Artist> = new Schema(
   },
   {
     timestamps: true,
+    strict:true
   }
 );
 

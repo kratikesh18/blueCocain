@@ -2,8 +2,6 @@
 import EditIcon from "@/components/icons/EditIcon";
 import TheLyrics from "@/components/TheLyrics";
 import { Button } from "@/components/ui/button";
-import { LyricsLine } from "@/models/LyricsModel";
-import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import React, { useState } from "react";
 

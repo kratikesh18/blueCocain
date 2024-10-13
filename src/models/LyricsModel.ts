@@ -96,6 +96,7 @@ const LyricsSchema: Schema<Lyrics> = new Schema(
   },
   {
     timestamps: true,
+    strict:true
   }
 );
 
