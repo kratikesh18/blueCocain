@@ -38,11 +38,13 @@ const LoginPage = () => {
 
   const onSubmitLogin = async (data: z.infer<typeof SignInSchema>) => {
     setLoading(true);
-    const result = await signIn("credentials", {
-      redirect: false,
-      identifier: data.identifier,
-      password: data.password,
-    });
+    // const result = await signIn("credentials", {
+    //   redirect: false,
+    //   identifier: data.identifier,
+    //   password: data.password,
+    // });
+
+    const result = await signIn('spotify')
 
     if (result?.error) {
       if (result.error === "CredentialsSignin") {

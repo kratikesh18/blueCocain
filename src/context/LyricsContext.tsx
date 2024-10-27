@@ -77,6 +77,19 @@ export const LyricsProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  // const fetchLyricsDetails = async (id: string) => {
+  //   setLoading(true);
+  //   setError(null);
+  //   try {
+  //     const response = await axios.get(`/api/lyricsLines?id=${id}`);
+  //     console.log("Printing the result in context", response.data.results);
+  //     setLyricsDetails(response.data.results);
+  //   } catch (error) {
+  //     setError("Error while fetching Lyrics details");
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
   const fetchLyricsDetails = async (id: string) => {
     setLoading(true);
     setError(null);
@@ -85,7 +98,7 @@ export const LyricsProvider = ({ children }: { children: ReactNode }) => {
       console.log("Printing the result in context", response.data.results);
       setLyricsDetails(response.data.results);
     } catch (error) {
-      setError("Error while fetching lysrics details");
+      setError("Error while fetching Lyrics details");
     } finally {
       setLoading(false);
     }

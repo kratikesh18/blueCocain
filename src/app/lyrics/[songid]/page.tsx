@@ -2,12 +2,11 @@
 import EditIcon from "@/components/icons/EditIcon";
 import TheLyrics from "@/components/TheLyrics";
 import { Button } from "@/components/ui/button";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import React, { useState } from "react";
 
 const LyricsPage = () => {
   const { songid } = useParams();
-  const router = useRouter();
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
   return (

@@ -14,74 +14,74 @@ const ProfileImage = ({ session }: { session: Session }) => {
     useState<FileUploadedType | null>(null);
   const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null);
 
-  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      setFile(e.target.files[0]);
-    }
-  };
+  // const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+  //   if (e.target.files) {
+  //     setFile(e.target.files[0]);
+  //   }
+  // };
 
-  const handleSubmit = async () => {
-    if (!file) return;
+  // const handleSubmit = async () => {
+  //   if (!file) return;
 
-    const formData = new FormData();
-    formData.append("file", file);
+  //   const formData = new FormData();
+  //   formData.append("file", file);
 
-    try {
-      const res = await axios.post("/api/upload", formData);
-      setFileUploadResponse(res.data);
+  //   try {
+  //     const res = await axios.post("/api/upload", formData);
+  //     setFileUploadResponse(res.data);
 
-      if (res.status === 200) {
-        console.log("File uploaded successfully", res.data);
-      } else {
-        console.log("File upload failed");
-      }
-    } catch (error) {
-      console.error("Error uploading file:", error);
-    } finally {
-      setFile(null);
-    }
-  };
+  //     if (res.status === 200) {
+  //       console.log("File uploaded successfully", res.data);
+  //     } else {
+  //       console.log("File upload failed");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error uploading file:", error);
+  //   } finally {
+  //     setFile(null);
+  //   }
+  // };
 
-  useEffect(() => {
-    const fetchProfileImage = async () => {
-      try {
-        const response = await axios.get("/api/getProfileImage");
-        setImagePreviewUrl(response.data.url.profileImage);
-      } catch (error: any) {
-        console.log(error);
-      }
-    };
-    fetchProfileImage();
-  }, [handleSubmit]);
+  // useEffect(() => {
+  //   const fetchProfileImage = async () => {
+  //     try {
+  //       const response = await axios.get("/api/getProfileImage");
+  //       setImagePreviewUrl(response.data.url.profileImage);
+  //     } catch (error: any) {
+  //       console.log(error);
+  //     }
+  //   };
+  //   fetchProfileImage();
+  // }, [handleSubmit]);
 
   return (
-    <div className="relative w-[10rem] h-[10rem] rounded-full overflow-clip  aspect-square bg-fuchsia-400 md:w-40 mx-auto">
-      <div className="relative group">
-        <input
+    <div className="h-[10rem] w-[10rem]  rounded-full overflow-clip aspect-square bg-gray-700 md:w-40 mx-auto">
+     
+        {/* <input
           type="file"
           className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
           onChange={handleFileChange}
-        />
-        <div className="absolute inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-200 rounded-full">
+        /> */}
+        {/* <div className="absolute inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-200 rounded-full">
           <span className="flex flex-col items-center text-white">
             <CameraIcon />
             <span>Add Photo</span>
           </span>
-        </div>
+        </div> */}
 
         <img
-          src={imagePreviewUrl || "/default-profile.png"} // Fallback image if no profile image
-          alt={`${session?.user.username}'s Image`}
+          src={session.user?.image || "/default-profile.png"} // Fallback image if no profile image
+          alt={`${session.user?.name}'s Image`}
           loading="lazy"
-          className=" h-[10rem] w-[10rem] object-cover"
+          className="object-cover h-full w-full"
         />
-      </div>
+     
 
-      {file && (
+      {/* {file && (
         <div className="flex justify-center mt-4">
           <Button onClick={handleSubmit}>Upload Image</Button>
         </div>
-      )}
+      )} */}
     </div>
   );
 };

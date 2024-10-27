@@ -5,11 +5,9 @@ import LyricsModel from "@/models/LyricsModel";
 import { NextRequest, NextResponse } from "next/server";
 import ArtistModel from "@/models/ArtistModel";
 import mongoose from "mongoose";
-import AlbumModel from "@/models/AlbumModel";
 
 console.log("ArtistModel", ArtistModel);
 console.log("LyricsModel", LyricsModel);
-
 
 // Explicitly register the models with mongoose
 if (!mongoose.models.Artist) {
@@ -35,19 +33,12 @@ export async function GET(req: NextRequest) {
         { status: 400 }
       );
     }
-
     const lyricsOfTheSong = await LyricsModel.findById(songId)
       .select("-__v -createdAt -updatedAt")
       .populate({
         path: "singer",
         select: "name",
         model: "Artist",
-        strictPopulate: false,
-      })
-      .populate({
-        path: "contributedBy",
-        select: "username",
-        model: "User",
         strictPopulate: false,
       })
       .populate({
@@ -75,6 +66,7 @@ export async function GET(req: NextRequest) {
       },
       { status: 200 }
     );
+
   } catch (error: any) {
     console.log(error.message);
     return NextResponse.json(

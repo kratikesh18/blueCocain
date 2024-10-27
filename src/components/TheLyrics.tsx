@@ -86,7 +86,13 @@ const TheLyrics: React.FC<TheLyricsProps> = ({
 
   if (loading) return <LoadingSpinner />;
 
-  if (error) return <div>{error}</div>;
+  if(error){
+    return <div className="flex flex-col justify-center h-screen items-center p-4 gap-4 bg-black text-white text-center" >
+      <h1 className="font-bold text-2xl ">Hold Still.. just refresh or try again after some time</h1>
+      <p>blueCocain is working fine in all aspects, this is the issue occurs when the db is in idle mode because of lesser traffic db automatically shuts itself down to save resources</p>
+    </div>
+  }
+
 
   if (!lyricsDetails) return <LoadingSpinner />;
 

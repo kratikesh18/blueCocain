@@ -1,5 +1,4 @@
 "use client";
-import CameraIcon from "@/components/icons/CameraIcon";
 import LIkeIcon from "@/components/icons/LIkeIcon";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { SearchResultType } from "@/components/SearchTile";
@@ -35,6 +34,7 @@ const ProfilePage = () => {
         setLoading(false);
       }
     }
+
     async function getAllSingers() {
       setLoading(true);
       try {
@@ -50,6 +50,32 @@ const ProfilePage = () => {
     async function lamo() {
       console.log(session);
     }
+
+    async function getAccessToken() {
+      setLoading(true);
+      try {
+        const params = new URLSearchParams();
+        params.append("grant_type", "client_credentials");
+        params.append("client_id", process.env.SPOTIFY_CLIENT_ID as string);
+        params.append(
+          "client_secret",
+          process.env.SPOTIFY_CLIENT_SECRET as string
+        );
+        const response = await fetch("https://accounts.spotify.com/api/token", {
+          method:"GET",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body: params,
+        });
+        console.log("printing accessToken response ", response);
+      } catch (error: any) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    getAccessToken();
     lamo();
     getAllLyrics();
     getAllSingers();
@@ -67,15 +93,15 @@ const ProfilePage = () => {
   }
   const handleSpotifyLogin = () => {
     const whateverREsponse = signIn("spotify");
-    console.log(whateverREsponse);
+    console.log("Printing response from spotify :", whateverREsponse);
   };
 
   return (
     <div className="min-h-screen px-8 py-6 bg-gray-950 flex flex-col md:px-12 md:py-8">
       <div className="flex flex-col-reverse items-center md:justify-between  md:flex-row  ">
-        <div className="text-center md:text-left mt-4 md:mt-0 ">
+        <div className="text-center md:text-left mt-4 md:mt-0 md:w-[50%] ">
           <h1 className="bg-gradient-to-b from-gray-200 via-white to-gray-600 text-transparent bg-clip-text text-5xl font-bold md:text-6xl">
-            Hey, {session?.user.username}
+            Hey, {session.user?.name}
           </h1>
           <div className="mt-2">
             <p className="bg-gradient-to-b from-gray-200 via-white to-gray-600 text-transparent bg-clip-text">
@@ -86,7 +112,7 @@ const ProfilePage = () => {
             </p>
           </div>
 
-          <div className="mt-4">
+          {/* <div className="mt-4">
             <Button
               onClick={handleSpotifyLogin}
               className="bg-green-950 h-[3rem] w-fit"
@@ -99,12 +125,15 @@ const ProfilePage = () => {
                 />
               </div>
             </Button>
-          </div>
+          </div> */}
         </div>
 
         <ProfileImage session={session} />
       </div>
 
+      <div>
+        <h1 className="text-white">Currently On Spotify</h1>
+      </div>
       <div className="mt-16 w-full md:mt-20">
         <h1 className="text-white text-2xl font-semibold flex items-center gap-2 mb-4">
           Your Favorite Songs <LIkeIcon />
