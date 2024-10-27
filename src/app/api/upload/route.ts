@@ -39,7 +39,7 @@ export async function POST(req: NextRequest) {
 
     //now setting the image to the db
     const updateduUser = await UserModel.updateOne(
-      { _id: _user._id },
+      // { _id:_id },
       { $set: { profileImage: response.url } }
     );
     if (!updateduUser) {
