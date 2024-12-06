@@ -8,6 +8,8 @@ export interface User extends Document {
   // userType: string;
   contributedLyrics?: Types.ObjectId[];
   profileImage: string;
+  spotifyAccessToken:string,
+  spotifyRefreshToken:string,
 }
 const UserSchema: Schema<User> = new Schema(
   {
@@ -17,6 +19,7 @@ const UserSchema: Schema<User> = new Schema(
       trim: true,
       unique: true,
     },
+
     email: {
       type: String,
       required: true,
@@ -35,6 +38,19 @@ const UserSchema: Schema<User> = new Schema(
       required: false,
       default: "",
     },
+    contributedLyrics: {
+      type: [Types.ObjectId],
+      ref: "Lyrics",
+      required: false,
+      default: [],
+    },
+    spotifyAccessToken:{
+      type:String
+    },
+    spotifyRefreshToken:{
+      type:String
+    }
+
     // password: { type: String, required: true },
     // isVerified: {
     //   type: Boolean,
@@ -45,12 +61,7 @@ const UserSchema: Schema<User> = new Schema(
     //   enum: ["artist", "user"],
     //   required: true,
     // },
-    contributedLyrics: {
-      type: [Types.ObjectId],
-      ref: "Lyrics",
-      required: false,
-      default: [],
-    },
+   
   },
   { timestamps: true , strict:true}
 );

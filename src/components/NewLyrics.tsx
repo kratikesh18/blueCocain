@@ -31,7 +31,8 @@ const GatherSongDetails: React.FC<{ albumdetailsProps: AlbumDetails }> = ({
   albumdetailsProps,
 }) => {
   const { data: session, status } = useSession();
-  const currentUserId = session?.user._id;
+  console.log("printing SEssion in New Lyrics" , session)
+  const currentUserEmail = session?.user.email;
 
   const [artistname, setArtistname] = useState("");
   const [findingArtist, setFindingArtist] = useState(false);
@@ -71,7 +72,7 @@ const GatherSongDetails: React.FC<{ albumdetailsProps: AlbumDetails }> = ({
     try {
       const response = await axios.post(`/api/addnewlyrics`, {
         data,
-        currentUserId,
+        currentUserEmail,
         albumId: albumdetailsProps._id,
       });
 

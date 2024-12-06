@@ -10,9 +10,10 @@ export async function POST(req: NextRequest) {
   await dbConnect();
 
   try {
-    const { data: songDetails, currentUserId, albumId } = await req.json();
+    const { data: songDetails, currentUserEmail, albumId } = await req.json();
     const { songName, albumName, genre, singerName, releaseDate } = songDetails;
 
+    console.log(songDetails, currentUserEmail)
     // Validate required fields
     if (
       [
@@ -21,9 +22,9 @@ export async function POST(req: NextRequest) {
         genre,
         singerName,
         releaseDate,
-        currentUserId,
+        currentUserEmail,
         albumId,
-      ].some((field) => !field?.trim())
+      ].some((field) => field?.trim() === "")
     ) {
       return NextResponse.json(
         {
@@ -38,7 +39,7 @@ export async function POST(req: NextRequest) {
     const [singerDetails, albumDetails, userDetails] = await Promise.all([
       ArtistModel.findOne({ name: singerName }).exec(),
       AlbumModel.findById(albumId).exec(),
-      UserModel.findById(currentUserId).exec(),
+      UserModel.findOne({email:currentUserEmail}).exec(),
     ]);
 
     if (!singerDetails) {
@@ -70,7 +71,7 @@ export async function POST(req: NextRequest) {
       genre,
       releaseDate,
       albumDetails: albumId,
-      contributedBy: currentUserId,
+      contributedBy: userDetails._id,
     });
 
     if (!newSongCreated) {
@@ -90,7 +91,7 @@ export async function POST(req: NextRequest) {
         { new: true }
       ).exec(),
       UserModel.findByIdAndUpdate(
-        currentUserId,
+        userDetails._id,
         { $push: { contributedLyrics: newSongCreated._id } },
         { new: true }
       ).exec(),

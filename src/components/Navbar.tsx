@@ -74,12 +74,12 @@ const Navbar = () => {
               <Link href="/login" className="hover:underline transition-colors">
                 Login
               </Link>
-              <Link
+              {/* <Link
                 href="/signup"
                 className="hover:underline transition-colors"
               >
                 SignUp
-              </Link>
+              </Link> */}
             </div>
           )}
         </div>

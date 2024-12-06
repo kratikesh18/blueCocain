@@ -9,11 +9,13 @@ if (LyricsModel) {
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const artistId = searchParams.get("artistId");
+  
   if (!artistId) {
     throw new Error("ArtistId Not found");
   }
 
   await dbConnect();
+
   try {
     const fetchedArtistDetails = await ArtistModel.findById(artistId)
       .populate({
@@ -37,10 +39,11 @@ export async function GET(req: NextRequest) {
     }
   } catch (error: any) {
     console.log(error.message);
+
     return Response.json({
       sucess: false,
       message: `Error occured fucked up:${error.message}`,
       result: null,
-    });
+    }, {status:500});
   }
 }

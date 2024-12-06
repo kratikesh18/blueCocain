@@ -71,7 +71,7 @@ const LyricsSchema: Schema<Lyrics> = new Schema(
     },
     albumArt: {
       type: String,
-      required: false,
+      required:false
     },
     genre: {
       type: String,

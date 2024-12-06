@@ -1,94 +1,85 @@
 "use server";
 import dbConnect from "@/lib/dbConnect";
 import AlbumModel from "@/models/AlbumModel";
-import ArtistModel  from "@/models/ArtistModel";
+import ArtistModel from "@/models/ArtistModel";
 import { NextRequest, NextResponse } from "next/server";
+import mongoose from "mongoose";
 
 export async function POST(req: NextRequest) {
   await dbConnect();
-  // const session = await startSession();
+
+  const session = await mongoose.startSession();
+  session.startTransaction();
+
   try {
     const { albumArtUrl, albumName, genre, singerName, releaseDate } =
       await req.json();
-    console.log(albumArtUrl, albumName, genre, singerName, releaseDate);
-    if (
-      [albumArtUrl, albumName, genre, singerName, releaseDate].some(
-        (field) => field.trim() == ""
-      )
-    ) {
+
+    // Validate input
+    if (!albumArtUrl || !albumName || !genre || !singerName || !releaseDate) {
       return NextResponse.json(
         { success: false, message: "All fields are required" },
         { status: 400 }
       );
     }
-    // Check if an album with the same name and release date already exists
-    const existingAlbum = await AlbumModel.findOne({
-      albumName,
-      releaseDate,
-    });
+
+    // Check if album exists
+    const existingAlbum = await AlbumModel.findOne({ albumName, releaseDate });
     if (existingAlbum) {
       return NextResponse.json(
-        {
-          success: false,
-          message: "Album already exists with the same name and release date",
-        },
+        { success: false, message: "Album already exists with the same name and release date" },
         { status: 400 }
       );
     }
 
-    // Find the artist by name
+    // Find the artist
     const findingArtist = await ArtistModel.findOne({ name: singerName });
     if (!findingArtist) {
       return NextResponse.json(
-        {
-          success: false,
-          message: "Artist not found",
-        },
+        { success: false, message: "Artist not found" },
         { status: 404 }
       );
     }
 
-    // session.startTransaction();
-
     // Create the new album
-    const newAlbum = await AlbumModel.create({
-      albumName,
-      albumArt: albumArtUrl,
-      releaseDate,
-      by: findingArtist._id,
-      genre,
-    });
+    const newAlbum = await AlbumModel.create(
+      [
+        {
+          albumName,
+          albumArt: albumArtUrl,
+          releaseDate,
+          by: findingArtist._id,
+          genre,
+        },
+      ],
+      { session }
+    );
 
-    if (!newAlbum) {
-      throw new Error("Error while creating the album");
-    }
-
-    console.log("Album created successfully: ", newAlbum);
-    // await session.commitTransaction();
-
-    // session.startTransaction();
+    // Update artist with the new album ID
     const updatedSinger = await ArtistModel.findByIdAndUpdate(
       findingArtist._id,
-      { $push: { albums: newAlbum._id } },
-      { new: true }
+      { $push: { albums: newAlbum[0]._id } },
+      { new: true, session }
     );
-    // await session.commitTransaction();
-    console.log("printing the updated Singer ", updatedSinger);
+
     if (!updatedSinger) {
-      await AlbumModel.findByIdAndDelete(newAlbum._id);
       throw new Error(
-        "Error updating the artist with the new album ID. The created album has been deleted."
+        "Error updating the artist with the new album ID. Rolling back transaction."
       );
     }
 
-    // session.endSession();
+    // Commit transaction
+    await session.commitTransaction();
+    session.endSession();
 
     return NextResponse.json({
       success: true,
       message: "Album created successfully",
-      result: newAlbum._id,
+      result: newAlbum[0]._id,
     });
   } catch (error: any) {
+    await session.abortTransaction();
+    session.endSession();
     console.error("Error occurred:", error.message);
     return NextResponse.json(
       { success: false, message: `Error occurred: ${error.message}` },

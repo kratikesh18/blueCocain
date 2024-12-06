@@ -5,7 +5,8 @@ import LogoutIcon from "../icons/LogoutIcon";
 import UserIcon from "../icons/UserIcon";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
-import { HomeIcon } from "@radix-ui/react-icons";
+import HomeIcon from "../icons/HomeIcon";
+
 
 export function PopOverNav({ session }: { session: Session }) {
   const pathname = usePathname();
@@ -13,9 +14,9 @@ export function PopOverNav({ session }: { session: Session }) {
   return (
     <div className="w-fit flex flex-col justify-center items-center gap-4">
       {pathname === "/profile" ? (
-        <Link href={"/"} className="flex justify-center items-center gap-2">
+        <Link href={"/"} className="flex justify-center items-center gap-1">
           <span>Home</span>
-          <HomeIcon />
+          <HomeIcon/>
         </Link>
       ) : (
         <Link href={"/profile"} className="flex justify-center items-center gap-1">

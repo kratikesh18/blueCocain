@@ -46,7 +46,7 @@ export async function GET(req: NextRequest) {
     return Response.json(
       {
         success: false,
-        message: "Error while finding Albums",
+        message: `Error while finding Albums ${error}`,
       },
       { status: 404 }
     );

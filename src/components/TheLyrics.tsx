@@ -130,7 +130,7 @@ const TheLyrics: React.FC<TheLyricsProps> = ({
       </div>
 
       <div
-        className={`flex flex-col gap-4 text-left h-full text-2xl font-semibold w-full mt-4 p-4 ${colorToBg} shadow-lg rounded-lg overflow-y-auto md:w-1/2 md:overflow-y-scroll scrollbar-thin scrollbar-thumb-black/20 scrollbar-track-black/20`}
+        className={`flex flex-col gap-4 text-left h-full text-2xl font-semibold w-full my-4 p-4 ${colorToBg} shadow-lg rounded-lg md:w-1/2 overflow-y-scroll scrollbar-thin scrollbar-thumb-black/20 scrollbar-track-black/20`}
       >
         {isEditing && (
           <LyricsEditor

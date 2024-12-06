@@ -28,7 +28,7 @@ export async function GET(req: NextRequest) {
         select: "name",
         model: "Artist",
         strictPopulate: false,
-      })
+      }).sort({ createdAt: -1 });
     return Response.json(
       {
         success: true,
