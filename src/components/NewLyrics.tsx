@@ -32,7 +32,10 @@ const GatherSongDetails: React.FC<{ albumdetailsProps: AlbumDetails }> = ({
 }) => {
   const { data: session, status } = useSession();
   console.log("printing SEssion in New Lyrics" , session)
-  const currentUserEmail = session?.user.email;
+  if(!session){
+    return <div>No session Found</div>;
+  }
+  const currentUserEmail = session.user?.email || "";
 
   const [artistname, setArtistname] = useState("");
   const [findingArtist, setFindingArtist] = useState(false);
