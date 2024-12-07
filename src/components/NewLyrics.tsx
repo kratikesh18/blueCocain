@@ -31,31 +31,41 @@ const GatherSongDetails: React.FC<{ albumdetailsProps: AlbumDetails }> = ({
   albumdetailsProps,
 }) => {
   const { data: session, status } = useSession();
-  console.log("printing SEssion in New Lyrics" , session)
-  if(!session){
-    return <div>No session Found</div>;
-  }
-  const currentUserEmail = session.user?.email || "";
+  const router = useRouter();
 
+  const currentUserEmail = session?.user?.email || "";
   const [artistname, setArtistname] = useState("");
   const [findingArtist, setFindingArtist] = useState(false);
   const debouncedArtistName = useDebounce(artistname, 300);
-
   const [artistDetails, setArtistDetails] = useState<SingerDetails[] | null>(null);
-
-  const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const form = useForm<z.infer<typeof NewLyricsSchema>>({
+    resolver: zodResolver(NewLyricsSchema),
+    defaultValues: {
+      songName: "",
+      singerName: albumdetailsProps.by.name || "",
+      albumName: albumdetailsProps.albumName || "",
+      genre: albumdetailsProps.genre || "",
+      albumArtUrl: "",
+      releaseDate:
+        albumdetailsProps.releaseDate
+          ? new Date(albumdetailsProps.releaseDate).toISOString().split("T")[0]
+          : new Date().toISOString().split("T")[0],
+    },
+  });
 
   useEffect(() => {
     const findArtists = async () => {
+      if (!debouncedArtistName) {
+        setArtistDetails(null);
+        return;
+      }
+
       setFindingArtist(true);
       try {
-        if (debouncedArtistName) {
-          const response = await axios.get(`/api/validateArtist?artistname=${debouncedArtistName}`);
-          setArtistDetails(response.data.result || []);
-        } else {
-          setArtistDetails(null);
-        }
+        const response = await axios.get(`/api/validateArtist?artistname=${debouncedArtistName}`);
+        setArtistDetails(response.data.result || []);
       } catch (error) {
         console.error("Artist search error:", error);
       } finally {
@@ -64,10 +74,6 @@ const GatherSongDetails: React.FC<{ albumdetailsProps: AlbumDetails }> = ({
     };
 
     findArtists();
-
-    return () => {
-      setFindingArtist(false); // Cleanup
-    };
   }, [debouncedArtistName]);
 
   const handleSubmit = async (data: z.infer<typeof NewLyricsSchema>) => {
@@ -87,7 +93,6 @@ const GatherSongDetails: React.FC<{ albumdetailsProps: AlbumDetails }> = ({
       form.reset();
       router.push(`/lyrics/${response.data.result._id}`);
     } catch (error: any) {
-      console.error("Failed to add lyrics:", error.message);
       toast({
         title: "Failed to add lyrics",
         description: error.message,
@@ -97,18 +102,6 @@ const GatherSongDetails: React.FC<{ albumdetailsProps: AlbumDetails }> = ({
       setIsSubmitting(false);
     }
   };
-
-  const form = useForm<z.infer<typeof NewLyricsSchema>>({
-    resolver: zodResolver(NewLyricsSchema),
-    defaultValues: {
-      songName: "",
-      singerName: albumdetailsProps.by.name || "",
-      albumName: albumdetailsProps.albumName || "",
-      genre: albumdetailsProps.genre || "",
-      albumArtUrl: "",
-      releaseDate: new Date(albumdetailsProps.releaseDate).toISOString().split("T")[0] || new Date().toISOString().split("T")[0],
-    },
-  });
 
   if (status === "loading") {
     return <LoadingSpinner />;
@@ -187,9 +180,7 @@ const GatherSongDetails: React.FC<{ albumdetailsProps: AlbumDetails }> = ({
                 <FormItem>
                   <FormLabel className="text-white">
                     Album Art URL{" "}
-                    <span className="text-xs italic text-gray-400">
-                      (Optional)
-                    </span>
+                    <span className="text-xs italic text-gray-400">(Optional)</span>
                   </FormLabel>
                   <Input {...field} placeholder="https://example.org/img" className="bg-gray-700 text-white" />
                   <FormMessage />
