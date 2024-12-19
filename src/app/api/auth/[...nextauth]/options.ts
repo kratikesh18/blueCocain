@@ -1,8 +1,5 @@
 import { NextAuthOptions } from "next-auth";
 import SpotifyProvider from "next-auth/providers/spotify";
-import clientPromise from "./mongoConfig";
-import { MongoDBAdapter } from "@auth/mongodb-adapter";
-import { Adapter } from "next-auth/adapters";
 
  async function refreshAccessToken(token: any) {
   console.log("Refreshing AccessToken mf");
@@ -44,12 +41,14 @@ import { Adapter } from "next-auth/adapters";
     };
   }
 }
+
 const scopes = [
   "user-read-currently-playing",
   "user-read-playback-state",
   "user-read-private",
   "user-read-email",
 ].join(" ");
+
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -86,11 +85,7 @@ export const authOptions: NextAuthOptions = {
       return await refreshAccessToken(token);
     },
     async session({ session, token }) {
-      // Make the access token available in the session
-      console.log("in the seession");
       session.accessToken = token.accessToken as string;
-      // console.log("printing the session", session.accessToken)
-
       return session;
     },
   },

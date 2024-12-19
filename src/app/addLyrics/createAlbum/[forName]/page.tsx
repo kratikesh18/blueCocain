@@ -7,15 +7,15 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { NewAlbumSchema } from "@/schemas/NewAlbumSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import axios from "axios";
 import { useParams, useRouter } from "next/navigation";
 import ArtistSearchResult from "@/components/HomepageComponents/ArtistSearchResult";
+import axios from "axios";
+import { z } from "zod";
 import { useDebounce } from "@/hooks/useDebounce";
 
 interface SingerDetails {
@@ -32,6 +32,7 @@ const NewAlbumPage = () => {
   const [artistDetails, setArtistDetails] = useState<SingerDetails[] | null>(
     null
   );
+
   const debouncedArtistName = useDebounce(artistname, 300);
   const [findingArtist, setFindingArtist] = useState(false);
 
@@ -44,9 +45,11 @@ const NewAlbumPage = () => {
             `/api/validateArtist?artistname=${debouncedArtistName}`
           );
           setArtistDetails(response.data.result);
-          setFindingArtist(false);
-        } catch (error) {
-          console.error(error);
+          
+        } catch (error:any) {
+          console.error(error.message);
+         
+        }finally{
           setFindingArtist(false);
         }
       } else {
@@ -58,6 +61,7 @@ const NewAlbumPage = () => {
 
   const form = useForm<z.infer<typeof NewAlbumSchema>>({
     resolver: zodResolver(NewAlbumSchema),
+
     defaultValues: {
       albumArtUrl: "",
       albumName: albumName || "",
@@ -69,7 +73,7 @@ const NewAlbumPage = () => {
 
   const onSubmit = async (data: z.infer<typeof NewAlbumSchema>) => {
     try {
-      const response = await axios.post("/api/createNewAlbum", data);
+      const response = await axios.post("/api/createNewAlbum", {data, artistDetails});
       console.log("Printing the response ", response);
       router.push(`/addLyrics/createLyrics/${response.data.result}`);
     } catch (error) {
@@ -82,6 +86,7 @@ const NewAlbumPage = () => {
       <h1 className="text-4xl font-bold text-center mb-8 theme-text-style text-white">
         Create New Album
       </h1>
+
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -122,6 +127,7 @@ const NewAlbumPage = () => {
                   className="text-white bg-gray-800 border-none focus:ring-2 focus:ring-blue-500"
                   placeholder="Enter singer name"
                 />
+
                 <ArtistSearchResult
                   artistDetails={artistDetails}
                   artistname={artistname}
@@ -129,6 +135,7 @@ const NewAlbumPage = () => {
                   setArtistname={setArtistname}
                   setFieldValue={field.onChange}
                 />
+
                 <FormMessage />
               </FormItem>
             )}

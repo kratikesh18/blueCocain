@@ -1,8 +1,10 @@
 "use server";
 import dbConnect from "@/lib/dbConnect";
 import AlbumModel from "@/models/AlbumModel";
-import ArtistModel from "@/models/ArtistModel";
-import LyricsModel from "@/models/LyricsModel";
+import { Album } from "@/models/AlbumModel12";
+import ArtistModel, { Artist } from "@/models/ArtistModel";
+import LyricsModel, { Lyrics } from "@/models/LyricsModel";
+
 import UserModel from "@/models/UserModel";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -13,7 +15,7 @@ export async function POST(req: NextRequest) {
     const { data: songDetails, currentUserEmail, albumId } = await req.json();
     const { songName, albumName, genre, singerName, releaseDate } = songDetails;
 
-    console.log(songDetails, currentUserEmail)
+    console.log(songDetails, currentUserEmail);
     // Validate required fields
     if (
       [
@@ -36,69 +38,109 @@ export async function POST(req: NextRequest) {
     }
 
     // Check if the user, album, and artist exist
-    const [singerDetails, albumDetails, userDetails] = await Promise.all([
-      ArtistModel.findOne({ name: singerName }).exec(),
-      AlbumModel.findById(albumId).exec(),
-      UserModel.findOne({email:currentUserEmail}).exec(),
-    ]);
 
-    if (!singerDetails) {
-      return NextResponse.json(
-        { success: false, message: "Artist not found" },
-        { status: 404 }
-      );
-    }
+    const singerDetails = await ArtistModel.findOne({ name: singerName });
 
-    if (!albumDetails) {
-      return NextResponse.json(
-        { success: false, message: "Album not found" },
-        { status: 404 }
-      );
-    }
+    const albumDetails = await AlbumModel.findById(albumId);
 
-    if (!userDetails) {
-      return NextResponse.json(
-        { success: false, message: "User not found" },
-        { status: 404 }
-      );
-    }
+    const userDetails = await UserModel.findOne({
+      email: currentUserEmail,
+    });
 
-    // Create the new song/lyrics entry
-    const newSongCreated = await LyricsModel.create({
+    // console.log(
+    //   "Printing Singer",
+    //   singerDetails,
+    //   "Printing Album Details ",
+    //   albumDetails
+    // );
+
+    // if (!singerDetails) {
+    //   return NextResponse.json(
+    //     { success: false, message: "Artist not found" },
+    //     { status: 404 }
+    //   );
+    // }
+
+    // if (!albumDetails) {
+    //   return NextResponse.json(
+    //     { success: false, message: "Album not found" },
+    //     { status: 404 }
+    //   );
+    // }
+
+    // if (!userDetails) {
+    //   return NextResponse.json(
+    //     { success: false, message: "User not found" },
+    //     { status: 404 }
+    //   );
+    // }
+
+    // // Create the new song/lyrics entry
+    const newSongCreated: Promise<Lyrics> = await LyricsModel.create({
       songName,
       singer: singerDetails._id,
       albumName,
       genre,
       releaseDate,
       albumDetails: albumId,
-      contributedBy: userDetails._id,
+      contributedBy: userDetails?._id,
     });
+    // console.log("\nprinting New song created ", newSongCreated);
 
     if (!newSongCreated) {
-      throw new Error("Failed to create lyrics");
+      throw Error("Failed To Create New Song");
     }
 
-    // Update the artist, album, and user with the new song ID
-    const [artistUpdate, albumUpdate, userUpdate] = await Promise.all([
-      ArtistModel.findByIdAndUpdate(
+    //updating the singer with this song
+    const updatedArtist: Promise<Artist | any> =
+      await ArtistModel.findByIdAndUpdate(
         singerDetails._id,
-        { $push: { songs: newSongCreated._id } },
+        {
+          $push: { songs: (await newSongCreated)._id, albums: albumId },
+        },
         { new: true }
-      ).exec(),
-      AlbumModel.findByIdAndUpdate(
-        albumId,
-        { $push: { tracks: newSongCreated._id } },
-        { new: true }
-      ).exec(),
-      UserModel.findByIdAndUpdate(
-        userDetails._id,
-        { $push: { contributedLyrics: newSongCreated._id } },
-        { new: true }
-      ).exec(),
-    ]);
+      );
 
-    if (!artistUpdate || !albumUpdate || !userUpdate) {
-      await LyricsModel.findByIdAndDelete(newSongCreated._id);
+    //updating the album
+    const updatedAlbum: Promise<Album | any> =
+      await AlbumModel.findByIdAndUpdate(albumId, {
+        $push: { tracks: (await newSongCreated)._id },
+      });
+
+    //artist and album is updated
+
+    // if (!newSongCreated) {
+    //   throw new Error("Failed to create lyrics");
+    // }
+    // console.log(newSongCreated);
+
+    // // Update the artist, album, and user with the new song ID
+    // const [artistUpdate, albumUpdate, userUpdate] = await Promise.all([
+    //   ArtistModel.findByIdAndUpdate(
+    //     singerDetails._id,
+    //     { $push: { songs: newSongCreated._id } },
+    //     { new: true }
+    //   ).exec(),
+    //   AlbumModel.findByIdAndUpdate(
+    //     albumId,
+    //     { $push: { tracks: newSongCreated._id } },
+    //     { new: true }
+    //   ).exec(),
+    //   UserModel.findByIdAndUpdate(
+    //     userDetails._id,
+    //     { $push: { contributedLyrics: newSongCreated._id } },
+    //     { new: true }
+    //   ).exec(),
+    // ])
+    //   .then(() => {
+    //     console.log("All documents are updated successfully");
+    //   })
+    //   .catch((err) => {
+    //     console.log(err.message);
+    //   });
+
+    if (!updatedAlbum || !updatedArtist) {
+      await LyricsModel.findByIdAndDelete((await newSongCreated)?._id);
       throw new Error(
         "Failed to update artist, album, or user. Lyrics creation has been rolled back."
       );

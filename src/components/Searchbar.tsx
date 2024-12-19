@@ -31,6 +31,7 @@ export const Searchbar = () => {
       />
 
       {loading && <div className="loader"></div>}
+      
       {error && (
         <div className={`text-red-700 ${error ? "block" : "hidden"}`}>
           {error}

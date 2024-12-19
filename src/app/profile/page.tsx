@@ -1,5 +1,5 @@
 "use client";
-import LIkeIcon from "@/components/icons/LIkeIcon";
+import LIkeIcon from "@/components/icons/LikeIcon";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import SpotifyPlayerState from "@/components/ProfilePageComponents/SpotifyPlayerState";
 import { SearchResultType } from "@/components/SearchTile";
@@ -7,12 +7,9 @@ import ProfileImage from "@/components/specials/ProfileImage";
 import { ScrollAreas } from "@/components/specials/ScrollAreas";
 import { Artist } from "@/models/ArtistModel";
 import axios from "axios";
-import { set } from "lodash";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-
-
 
 const ProfilePage = () => {
   const { data: session, status } = useSession();
@@ -21,7 +18,6 @@ const ProfilePage = () => {
   const [allItems, setAllItems] = useState<SearchResultType[] | null>(null);
   const [allSingers, setAllSingers] = useState<Artist[] | null>(null);
   const [loading, setLoading] = useState({ lyrics: false, singers: false });
- 
 
   // Fetch Lyrics Data
   const getAllLyrics = async () => {
@@ -49,16 +45,21 @@ const ProfilePage = () => {
     }
   };
 
-
+  const getProfileData = async () => {
+    try {
+      const response = await axios(`/api/getProfileData?id=`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+    } catch (error) {}
+  };
 
   useEffect(() => {
     getAllLyrics();
     getAllSingers();
   }, []);
-
-  useEffect(() => {
-    // getCurrentPlayerState();
-  }, [session]);
 
   if (loading.lyrics || loading.singers || status === "loading") {
     return <LoadingSpinner />;
@@ -90,15 +91,17 @@ const ProfilePage = () => {
       </div>
 
       {/* Spotify Section */}
-      <div className="mt-8" >
-        <h1 className="text-xl text-white my-4 font-bold">Currently On Spotify</h1>
+      <div className="mt-8">
+        <h1 className="text-xl text-white my-4 font-bold">
+          Currently On Spotify
+        </h1>
         <SpotifyPlayerState session={session} />
       </div>
 
       {/* Favorite Songs Section */}
       <div className="mt-16 w-full md:mt-20">
         <h1 className="text-white text-2xl font-semibold flex items-center gap-2 mb-4">
-          Your Favorite Songs <LIkeIcon />
+          Your contributed Songs <LIkeIcon />
         </h1>
         {allItems?.length ? (
           <ScrollAreas allItems={allItems} />

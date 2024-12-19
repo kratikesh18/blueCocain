@@ -16,6 +16,7 @@ export interface SearchResultType {
 
 const SearchTile = ({ item }: { item: Lyrics | SearchResultType }) => {
   return (
+
     <Link
       href={`/lyrics/${item._id}`}
       className={cn(
@@ -23,6 +24,7 @@ const SearchTile = ({ item }: { item: Lyrics | SearchResultType }) => {
         "hover:bg-gray-700 w-full max-w-lg mx-auto"
       )}
     >
+      
       <div className="flex">
         {/* Album Art Section */}
         <div className="flex-shrink-0 w-1/3 relative">
@@ -71,14 +73,18 @@ const SearchTile = ({ item }: { item: Lyrics | SearchResultType }) => {
             >
               {item.singer.name}
             </Link>
+            
             <p className="text-sm text-gray-400">
               {item.releaseDate
                 ? new Date(item.releaseDate).toLocaleDateString()
                 : "Release date not available"}
             </p>
           </div>
+
         </div>
       </div>
+
+
     </Link>
   );
 };

@@ -1,6 +1,5 @@
 "use client";
 import LoadingSpinner from "@/components/LoadingSpinner";
-import { Album } from "@/models/AlbumModel";
 import axios from "axios";
 import mongoose from "mongoose";
 import Link from "next/link";
@@ -13,11 +12,12 @@ interface DetailsPageDataType {
   tracks: [
     { _id: string; songName: string; singer: { _id: string; name: string } }
   ]; // References to Lyrics model
-  by: { _id: mongoose.Schema.Types.ObjectId; name: string }; // Reference to the Artist model
+  by: [{ _id: mongoose.Schema.Types.ObjectId; name: string }]; // Reference to the Artist model
   releaseDate: Date;
   genre: string;
   keywords?: string[];
 }
+
 const AlbumDetailsPage = () => {
   const { albumId } = useParams();
   const [detailsPageData, setDetailsPageData] =
@@ -57,13 +57,19 @@ const AlbumDetailsPage = () => {
             />
             <div>
               <h1 className="text-3xl">{detailsPageData.albumName}</h1>
-              <p><span className="text-gray-400">By:</span> {detailsPageData.by.name}</p>{" "}
+              <p>
+                <span className="text-gray-50">By:</span>{" "}
+                {detailsPageData.by[0].name}
+              </p>{" "}
               {/* Adjust this line if 'by' contains an object with artist details */}
               <p>
-              <span className="text-gray-400">Release Date:</span>{" "}
+                <span className="text-gray-400">Release Date:</span>{" "}
                 {new Date(detailsPageData.releaseDate).toDateString()}
               </p>
-              <p><span className="text-gray-400">Genre:</span> {detailsPageData.genre}</p>
+              <p>
+                <span className="text-gray-400">Genre:</span>{" "}
+                {detailsPageData.genre}
+              </p>
             </div>
           </div>
 

@@ -21,7 +21,7 @@ export async function GET(req: NextRequest) {
       return Response.json(
         {
           success: false,
-          message: "ARtist not found",
+          message: "Artist not found",
         },
         { status: 404 }
       );

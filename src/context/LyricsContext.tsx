@@ -1,4 +1,5 @@
 "use client";
+
 import React, { createContext, useContext, useState, ReactNode } from "react";
 import axios from "axios";
 
@@ -24,14 +25,6 @@ export interface Lyrics {
   releaseDate?: Date;
   albumArt?: string;
 }
-// _id?: string;
-// songName: string;
-// singer: { _id?: string; name: string }; // Reference to the Artist model
-// albumDetails?: {  albumArt: string;  };
-// albumName?: string;
-// genre?: string;
-// releaseDate?: Date;
-// albumArt?: string;
 
 export interface LyricsDetails extends Lyrics {
   lyricsText: LyricsLine[];
@@ -52,7 +45,6 @@ export interface LyricsContextType {
 export const LyricsContext = createContext<LyricsContextType | undefined>(
   undefined
 );
-
 
 // LyricsProvider component
 export const LyricsProvider = ({ children }: { children: ReactNode }) => {
@@ -77,19 +69,6 @@ export const LyricsProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  // const fetchLyricsDetails = async (id: string) => {
-  //   setLoading(true);
-  //   setError(null);
-  //   try {
-  //     const response = await axios.get(`/api/lyricsLines?id=${id}`);
-  //     console.log("Printing the result in context", response.data.results);
-  //     setLyricsDetails(response.data.results);
-  //   } catch (error) {
-  //     setError("Error while fetching Lyrics details");
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
   const fetchLyricsDetails = async (id: string) => {
     setLoading(true);
     setError(null);
@@ -129,3 +108,26 @@ export const useLyrics = () => {
   }
   return context;
 };
+
+// const fetchLyricsDetails = async (id: string) => {
+//   setLoading(true);
+//   setError(null);
+//   try {
+//     const response = await axios.get(`/api/lyricsLines?id=${id}`);
+//     console.log("Printing the result in context", response.data.results);
+//     setLyricsDetails(response.data.results);
+//   } catch (error) {
+//     setError("Error while fetching Lyrics details");
+//   } finally {
+//     setLoading(false);
+//   }
+// };
+
+// _id?: string;
+// songName: string;
+// singer: { _id?: string; name: string }; // Reference to the Artist model
+// albumDetails?: {  albumArt: string;  };
+// albumName?: string;
+// genre?: string;
+// releaseDate?: Date;
+// albumArt?: string;

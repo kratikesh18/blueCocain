@@ -16,37 +16,39 @@ const ArtistSchema: Schema<Artist> = new Schema(
     name: {
       type: String,
       trim: true,
-      required: true,
+      required: [true, "Artist Name is required"],
     },
     bio: {
       type: String,
       trim: true,
-      required: true,
+      required: [true, "Bio of Artist is Required"],
     },
     artistProfileImage: {
       type: String,
-      required: true,
+      required: [true, "Artist Profile is Required"],
       default: "",
     },
     genre: {
       type: [String],
       trim: true,
-      required: true,
+      required: [true, "Genre is Required"],
     },
     debutDate: {
       type: Date,
       default: Date.now(),
-      required: true,
+      required: [true, "DebuteDate is required"],
     },
     songs: {
       type: [Schema.Types.ObjectId],
       ref: "Lyrics",
-      required: false,
+      required: [true, "Songs are Required for Artist Profile"],
+      default: [],
     },
     albums: {
       type: [Schema.Types.ObjectId],
       ref: "Album",
-      required: false,
+      required: [true, "Album is required for Artist Profile"],
+      default: [],
     },
     keywords: {
       type: [String],
@@ -55,7 +57,6 @@ const ArtistSchema: Schema<Artist> = new Schema(
   },
   {
     timestamps: true,
-    strict:true
   }
 );
 

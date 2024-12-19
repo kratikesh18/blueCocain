@@ -36,6 +36,7 @@ const TheLyrics: React.FC<TheLyricsProps> = ({
     }
   }, [songId]);
 
+
   useEffect(() => {
     if (!isEditing) {
       const interval = setInterval(
@@ -86,13 +87,20 @@ const TheLyrics: React.FC<TheLyricsProps> = ({
 
   if (loading) return <LoadingSpinner />;
 
-  if(error){
-    return <div className="flex flex-col justify-center h-screen items-center p-4 gap-4 bg-black text-white text-center" >
-      <h1 className="font-bold text-2xl ">Hold Still.. just refresh or try again after some time</h1>
-      <p>blueCocain is working fine in all aspects, this is the issue occurs when the db is in idle mode because of lesser traffic db automatically shuts itself down to save resources</p>
-    </div>
+  if (error) {
+    return (
+      <div className="flex flex-col justify-center h-screen items-center p-4 gap-4 bg-black text-white text-center">
+        <h1 className="font-bold text-2xl ">
+          Hold Still.. just refresh or try again after some time
+        </h1>
+        <p>
+          blueCocain is working fine in all aspects, this is the issue occurs
+          when the db is in idle mode because of lesser traffic db automatically
+          shuts itself down to save resources
+        </p>
+      </div>
+    );
   }
-
 
   if (!lyricsDetails) return <LoadingSpinner />;
 
@@ -117,6 +125,7 @@ const TheLyrics: React.FC<TheLyricsProps> = ({
   ];
 
   let colorToBg = null;
+
   if (songId) {
     const songIdBase10 = Math.ceil(parseInt(songId, 16));
     const colorIndex = songIdBase10 % bgColors.length;
@@ -151,6 +160,7 @@ const TheLyrics: React.FC<TheLyricsProps> = ({
               handleLineChange={handleLineChange}
             />
           ))}
+          
         {!isEditing && updatedLyrics.length == 0 && (
           <div className="h-full w-full flex justify-center flex-col items-center text-white">
             <h1>No Lyrics Found Start Contributing</h1>

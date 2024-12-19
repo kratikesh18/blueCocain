@@ -29,7 +29,7 @@ export async function generateArtistBio(artistName: string): Promise<string> {
     });
 
     const result = await chatSession.sendMessage(
-      `Write a short and crispy profile bio for artist ${artistName} in 30 words, without including the name, give debutedate in ISO 8601 format, and genre (only one) seperately`
+      `Write concise 30-word bio for artist ${artistName} , without including the name, give debutedate in ISO 8601 format, and genre (only one) seperately`
     );
 
     return result.response.text();

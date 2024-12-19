@@ -1,13 +1,13 @@
 import Link from "next/link";
 import React from "react";
-import LIkeIcon from "./icons/LIkeIcon";
+import LIkeIcon from "./icons/LikeIcon";
 
 interface lyricsDetailsType {
   _id: string;
   songName: string;
   singer: {
     name: string;
-    _id?:string;
+    _id?: string;
   };
   albumDetails: { albumArt: string };
   albumName?: string;
@@ -31,22 +31,28 @@ const LyricsInfoTile = ({
             className="h-full w-full object-cover rounded-lg md:shadow-md"
           />
         </div>
-    
+
         <div className="w-full h-full flex flex-col py-1 justify-around md:justify-end text-white  inset-0 bg-gradient-to-t from-black/80 to-gray-800/60 md:absolute px-4 md:pb-2 ">
           <div>
             <div className="flex justify-between items-center w-full">
-            <h1 className="text-xl font-bold truncate ">
-              {lyricsDetails.songName}
-            </h1>
-            <LIkeIcon/>
+              <h1 className="text-xl font-bold truncate ">
+                {lyricsDetails.songName}
+              </h1>
+              <LIkeIcon />
             </div>
 
-            <h2 className="text-lg"><Link href={'#'}>{lyricsDetails.albumName}</Link></h2>
+            <h2 className="text-lg">
+              <Link href={"#"}>{lyricsDetails.albumName}</Link>
+            </h2>
             <p className="text-sm">{lyricsDetails.genre}</p>
           </div>
-          
+
           <div className="flex justify-between mt-4">
-            <h3 className="text-lg "><Link href={`/artist/${lyricsDetails.singer._id}`}>{lyricsDetails.singer.name}</Link></h3>
+            <h3 className="text-lg ">
+              <Link href={`/artist/${lyricsDetails.singer._id}`}>
+                {lyricsDetails.singer.name}
+              </Link>
+            </h3>
             <p className="text-sm self-end">
               {lyricsDetails.releaseDate &&
                 new Date(lyricsDetails.releaseDate).toLocaleDateString()}

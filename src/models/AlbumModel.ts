@@ -1,49 +1,51 @@
-import mongoose, { Document, Schema } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
-export interface Album extends Document {
+interface Album extends Document{
   albumName: string;
   albumArt: string;
-  tracks: Schema.Types.ObjectId[]; // References to Lyrics model
-  by: Schema.Types.ObjectId; // Reference to the Artist model
+  by: Schema.Types.ObjectId[];
   releaseDate: Date;
   genre: string;
-  keywords?: string[];
+  tracks: Schema.Types.ObjectId[];
 }
 
 const AlbumSchema: Schema<Album> = new Schema(
   {
     albumName: {
       type: String,
-      required: true,
+      trim:true,
+      required: [true, "AlbumName is required"],
     },
     albumArt: {
       type: String,
-      required: true,
+      trim:true,
+      required:[true, "AlbumArt is required"],
     },
     by: {
-      type: Schema.Types.ObjectId,
+      type: [Schema.Types.ObjectId],
       ref: "Artist",
-      required: true,
+      required: [true,"Artist is required"],
     },
     releaseDate: {
       type: Date,
-      required: true,
-    },
-    tracks: {
-      type: [Schema.Types.ObjectId],
-      ref: "Lyrics"
+      required: [true, "releaseDate is required"],
     },
     genre: {
       type: String,
+      trim:true,
+      required: [true, "genre is required"],
+    },
+    tracks: {
+      type: [Schema.Types.ObjectId],
+      ref: "Lyrics",
+      default: [],
+      required: [true, "tracks is required"],
     },
   },
-  { timestamps: true , strict:true}
+  {timestamps: true}
 );
 
 const AlbumModel =
-  (mongoose.models.Album as mongoose.Model<Album>) ||
-  mongoose.model<Album>("Album", AlbumSchema);
+  mongoose.models.Album || mongoose.model<Album>("Album", AlbumSchema);
 
-
-  
-export default AlbumModel;
+  export default AlbumModel;

@@ -37,7 +37,9 @@ const GatherSongDetails: React.FC<{ albumdetailsProps: AlbumDetails }> = ({
   const [artistname, setArtistname] = useState("");
   const [findingArtist, setFindingArtist] = useState(false);
   const debouncedArtistName = useDebounce(artistname, 300);
-  const [artistDetails, setArtistDetails] = useState<SingerDetails[] | null>(null);
+  const [artistDetails, setArtistDetails] = useState<SingerDetails[] | null>(
+    null
+  );
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm<z.infer<typeof NewLyricsSchema>>({
@@ -48,10 +50,9 @@ const GatherSongDetails: React.FC<{ albumdetailsProps: AlbumDetails }> = ({
       albumName: albumdetailsProps.albumName || "",
       genre: albumdetailsProps.genre || "",
       albumArtUrl: "",
-      releaseDate:
-        albumdetailsProps.releaseDate
-          ? new Date(albumdetailsProps.releaseDate).toISOString().split("T")[0]
-          : new Date().toISOString().split("T")[0],
+      releaseDate: albumdetailsProps.releaseDate
+        ? new Date(albumdetailsProps.releaseDate).toISOString().split("T")[0]
+        : new Date().toISOString().split("T")[0],
     },
   });
 
@@ -64,7 +65,9 @@ const GatherSongDetails: React.FC<{ albumdetailsProps: AlbumDetails }> = ({
 
       setFindingArtist(true);
       try {
-        const response = await axios.get(`/api/validateArtist?artistname=${debouncedArtistName}`);
+        const response = await axios.get(
+          `/api/validateArtist?artistname=${debouncedArtistName}`
+        );
         setArtistDetails(response.data.result || []);
       } catch (error) {
         console.error("Artist search error:", error);
@@ -114,14 +117,21 @@ const GatherSongDetails: React.FC<{ albumdetailsProps: AlbumDetails }> = ({
           Add New Lyrics
         </h1>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
+          <form
+            onSubmit={form.handleSubmit(handleSubmit)}
+            className="space-y-4"
+          >
             <FormField
               name="songName"
               control={form.control}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="text-white">Song Name</FormLabel>
-                  <Input {...field} type="text" className="bg-gray-700 text-white" />
+                  <Input
+                    {...field}
+                    type="text"
+                    className="bg-gray-700 text-white"
+                  />
                   <FormMessage />
                 </FormItem>
               )}
@@ -157,7 +167,11 @@ const GatherSongDetails: React.FC<{ albumdetailsProps: AlbumDetails }> = ({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="text-white">Album</FormLabel>
-                  <Input {...field} className="bg-gray-700 text-white" disabled />
+                  <Input
+                    {...field}
+                    className="bg-gray-700 text-white"
+                    disabled
+                  />
                   <FormMessage />
                 </FormItem>
               )}
@@ -180,9 +194,15 @@ const GatherSongDetails: React.FC<{ albumdetailsProps: AlbumDetails }> = ({
                 <FormItem>
                   <FormLabel className="text-white">
                     Album Art URL{" "}
-                    <span className="text-xs italic text-gray-400">(Optional)</span>
+                    <span className="text-xs italic text-gray-400">
+                      (Optional)
+                    </span>
                   </FormLabel>
-                  <Input {...field} placeholder="https://example.org/img" className="bg-gray-700 text-white" />
+                  <Input
+                    {...field}
+                    placeholder="https://example.org/img"
+                    className="bg-gray-700 text-white"
+                  />
                   <FormMessage />
                 </FormItem>
               )}
@@ -193,12 +213,20 @@ const GatherSongDetails: React.FC<{ albumdetailsProps: AlbumDetails }> = ({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="text-white">Release Date</FormLabel>
-                  <Input {...field} type="date" className="bg-gray-700 text-white" />
+                  <Input
+                    {...field}
+                    type="date"
+                    className="bg-gray-700 text-white"
+                  />
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Button type="submit" className="w-full py-2 bg-blue-600 hover:bg-blue-700" disabled={isSubmitting}>
+            <Button
+              type="submit"
+              className="w-full py-2 bg-blue-600 hover:bg-blue-700"
+              disabled={isSubmitting}
+            >
               {isSubmitting ? "Adding Lyrics..." : "Add Lyrics"}
             </Button>
           </form>
