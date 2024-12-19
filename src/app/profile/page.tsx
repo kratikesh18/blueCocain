@@ -1,5 +1,5 @@
 "use client";
-import LIkeIcon from "@/components/icons/LikeIcon";
+import LikeIcon from "@/components/icons/LikeIcon";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import SpotifyPlayerState from "@/components/ProfilePageComponents/SpotifyPlayerState";
 import { SearchResultType } from "@/components/SearchTile";
@@ -101,7 +101,7 @@ const ProfilePage = () => {
       {/* Favorite Songs Section */}
       <div className="mt-16 w-full md:mt-20">
         <h1 className="text-white text-2xl font-semibold flex items-center gap-2 mb-4">
-          Your contributed Songs <LIkeIcon />
+          Your contributed Songs <LikeIcon />
         </h1>
         {allItems?.length ? (
           <ScrollAreas allItems={allItems} />
