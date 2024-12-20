@@ -1,6 +1,7 @@
 import Link from "next/link";
 import React from "react";
-import { LikeIcon } from "./icons/LikeIcon";
+import LikeIcon from "./icons/LikeIcon";
+
 
 interface lyricsDetailsType {
   _id: string;

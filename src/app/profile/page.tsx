@@ -1,6 +1,6 @@
 "use client";
 
-import { LikeIcon } from "@/components/icons/LikeIcon";
+import LikeIcon from "@/components/icons/LikeIcon";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import SpotifyPlayerState from "@/components/ProfilePageComponents/SpotifyPlayerState";
 import { SearchResultType } from "@/components/SearchTile";

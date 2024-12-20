@@ -13,4 +13,4 @@ const LikeIcon = () => {
   );
 };
 
-export { LikeIcon };
+export default LikeIcon;
