@@ -1,7 +1,6 @@
 import Link from "next/link";
 import React from "react";
-import LikeIcon from "./icons/LikeIcon";
-
+import LikeIcon from "./icons/LIkeIcon";
 
 interface lyricsDetailsType {
   _id: string;
@@ -39,7 +38,7 @@ const LyricsInfoTile = ({
               <h1 className="text-xl font-bold truncate ">
                 {lyricsDetails.songName}
               </h1>
-              <LikeIcon/>
+              <LikeIcon />
             </div>
 
             <h2 className="text-lg">
