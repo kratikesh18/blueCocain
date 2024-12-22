@@ -1,15 +1,7 @@
 "use server";
 import dbConnect from "@/lib/dbConnect";
 import AlbumModel from "@/models/AlbumModel";
-import ArtistModel from "@/models/ArtistModel";
-import LyricsModel from "@/models/LyricsModel";
 import { NextRequest, NextResponse } from "next/server";
-if (ArtistModel) {
-  console.log(ArtistModel);
-}
-if (LyricsModel) {
-  console.log(LyricsModel);
-}
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);

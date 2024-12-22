@@ -1,6 +1,6 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Document, Schema } from "mongoose";
 
-interface Album extends Document{
+export interface Album extends Document {
   albumName: string;
   albumArt: string;
   by: Schema.Types.ObjectId[];
@@ -13,18 +13,18 @@ const AlbumSchema: Schema<Album> = new Schema(
   {
     albumName: {
       type: String,
-      trim:true,
+      trim: true,
       required: [true, "AlbumName is required"],
     },
     albumArt: {
       type: String,
-      trim:true,
-      required:[true, "AlbumArt is required"],
+      trim: true,
+      required: [true, "AlbumArt is required"],
     },
     by: {
       type: [Schema.Types.ObjectId],
       ref: "Artist",
-      required: [true,"Artist is required"],
+      required: [true, "Artist is required"],
     },
     releaseDate: {
       type: Date,
@@ -32,7 +32,7 @@ const AlbumSchema: Schema<Album> = new Schema(
     },
     genre: {
       type: String,
-      trim:true,
+      trim: true,
       required: [true, "genre is required"],
     },
     tracks: {
@@ -42,10 +42,10 @@ const AlbumSchema: Schema<Album> = new Schema(
       required: [true, "tracks is required"],
     },
   },
-  {timestamps: true}
+  { timestamps: true }
 );
 
 const AlbumModel =
   mongoose.models.Album || mongoose.model<Album>("Album", AlbumSchema);
 
-  export default AlbumModel;
+export default AlbumModel;

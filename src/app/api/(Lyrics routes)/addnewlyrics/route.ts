@@ -1,7 +1,6 @@
 "use server";
 import dbConnect from "@/lib/dbConnect";
-import AlbumModel from "@/models/AlbumModel";
-import { Album } from "@/models/AlbumModel12";
+import AlbumModel, { Album } from "@/models/AlbumModel";
 import ArtistModel, { Artist } from "@/models/ArtistModel";
 import LyricsModel, { Lyrics } from "@/models/LyricsModel";
 
@@ -104,7 +103,7 @@ export async function POST(req: NextRequest) {
     //updating the album
     const updatedAlbum: Promise<Album | any> =
       await AlbumModel.findByIdAndUpdate(albumId, {
-        $push: { tracks: (await newSongCreated)._id },
+        $push: { tracks: (await newSongCreated)._id, by: singerDetails._id },
       });
 
     //artist and album is updated

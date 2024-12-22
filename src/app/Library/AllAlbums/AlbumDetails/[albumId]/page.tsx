@@ -1,7 +1,6 @@
 "use client";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import axios from "axios";
-import mongoose from "mongoose";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -11,8 +10,8 @@ interface DetailsPageDataType {
   albumArt: string;
   tracks: [
     { _id: string; songName: string; singer: { _id: string; name: string } }
-  ]; // References to Lyrics model
-  by: [{ _id: mongoose.Schema.Types.ObjectId; name: string }]; // Reference to the Artist model
+  ];
+  by: [{ _id: string; name: string }]; // Reference to the Artist model
   releaseDate: Date;
   genre: string;
   keywords?: string[];
@@ -58,8 +57,13 @@ const AlbumDetailsPage = () => {
             <div>
               <h1 className="text-3xl">{detailsPageData.albumName}</h1>
               <p>
-                <span className="text-gray-50">By:</span>{" "}
-                {detailsPageData.by[0].name}
+                <span className="text-gray-50">By: </span>
+                {detailsPageData.by.map((eachArtist) => (
+                  <span className="">
+                    {eachArtist.name}
+                    {", "}
+                  </span>
+                ))}
               </p>{" "}
               {/* Adjust this line if 'by' contains an object with artist details */}
               <p>

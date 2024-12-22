@@ -36,7 +36,6 @@ const TheLyrics: React.FC<TheLyricsProps> = ({
     }
   }, [songId]);
 
-
   useEffect(() => {
     if (!isEditing) {
       const interval = setInterval(
@@ -160,7 +159,7 @@ const TheLyrics: React.FC<TheLyricsProps> = ({
               handleLineChange={handleLineChange}
             />
           ))}
-          
+
         {!isEditing && updatedLyrics.length == 0 && (
           <div className="h-full w-full flex justify-center flex-col items-center text-white">
             <h1>No Lyrics Found Start Contributing</h1>

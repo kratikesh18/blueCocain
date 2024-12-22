@@ -1,6 +1,7 @@
 import dbConnect from "@/lib/dbConnect";
-import AlbumModel from "@/models/AlbumModel";
-import { Album } from "@/models/AlbumModel12";
+import AlbumModel, { Album } from "@/models/AlbumModel";
+import ArtistModel from "@/models/ArtistModel";
+
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
@@ -10,7 +11,6 @@ export async function POST(req: NextRequest) {
 
     const { albumArtUrl, albumName, genre, singerName, releaseDate } = data;
     const { _id: singerId } = artistDetails[0];
-    console.log("priting singerid ", singerId);
 
     if (
       [albumArtUrl, albumName, genre, singerName, releaseDate].some(
@@ -45,7 +45,11 @@ export async function POST(req: NextRequest) {
     if (!newAlbum) {
       throw Error("Album Not Create");
     }
-
+    //album is created 
+    //now we have to assign it to the singer 
+    await ArtistModel.findByIdAndUpdate(singerId,{
+      $push:{}
+    })
     return NextResponse.json(
       {
         success: true,

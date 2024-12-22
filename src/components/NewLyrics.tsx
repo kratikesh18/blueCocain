@@ -22,7 +22,7 @@ interface SingerDetails {
 interface AlbumDetails {
   _id: string;
   albumName: string;
-  by: { name: string };
+  by: [{ name: string; _id: string }];
   releaseDate: string;
   genre: string;
 }
@@ -46,7 +46,7 @@ const GatherSongDetails: React.FC<{ albumdetailsProps: AlbumDetails }> = ({
     resolver: zodResolver(NewLyricsSchema),
     defaultValues: {
       songName: "",
-      singerName: albumdetailsProps.by.name || "",
+      singerName:  "",
       albumName: albumdetailsProps.albumName || "",
       genre: albumdetailsProps.genre || "",
       albumArtUrl: "",

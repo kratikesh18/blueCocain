@@ -1,9 +1,6 @@
 import Link from "next/link";
 import React from "react";
 
-
-
-
 interface lyricsDetailsType {
   _id: string;
   songName: string;
@@ -40,7 +37,6 @@ const LyricsInfoTile = ({
               <h1 className="text-xl font-bold truncate ">
                 {lyricsDetails.songName}
               </h1>
-        
             </div>
 
             <h2 className="text-lg">
@@ -51,6 +47,7 @@ const LyricsInfoTile = ({
 
           <div className="flex justify-between mt-4">
             <h3 className="text-lg ">
+              {}
               <Link href={`/artist/${lyricsDetails.singer._id}`}>
                 {lyricsDetails.singer.name}
               </Link>
