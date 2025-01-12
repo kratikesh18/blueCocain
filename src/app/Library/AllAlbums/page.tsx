@@ -4,6 +4,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 const AlbumsPage = () => {
   const [loading, setLoading] = useState(false);
@@ -25,6 +26,17 @@ const AlbumsPage = () => {
     getAllAlbums();
   }, []);
 
+  async function deleteAlbum(id: any) {
+    try {
+      const response = await axios.delete(`/api/deleteAlbum`, {
+        data: { albumId: id },
+      });
+      console.log(response.data.message);
+    } catch (error: any) {
+      console.log(error.message);
+    }
+  }
+
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -32,9 +44,9 @@ const AlbumsPage = () => {
       </div>
     );
   }
-    
+
   return (
-    <div className="container mx-auto p-4 bg-gradient-to-b from-gray-800 via-slate-900 to-black min-h-screen">
+    <div className="lg:p-10 bg-gradient-to-b from-gray-800 via-slate-900 to-black min-h-screen">
       <h1 className="text-3xl font-bold text-center mb-8 theme-text-style">
         All Albums
       </h1>
@@ -53,10 +65,16 @@ const AlbumsPage = () => {
                 />
               </div>
               <div>
+                <Button onClick={() => deleteAlbum(eachAlbum._id)}>
+                  Delete
+                </Button>
+
                 <h2 className="text-lg font-semibold text-white mb-2  ">
                   {eachAlbum.albumName}
                 </h2>
-                <p className="text-sm text-gray-400">Genre: {eachAlbum.genre}</p>
+                <p className="text-sm text-gray-400">
+                  Genre: {eachAlbum.genre}
+                </p>
                 <p className="text-sm text-gray-400">
                   Release Date:{" "}
                   {new Date(eachAlbum.releaseDate).toLocaleDateString()}

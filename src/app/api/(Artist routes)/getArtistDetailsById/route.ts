@@ -9,7 +9,7 @@ if (LyricsModel) {
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const artistId = searchParams.get("artistId");
-  
+
   if (!artistId) {
     throw new Error("ArtistId Not found");
   }
@@ -22,7 +22,17 @@ export async function GET(req: NextRequest) {
         path: "songs",
         model: "Lyrics",
         strictPopulate: false,
+        select:
+          "-lyricsText -contributedBy -singer -keywords -createdAt -updatedAt -__v -readyToPulish",
+        populate: {
+          path: "albumDetails",
+          model: "Album",
+          select: "albumName -_id createdAt albumArt",
+          options: { sort: { createdAt: -1 } },
+          // strictPopulate: false,
+        },
       })
+
       .populate({
         path: "albums",
         model: "Album",
@@ -40,10 +50,13 @@ export async function GET(req: NextRequest) {
   } catch (error: any) {
     console.log(error.message);
 
-    return Response.json({
-      sucess: false,
-      message: `Error occured fucked up:${error.message}`,
-      result: null,
-    }, {status:500});
+    return Response.json(
+      {
+        sucess: false,
+        message: `Error occured fucked up:${error.message}`,
+        result: null,
+      },
+      { status: 500 }
+    );
   }
 }

@@ -16,14 +16,24 @@ export interface AlbumArtistPageType {
   tracks: string[];
   genre: string;
 }
-
+export interface SongData {
+  _id: string;
+  songName: string;
+  albumDetails: {
+    albumName: string;
+    albumArt: string;
+  };
+  albumName: string;
+  genre: string;
+  releaseDate: Date;
+}
 export interface ArtistPageType {
   _id: string;
   name: string;
   bio: string;
   genre: string[];
   debutDate: string;
-  songs: string[];
+  songs: SongData[];
   albums: AlbumArtistPageType[];
   artistProfileImage: string;
   keywords: string[];

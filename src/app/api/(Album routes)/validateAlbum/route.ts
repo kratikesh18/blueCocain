@@ -23,7 +23,7 @@ export async function GET(req: NextRequest) {
         model: "Artist",
         strictPopulate: false,
       });
-    console.log(AlbumNameArray);
+    // console.log(AlbumNameArray);
 
     if (AlbumNameArray.length === 0) {
       return Response.json(

@@ -24,6 +24,7 @@ const AlbumSchema: Schema<Album> = new Schema(
     by: {
       type: [Schema.Types.ObjectId],
       ref: "Artist",
+      trim:true,
       required: [true, "Artist is required"],
     },
     releaseDate: {
@@ -42,8 +43,13 @@ const AlbumSchema: Schema<Album> = new Schema(
       required: [true, "tracks is required"],
     },
   },
-  { timestamps: true }
+  { timestamps: true, strict: true }
 );
+
+// AlbumSchema.pre("save", function (next) {
+//   console.log("first middleware", this);
+//   next();
+// });
 
 const AlbumModel =
   mongoose.models.Album || mongoose.model<Album>("Album", AlbumSchema);

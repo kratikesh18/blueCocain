@@ -20,7 +20,7 @@ export interface Lyrics extends Document {
   releaseDate?: Date;
   lyricsText?: LyricsLine[];
   albumArt?: string;
-  albumName?: string;
+  // albumName?: string;
 }
 
 // Create the LyricsLine schema
@@ -65,10 +65,10 @@ const LyricsSchema: Schema<Lyrics> = new Schema(
       ref: "User",
       required: true,
     },
-    albumName: {
-      type: String,
-      trim: true,
-    },
+    // albumName: {
+    //   type: String,
+    //   trim: true,
+    // },
     albumArt: {
       type: String,
       required:false

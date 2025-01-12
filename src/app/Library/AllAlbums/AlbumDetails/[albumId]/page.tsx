@@ -48,7 +48,7 @@ const AlbumDetailsPage = () => {
     <div className="min-h-screen p-4 bg-gradient-to-b from-stone-900 via-stone-950 to-black text-white">
       {detailsPageData ? (
         <div className="flex gap-4 flex-col  ">
-          <div className="flex h-[10rem] gap-4 p-4 items-center border-[1px] border-gray-300/60  rounded-md w-full backdrop-blur-xl">
+          <div className="flex h-[10rem] gap-4 p-4 items-center border-[1px] border-gray-300/60  rounded-md w-full backdrop-blur-xl bg-gray-400/10">
             <img
               src={detailsPageData.albumArt}
               alt={detailsPageData.albumName}
@@ -79,11 +79,11 @@ const AlbumDetailsPage = () => {
 
           <div className="flex flex-col gap-3 ">
             <h2 className="text-2xl">Tracks</h2>
-            <ul className="flex flex-col gap-3">
+            <ul className="flex flex-col gap-3  ">
               {detailsPageData.tracks.map((track) => (
                 <li key={track._id}>
                   <Link href={`/lyrics/${track._id}`}>
-                    <div className="flex p-1 w-full justify-between px-10 backdrop-blur-md border-[1px] border-gray-300/60  ">
+                    <div className="flex p-1 w-full justify-between px-10 backdrop-blur-md border-[1px] bg-gray-400/20 border-gray-300/60 rounded-md ">
                       <h1 className="hover:underline ">{track.songName}</h1>
                       <Link
                         href={`/artist/${track.singer._id}`}

@@ -1,69 +1,84 @@
 import dbConnect from "@/lib/dbConnect";
-import AlbumModel, { Album } from "@/models/AlbumModel";
+import AlbumModel from "@/models/AlbumModel";
 import ArtistModel from "@/models/ArtistModel";
-
+import mongoose from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   await dbConnect();
+  const session = await mongoose.startSession();
+  session.startTransaction(); // Begin the transaction
+
   try {
     const { data, artistDetails } = await req.json();
+    const { albumName, albumArtUrl, genre, releaseDate } = data;
+    const { name: artistName, _id: artistId } = artistDetails[0];
 
-    const { albumArtUrl, albumName, genre, singerName, releaseDate } = data;
-    const { _id: singerId } = artistDetails[0];
-
-    if (
-      [albumArtUrl, albumName, genre, singerName, releaseDate].some(
-        (field) => field.trim() == ""
-      )
-    ) {
+    // Validate input data
+    if (!albumName || !albumArtUrl || !releaseDate || !artistId) {
       return NextResponse.json(
-        { success: false, message: "All fields are required" },
+        { message: "Please provide all the required fields", success: false },
         { status: 400 }
       );
     }
 
-    //checking if the album already exists
-    const albumExists = await AlbumModel.findOne({ albumName });
-    if (albumExists) {
+    // Check if the album already exists
+    const existingAlbum = await AlbumModel.findOne({ albumName });
+    if (existingAlbum) {
       return NextResponse.json(
-        { success: false, message: "Album already exists" },
+        { message: "Album already exists", success: false },
         { status: 400 }
       );
     }
 
-    //finding the artist to store its id
+    // Create a new album
+    const newAlbum = await AlbumModel.create(
+      [
+        {
+          albumName,
+          albumArt: albumArtUrl,
+          genre,
+          releaseDate,
+          by: [artistId],
+        },
+      ],
+      { session }
+    );
 
-    const newAlbum: Promise<Album> = await AlbumModel.create({
-      albumArt: albumArtUrl,
-      albumName,
-      genre,
-      by: singerId,
-      releaseDate,
-    });
-
-    if (!newAlbum) {
-      throw Error("Album Not Create");
+    if (!newAlbum || newAlbum.length === 0) {
+      throw new Error("Failed to create album");
     }
-    //album is created 
-    //now we have to assign it to the singer 
-    await ArtistModel.findByIdAndUpdate(singerId,{
-      $push:{}
-    })
+
+    // Update the artist with the new album ID
+    const updatedArtist = await ArtistModel.updateOne(
+      { _id: artistId },
+      { $push: { albums: newAlbum[0]._id } },
+      { session }
+    );
+
+    if (updatedArtist.modifiedCount === 0) {
+      throw new Error("Failed to update artist with new album");
+    }
+
+    // Commit the transaction
+    await session.commitTransaction();
+    session.endSession();
+
     return NextResponse.json(
       {
         success: true,
-        message: "All fields are recieved",
-        result: (await newAlbum)._id,
+        message: "Album created successfully",
+        result: newAlbum[0]._id,
       },
       { status: 200 }
     );
   } catch (error: any) {
-    return (
-      NextResponse.json({
-        success: false,
-        message: `Something went wrong : ${error.message}`,
-      }),
+    // Abort the transaction on error
+    await session.abortTransaction();
+    session.endSession();
+
+    return NextResponse.json(
+      { message: error.message, success: false },
       { status: 500 }
     );
   }

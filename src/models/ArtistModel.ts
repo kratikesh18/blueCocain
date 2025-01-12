@@ -47,8 +47,8 @@ const ArtistSchema: Schema<Artist> = new Schema(
     albums: {
       type: [Schema.Types.ObjectId],
       ref: "Album",
-      required: [true, "Album is required for Artist Profile"],
       default: [],
+      required: [true, "Album is required for Artist Profile"],
     },
     keywords: {
       type: [String],
@@ -59,6 +59,8 @@ const ArtistSchema: Schema<Artist> = new Schema(
     timestamps: true,
   }
 );
+
+
 
 const ArtistModel =
   mongoose.models.Artist || mongoose.model<Artist>("Artist", ArtistSchema);
