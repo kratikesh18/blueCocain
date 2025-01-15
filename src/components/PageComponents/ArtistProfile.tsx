@@ -1,8 +1,6 @@
 "use client";
 import React, { useEffect } from "react";
 import { ScrollArea, ScrollBar } from "../ui/scroll-area";
-import Link from "next/link";
-import { ScrollAreas } from "../specials/ScrollAreas";
 import { ArtistPageType } from "@/app/(Artists Pags)/artist/[artistId]/page";
 import AlbumDetailsArtist from "../ArtistPageComponents/AlbumDetailsArtist";
 import SongDetails from "../ArtistPageComponents/SongDetails";
@@ -13,7 +11,6 @@ interface ArtistProfileProps {
 
 
 const ArtistProfile: React.FC<ArtistProfileProps> = ({ artist }) => {
-  useEffect(() => {}, []);
   return (
     <div className="min-h-screen w-full flex flex-col items-center px-4 gap-6">
       <div className="w-full flex flex-col mt-6 ">

@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 import SearchIcon from "./icons/SearchIcon";
@@ -14,10 +14,14 @@ import LibraryIcon from "./icons/LibraryIcon";
 const Navbar = () => {
   const { data: session, status } = useSession();
   const pathname = usePathname();
+  useEffect(() => {
+    console.log("Re-rendred Navbar");
+  }, []);
 
+  
   return (
-    <nav className="bg-black text-white py-3 md:px-4 shadow-lg">
-      <div className="container flex gap-4 items-center justify-between  ">
+    <nav className=" text-white my-3 md:px-4">
+      <div className="container rounded-lg py-3 bg-gray-200/10 bg-opacity-10 border border-white/20 flex gap-4 items-center justify-between">
         <div className="flex items-center md:gap-4">
           <Link
             href="/addLyrics"
@@ -41,7 +45,7 @@ const Navbar = () => {
                   <SearchIcon />
                 </div>
               </PopoverTrigger>
-              <PopoverContent className="mt-4 mr-4 w-fit border-transparent  bg-white/10 backdrop-blur-3xl text-white ">
+              <PopoverContent className="mt-4 mr-4 w-fit border-transparent bg-white/10 backdrop-blur-3xl text-white">
                 <SearchPopOverNav />
               </PopoverContent>
             </Popover>

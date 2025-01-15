@@ -6,9 +6,9 @@ interface lyricsDetailsType {
   songName: string;
   singer: {
     name: string;
-    _id?: string;
+    _id: string;
   };
-  albumDetails: { albumArt: string };
+  albumDetails: { _id: string; albumArt: string; albumName: string };
   albumName?: string;
   genre?: string;
   releaseDate?: Date;
@@ -22,7 +22,9 @@ const LyricsInfoTile = ({
 }) => {
   return (
     lyricsDetails && (
-      <div className="relative h-[9rem] w-[90vw] flex items-center justify-center  shadow-2xl rounded-lg overflow-hidden md:h-fit md:flex-col md:gap-4 md:mx-auto md:w-1/2 md:aspect-square transition-transform transform xl:hover:scale-105 hover:shadow-2xl">
+      <div
+        className={`relative h-[9rem] w-[90vw] flex items-center justify-center  shadow-2xl rounded-lg overflow-hidden md:h-fit md:flex-col md:gap-4 md:mx-auto md:w-1/2 md:aspect-square transition-transform transform xl:hover:scale-105 hover:shadow-2xl`}
+      >
         <div className="w-[12rem] h-full aspect-square md:w-full md:h-fit md:mx-auto">
           <img
             src={lyricsDetails.albumArt || lyricsDetails.albumDetails.albumArt}
@@ -40,7 +42,12 @@ const LyricsInfoTile = ({
             </div>
 
             <h2 className="text-lg">
-              <Link href={"#"}>{lyricsDetails.albumName}</Link>
+              <Link
+                href={`/Library/AllAlbums/AlbumDetails/${lyricsDetails.albumDetails._id}`}
+              >
+                {lyricsDetails.albumName ||
+                  lyricsDetails.albumDetails.albumName}
+              </Link>
             </h2>
             <p className="text-sm">{lyricsDetails.genre}</p>
           </div>

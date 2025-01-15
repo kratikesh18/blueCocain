@@ -11,32 +11,25 @@ export async function middleware(request: NextRequest) {
     secret: process.env.NEXTAUTH_SECRET,
   });
 
-
-  if(!token){
-    console.log("No token found")
-    return;
-  }
-  
-  
-
   const url = request.nextUrl;
+  const { pathname } = url;
 
-  if (
-    token &&
-    (url.pathname.startsWith("/signup") || url.pathname.startsWith("/login"))
-  ) {
-    console.log(
-      "User is authenticated and trying to access auth page, redirecting to profile"
-    );
-    return NextResponse.redirect(new URL("/profile", request.url));
+  if (token) {
+    // Redirect authenticated users away from login or signup pages
+    if (pathname.startsWith("/login") || pathname.startsWith("/signup")) {
+      console.log("Authenticated user accessing auth page, redirecting to profile");
+      return NextResponse.redirect(new URL("/profile", request.url));
+    }
+    // Allow authenticated users to access all other routes
+    return NextResponse.next();
   }
 
-  if (!token && url.pathname.startsWith("/profile")) {
-    console.log(
-      "User is not authenticated and trying to access profile, redirecting to login"
-    );
+  // Redirect unauthenticated users trying to access restricted pages (like /profile)
+  if (pathname.startsWith("/profile")) {
+    console.log("Unauthenticated user accessing profile, redirecting to login");
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
+  // Allow unauthenticated users to access public pages like /login or /signup
   return NextResponse.next();
 }

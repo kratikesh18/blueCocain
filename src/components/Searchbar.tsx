@@ -27,7 +27,7 @@ export const Searchbar = () => {
         type="text"
         onChange={(e) => handleInputChange(e.target.value)}
         placeholder="Search for Lyrics "
-        className="border-2 text-lg py-7 font-semibold px-4 w-fit rounded-xl bg-gray-900 text-white border-gray-300 focus:outline-none focus:border-blue-500  md:text-2xl"
+        className=" text-lg py-7 font-semibold px-4 w-fit rounded-xl bg-transparent text-white border-gray-300 focus:outline-none focus:border-blue-500  md:text-2xl"
       />
 
       {loading && <div className="loader"></div>}

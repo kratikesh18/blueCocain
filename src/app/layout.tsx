@@ -16,7 +16,6 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
-
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -25,7 +24,9 @@ export default function RootLayout({
     <html lang="en">
       <AuthProvider>
         <LyricsProvider>
-          <body className={inter.className}>
+          <body
+            className={`${inter.className} bg-gradient-to-br from-gray-900 via-purple-950 to-black`}
+          >
             <Navbar />
             {children}
             <Toaster />

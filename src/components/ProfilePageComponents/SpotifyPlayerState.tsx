@@ -1,6 +1,6 @@
 import axios from "axios";
 import { Session } from "next-auth";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
 import Refresh from "../icons/Refresh";
@@ -16,10 +16,14 @@ interface SpotifyTrackResponse {
 
 const SpotifyPlayerState = ({ session }: { session: Session }) => {
   const router = useRouter();
+
   const [currentPlayerData, setCurrentPlayerData] =
     useState<SpotifyTrackResponse | null>(null);
+
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<null | string>(null);
+  const [error, setError] = useState< string | null>(null);
+
+
   // Fetch Current Spotify Player State
   const getCurrentPlayerState = async () => {
     setLoading(true);
@@ -36,7 +40,7 @@ const SpotifyPlayerState = ({ session }: { session: Session }) => {
       console.log("Spotify State:", response.data.item);
 
       if (response) {
-        await setCurrentPlayerData(response.data.item);
+       setCurrentPlayerData(response.data.item);
       }
     } catch (error) {
       console.error("Failed to fetch Spotify state:", error);

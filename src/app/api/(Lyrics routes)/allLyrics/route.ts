@@ -36,7 +36,7 @@ export async function GET(req: NextRequest) {
         })
         .populate({
           path: "albumDetails",
-          select: "albumArt",
+          select: "albumArt albumName",
           model: "Album",
           strictPopulate: false,
         })

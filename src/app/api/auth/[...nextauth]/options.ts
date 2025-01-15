@@ -1,7 +1,7 @@
 import { NextAuthOptions } from "next-auth";
 import SpotifyProvider from "next-auth/providers/spotify";
 
- async function refreshAccessToken(token: any) {
+async function refreshAccessToken(token: any) {
   console.log("Refreshing AccessToken mf");
   try {
     const url =
@@ -25,7 +25,7 @@ import SpotifyProvider from "next-auth/providers/spotify";
     if (!response.ok) {
       throw refreshedTokens;
     }
-
+    console.log("Refreshing the token succcessfull");
     return {
       ...token,
       accessToken: refreshedTokens.access_token,
@@ -48,7 +48,6 @@ const scopes = [
   "user-read-private",
   "user-read-email",
 ].join(" ");
-
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -76,7 +75,8 @@ export const authOptions: NextAuthOptions = {
         console.log("printing the Account", account);
         token.accessToken = access_token;
         token.refreshToken = refresh_token;
-        token.expiresAt = Date.now() + expires_at! * 1000;
+        token.expiresAt = Date.now() + Number(expires_at) * 1000;
+        console.log("printing the expiring time " + token.expiresAt);
       }
 
       if (token.expiresAt && Date.now() < token.expiresAt) {

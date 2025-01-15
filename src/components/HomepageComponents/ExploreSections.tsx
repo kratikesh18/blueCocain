@@ -25,7 +25,7 @@ const ExploreSections = ({}) => {
   }, []);
 
   return (
-    <div className="bg-black">
+    <div className="border rounded-lg border-white/30">
       {loading ? (
         <div className="h-full w-full flex justify-center items-center mt-8">
           <div className="loader "></div>

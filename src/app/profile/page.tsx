@@ -1,6 +1,4 @@
 "use client";
-
-
 import LoadingSpinner from "@/components/LoadingSpinner";
 import SpotifyPlayerState from "@/components/ProfilePageComponents/SpotifyPlayerState";
 import { SearchResultType } from "@/components/SearchTile";
@@ -67,12 +65,13 @@ const ProfilePage = () => {
   }
 
   if (status === "unauthenticated" || !session) {
-    router.push("/login");
+    // router.push("/login")
+    console.log("Not Authenticated")
     return null; // Prevent further rendering
   }
 
   return (
-    <div className="min-h-screen px-8 py-6 bg-gray-950 flex flex-col md:px-12 md:py-8">
+    <div className="min-h-screen px-8 py-6 bg-gradient-to-br from-gray-900 via-purple-950 to-black  flex flex-col md:px-12 md:py-8">
       {/* Header Section */}
       <div className="flex flex-col-reverse items-center md:justify-between md:flex-row">
         <div className="text-center md:text-left mt-4 md:mt-0 md:w-[50%]">

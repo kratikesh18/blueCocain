@@ -7,8 +7,8 @@ import { NextRequest, NextResponse } from "next/server";
 import ArtistModel from "@/models/ArtistModel";
 import LyricsModel from "@/models/LyricsModel";
 
-console.log("ArtistModel", ArtistModel);
-console.log("LyricsModel", LyricsModel);
+// console.log("ArtistModel", ArtistModel);
+// console.log("LyricsModel", LyricsModel);
 
 // Explicitly register the models with mongoose
 if (!mongoose.models.Artist) {
@@ -51,7 +51,7 @@ export async function GET(req: NextRequest) {
       })
       .populate({
         path: "albumDetails",
-        select:"albumArt",
+        select:"albumArt albumName",
         model: "Album",
         strictPopulate: false,
       });

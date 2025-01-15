@@ -5,10 +5,16 @@ import { Lyrics } from "@/context/LyricsContext";
 import axios from "axios";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { Artist } from "@/models/ArtistModel";
+import { Album } from "@/models/AlbumModel";
 
 const SearchPopOverNav = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
+
   const [lyrics, setLyrics] = useState<Lyrics[] | null>(null);
+  const [albums, setAlbums] = useState<Album[] | null>(null);
+  const [artists, setArtists] = useState<Artist[] | null>(null);
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -20,6 +26,7 @@ const SearchPopOverNav = () => {
     setLoading(true);
     setError(null);
     try {
+      const responseAll = await axios.get(`/api/search?searchQuery=${query}`);
       const response = await axios.get(`/api/lyrics?searchQuery=${query}`);
       setLyrics(response.data.results);
     } catch (error) {
@@ -78,7 +85,7 @@ const SearchPopOverNav = () => {
                       {item.songName}
                     </h1>
                     <h2 className="text-base text-gray-300 md:text-md">
-                      {item.albumName}
+                      {item.albumName || item.albumDetails.albumName}
                     </h2>
                     <p className="text-xs text-gray-400 md:text-sm">
                       {item.genre}
