@@ -69,9 +69,9 @@ const SpotifyPlayerState = ({ session }: { session: Session }) => {
   }
 
   return (
-    <div className="w-full flex justify-center items-center">
+    <>
       {currentPlayerData ? (
-        <div className="text-white border border-white w-full p-3 rounded-md  flex flex-col gap-1 ">
+        <div className="text-white w-full p-3 rounded-md flex flex-col gap-1  ">
           <p className="text-xl font-bold truncate">{currentPlayerData.name}</p>
           <p>
             {currentPlayerData.artists.map((artist) => artist.name).join(", ")}
@@ -105,7 +105,7 @@ const SpotifyPlayerState = ({ session }: { session: Session }) => {
           </Button>
         </div>
       )}
-    </div>
+   </>
   );
 };
 

@@ -2,6 +2,7 @@ import dbConnect from "@/lib/dbConnect";
 import AlbumModel from "@/models/AlbumModel";
 import ArtistModel from "@/models/ArtistModel";
 import LyricsModel from "@/models/LyricsModel";
+import AlbumModel1 from "@/models/NewAlbumModel";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
@@ -39,11 +40,11 @@ export async function GET(req: NextRequest) {
       .populate({
         path: "albumDetails",
         select: "albumArt",
-        model: "Album",
+        model: "NewAlbum",
         strictPopulate: false,
       });
 
-    const albumListsDependingUponQuery = await AlbumModel.find({
+    const albumListsDependingUponQuery = await AlbumModel1.find({
       $or: [
         { albumName: inputSearchKeyword.toString() },
         { keywords: inputSearchKeyword },

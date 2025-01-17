@@ -5,8 +5,8 @@ interface lyricsDetailsType {
   _id: string;
   songName: string;
   singer: {
-    name: string;
     _id: string;
+    name: string;
   };
   albumDetails: { _id: string; albumArt: string; albumName: string };
   albumName?: string;
@@ -41,14 +41,14 @@ const LyricsInfoTile = ({
               </h1>
             </div>
 
-            <h2 className="text-lg">
-              <Link
-                href={`/Library/AllAlbums/AlbumDetails/${lyricsDetails.albumDetails._id}`}
-              >
+            <Link
+              href={`/Library/AllAlbums/AlbumDetails/${lyricsDetails.albumDetails._id}`}
+            >
+              <h2 className="text-lg">
                 {lyricsDetails.albumName ||
                   lyricsDetails.albumDetails.albumName}
-              </Link>
-            </h2>
+              </h2>
+            </Link>
             <p className="text-sm">{lyricsDetails.genre}</p>
           </div>
 

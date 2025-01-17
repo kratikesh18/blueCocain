@@ -1,8 +1,6 @@
 "use client";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import ArtistProfile from "@/components/PageComponents/ArtistProfile";
-import { Artist } from "@/models/ArtistModel";
-import { GearIcon } from "@radix-ui/react-icons";
 import axios from "axios";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -65,8 +63,8 @@ const ArtistDetailsPage = () => {
     return <LoadingSpinner />;
   }
   return (
-    <div className="bg-gradient-to-b from-gray-900 to-black  text-white">
-      {fetchedArtistProfile && <ArtistProfile artist={fetchedArtistProfile} />}
+    <div className="container text-white">
+      {<ArtistProfile artist={fetchedArtistProfile} />}
     </div>
   );
 };

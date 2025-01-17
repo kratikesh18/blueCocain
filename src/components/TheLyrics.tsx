@@ -2,10 +2,8 @@
 import { useLyrics } from "@/context/LyricsContext";
 import React, { useEffect, useState } from "react";
 import LyricsInfoTile from "./LyricsInfoTile";
-
 import LyricsLine from "@/components/LyricsPageComponents/LyricsLIne";
 import LyricsEditor from "@/components/LyricsPageComponents/LyricsEditor";
-
 import LoadingSpinner from "./LoadingSpinner";
 import { Button } from "./ui/button";
 import axios from "axios";
@@ -14,12 +12,14 @@ import { useToast } from "./ui/use-toast";
 import { LyricsLine as LyricsLineType } from "@/models/LyricsModel";
 import EditIcon from "./icons/EditIcon";
 
+// import { Libre_Caslon_Text, Oxygen_Mono } from "next/font/google";
+
 interface TheLyricsProps {
   songId?: string | null;
   isEditing?: boolean;
   setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
 }
-
+// const lyricsFont = Oxygen_Mono({ subsets: ["latin"], weight: "400" });
 const TheLyrics: React.FC<TheLyricsProps> = ({
   songId,
   isEditing,
@@ -88,7 +88,7 @@ const TheLyrics: React.FC<TheLyricsProps> = ({
 
   if (error) {
     return (
-      <div className="flex flex-col justify-center h-screen items-center p-4 gap-4 bg-black text-white text-center">
+      <div className="flex flex-col justify-center h-screen items-center p-4 gap-4 text-white text-center">
         <h1 className="font-bold text-2xl ">
           Hold Still.. just refresh or try again after some time
         </h1>
@@ -132,13 +132,13 @@ const TheLyrics: React.FC<TheLyricsProps> = ({
   }
 
   return (
-    <div className="flex flex-col justify-center h-screen items-center p-4 md:flex-row bg-black">
-      <div className="md:w-1/2">
+    <div className="flex flex-col justify-center h-screen items-center p-4 md:flex-row">
+      <div className={`md:w-1/2`}>
         <LyricsInfoTile lyricsDetails={lyricsDetails} />
       </div>
 
       <div
-        className={`flex flex-col gap-4 text-left h-full text-2xl font-semibold w-full my-4 p-4 ${colorToBg} shadow-lg rounded-lg md:w-1/2 overflow-y-scroll scrollbar-thin scrollbar-thumb-black/20 scrollbar-track-black/20`}
+        className={` flex flex-col gap-4 text-left h-full text-2xl font-semibold w-full my-4 p-4 ${colorToBg} shadow-lg rounded-lg md:w-1/2 overflow-y-scroll scrollbar-thin scrollbar-thumb-black/20 scrollbar-track-black/20`}
       >
         {isEditing && (
           <LyricsEditor

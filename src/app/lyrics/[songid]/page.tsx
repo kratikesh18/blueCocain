@@ -16,7 +16,9 @@ const LyricsPage = () => {
         isEditing={isEditing}
         setIsEditing={setIsEditing}
       />
+
       {/* <Link href={`/editlyrics/${songid}`}>go to contribute</Link> */}
+
       {!isEditing && (
         <Button
           onClick={() => {
@@ -25,22 +27,23 @@ const LyricsPage = () => {
           }}
           className="rounded-full fixed -right-0 mr-4 -bottom-0 mb-4  h-16 w-16 "
         >
-        <EditIcon/>
+          <EditIcon />
         </Button>
       )}
-      {/* {isEditing && (
+    </div>
+  );
+};
+
+export default LyricsPage;
+
+/* {isEditing && (
         <Button
           onClick={() => setIsEditing(false)}
           className="rounded-md fixed -right-0 mr-4 -bottom-0 mb-4   "
         >
           Submit for review
         </Button>
-      )} */}
-    </div>
-  );
-};
-
-export default LyricsPage;
+      )} */
 
 //****************** USE LATER ***************/
 // "use client";

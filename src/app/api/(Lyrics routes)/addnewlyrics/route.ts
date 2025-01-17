@@ -3,6 +3,7 @@ import dbConnect from "@/lib/dbConnect";
 import AlbumModel, { Album } from "@/models/AlbumModel";
 import ArtistModel, { Artist } from "@/models/ArtistModel";
 import LyricsModel, { Lyrics } from "@/models/LyricsModel";
+import AlbumModel1 from "@/models/NewAlbumModel";
 
 import UserModel from "@/models/UserModel";
 import { NextRequest, NextResponse } from "next/server";
@@ -40,7 +41,7 @@ export async function POST(req: NextRequest) {
 
     const singerDetails = await ArtistModel.findOne({ name: singerName });
 
-    const albumDetails = await AlbumModel.findById(albumId);
+    const albumDetails = await AlbumModel1.findById(albumId);
 
     const userDetails = await UserModel.findOne({
       email: currentUserEmail,
@@ -75,7 +76,7 @@ export async function POST(req: NextRequest) {
     // }
 
     // // Create the new song/lyrics entry
-    const newSongCreated: Promise<Lyrics> = await LyricsModel.create({
+    const newSongCreated: Lyrics = await LyricsModel.create({
       songName,
       singer: singerDetails._id,
       albumName,
@@ -91,20 +92,18 @@ export async function POST(req: NextRequest) {
     }
 
     //updating the singer with this song
-    const updatedArtist: Promise<Artist | any> =
-      await ArtistModel.findByIdAndUpdate(
-        singerDetails._id,
-        {
-          $push: { songs: (await newSongCreated)._id, albums: albumId },
-        },
-        { new: true }
-      );
+    const updatedArtist = await ArtistModel.findByIdAndUpdate(
+      singerDetails._id,
+      {
+        $push: { songs: newSongCreated._id, albums: albumId },
+      },
+      { new: true }
+    );
 
     //updating the album
-    const updatedAlbum: Promise<Album | any> =
-      await AlbumModel.findByIdAndUpdate(albumId, {
-        $push: { tracks: (await newSongCreated)._id, by: singerDetails._id },
-      });
+    const updatedAlbum = await AlbumModel1.findByIdAndUpdate(albumId, {
+      $push: { tracks: newSongCreated._id, by: singerDetails._id },
+    });
 
     //artist and album is updated
 
@@ -139,7 +138,7 @@ export async function POST(req: NextRequest) {
     //   });
 
     if (!updatedAlbum || !updatedArtist) {
-      await LyricsModel.findByIdAndDelete((await newSongCreated)?._id);
+      await LyricsModel.findByIdAndDelete(newSongCreated._id);
       throw new Error(
         "Failed to update artist, album, or user. Lyrics creation has been rolled back."
       );

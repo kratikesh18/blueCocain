@@ -2,8 +2,8 @@
 import LoadingSpinner from "@/components/LoadingSpinner";
 import SpotifyPlayerState from "@/components/ProfilePageComponents/SpotifyPlayerState";
 import { SearchResultType } from "@/components/SearchTile";
-import ProfileImage from "@/components/specials/ProfileImage";
 import { ScrollAreas } from "@/components/specials/ScrollAreas";
+import { useToast } from "@/components/ui/use-toast";
 import { Artist } from "@/models/ArtistModel";
 import axios from "axios";
 import { useSession } from "next-auth/react";
@@ -13,7 +13,7 @@ import React, { useEffect, useState } from "react";
 const ProfilePage = () => {
   const { data: session, status } = useSession();
   const router = useRouter();
-
+  const { toast } = useToast();
   const [allItems, setAllItems] = useState<SearchResultType[] | null>(null);
   const [allSingers, setAllSingers] = useState<Artist[] | null>(null);
   const [loading, setLoading] = useState({ lyrics: false, singers: false });
@@ -44,16 +44,18 @@ const ProfilePage = () => {
     }
   };
 
-  const getProfileData = async () => {
-    try {
-      const response = await axios(`/api/getProfileData?id=`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-    } catch (error) {}
-  };
+  // const getProfileData = async () => {
+  //   try {
+  //     const response = await axios.post(`/api/allotToAritst`);
+  //     console.log(response);
+  //     toast({
+  //       title: "Thank You",
+  //       description: "Successfully seeded the data to model ",
+  //     });
+  //   } catch (error) {
+  //     console.error("Failed to fetch singers:", error);
+  //   }
+  // };
 
   useEffect(() => {
     getAllLyrics();
@@ -66,32 +68,35 @@ const ProfilePage = () => {
 
   if (status === "unauthenticated" || !session) {
     // router.push("/login")
-    console.log("Not Authenticated")
+    console.log("Not Authenticated");
     return null; // Prevent further rendering
   }
 
   return (
-    <div className="min-h-screen px-8 py-6 bg-gradient-to-br from-gray-900 via-purple-950 to-black  flex flex-col md:px-12 md:py-8">
+    <div className="container flex gap-3 flex-col">
       {/* Header Section */}
-      <div className="flex flex-col-reverse items-center md:justify-between md:flex-row">
-        <div className="text-center md:text-left mt-4 md:mt-0 md:w-[50%]">
-          <h1 className="bg-gradient-to-b from-gray-200 via-white to-gray-600 text-transparent bg-clip-text text-5xl font-bold md:text-6xl">
+      <div className="flex flex-col-reverse items-center bg-gray-200/10 bg-opacity-10 border border-white/20 md:justify-between md:flex-row p-5 rounded-lg">
+        <div className="text-center md:text-left mt-4 md:mt-0  text-white">
+          <h1 className=" text-5xl font-bold md:text-6xl">
             Hey, {session.user?.name}
           </h1>
           <div className="mt-2">
-            <p className="bg-gradient-to-b from-gray-200 via-white to-gray-600 text-transparent bg-clip-text">
-              The President at blueCocain,
-            </p>
-            <p className="bg-gradient-to-b from-gray-200 via-white to-gray-600 text-transparent bg-clip-text">
-              contributed 69+ Lyrics.
-            </p>
+            <p className="">The President at blueCocain,</p>
+            <p className="">contributed 69+ Lyrics.</p>
           </div>
         </div>
-        <ProfileImage session={session} />
+        <div className="">
+          <img
+            src={session.user?.image || "/default-profile.png"} // Fallback image if no profile image
+            alt={`${session.user?.name}'s Image`}
+            loading="lazy"
+            className="object-cover rounded-full h-48 w-48 border-4"
+          />
+        </div>
       </div>
 
       {/* Spotify Section */}
-      <div className="mt-8">
+      <div className="bg-gray-200/10 bg-opacity-10 border border-white/20 px-5 rounded-lg ">
         <h1 className="text-xl text-white my-4 font-bold">
           Currently On Spotify
         </h1>
@@ -99,7 +104,7 @@ const ProfilePage = () => {
       </div>
 
       {/* Favorite Songs Section */}
-      <div className="mt-16 w-full md:mt-20">
+      <div className="p-5 bg-gray-200/10 bg-opacity-10 border border-white/20">
         <h1 className="text-white text-2xl font-semibold flex items-center gap-2 mb-4">
           Your contributed Songs
         </h1>
@@ -111,7 +116,7 @@ const ProfilePage = () => {
       </div>
 
       {/* Top Artists Section */}
-      <div className="mt-4 w-full">
+      <div className="bg-gray-200/10 bg-opacity-10 border border-white/20 p-5">
         <h1 className="text-white text-2xl font-semibold flex items-center gap-2 mb-4">
           Your Top Artists
         </h1>
@@ -121,6 +126,7 @@ const ProfilePage = () => {
           <p className="text-gray-400">No top artists found.</p>
         )}
       </div>
+      {/* <button onClick={getProfileData}>Seed Data</button> */}
     </div>
   );
 };

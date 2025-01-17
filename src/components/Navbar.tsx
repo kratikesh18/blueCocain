@@ -18,10 +18,10 @@ const Navbar = () => {
     console.log("Re-rendred Navbar");
   }, []);
 
-  
   return (
-    <nav className=" text-white my-3 md:px-4">
+    <nav className=" text-white px-3 my-4">
       <div className="container rounded-lg py-3 bg-gray-200/10 bg-opacity-10 border border-white/20 flex gap-4 items-center justify-between">
+        {/* Add Icon */}
         <div className="flex items-center md:gap-4">
           <Link
             href="/addLyrics"
@@ -30,13 +30,13 @@ const Navbar = () => {
             <AddIcon />
           </Link>
         </div>
-
-        <div className="text-2xl font-bold tracking-wider">
+        {/* Logo */}
+        <div className="text-3xl font-extrabold tracking-wider">
           <Link href="/" className="hover:text-gray-300 transition-colors">
             <h1 className="theme-text-style text-2xl">blueCocain</h1>
           </Link>
         </div>
-
+        {/* Action Icons */}
         <div className="flex items-center gap-1 md:gap-4">
           {pathname !== "/" && (
             <Popover>
@@ -45,7 +45,7 @@ const Navbar = () => {
                   <SearchIcon />
                 </div>
               </PopoverTrigger>
-              <PopoverContent className="mt-4 mr-4 w-fit border-transparent bg-white/10 backdrop-blur-3xl text-white">
+              <PopoverContent className="mt-4 mr-4 w-fit border-transparent bg-white/10 backdrop-blur-3xl  text-white">
                 <SearchPopOverNav />
               </PopoverContent>
             </Popover>
@@ -68,7 +68,7 @@ const Navbar = () => {
                     <UserIcon />
                   </div>
                 </PopoverTrigger>
-                <PopoverContent className="w-fit mr-4 mt-4 bg-transparent backdrop-blur-3xl text-gray-200">
+                <PopoverContent className="w-fit mr-4 mt-4 bg-transparent backdrop-blur-3xl border-gray-300/30 text-gray-200">
                   <PopOverNav session={session} />
                 </PopoverContent>
               </Popover>

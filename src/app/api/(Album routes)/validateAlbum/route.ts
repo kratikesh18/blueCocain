@@ -1,7 +1,9 @@
-"use server";
 import dbConnect from "@/lib/dbConnect";
 import AlbumModel from "@/models/AlbumModel";
+import AlbumModel1 from "@/models/NewAlbumModel";
+import mongoose from "mongoose";
 import { NextRequest } from "next/server";
+
 
 export async function GET(req: NextRequest) {
   await dbConnect();
@@ -13,15 +15,15 @@ export async function GET(req: NextRequest) {
   // console.log(AlbumIdToSearch, AlbumNameToSearch);
 
   try {
-    const AlbumNameArray = await AlbumModel.find({
+    const AlbumNameArray = await AlbumModel1.find({
       $or: [{ _id: AlbumIdToSearch }, { albumName: AlbumNameToSearch }],
     })
-      .select(" -tracks -__v -createdAt -updatedAt")
+      .select("-tracks -__v -createdAt -updatedAt")
       .populate({
         path: "by",
         select: "name -_id",
         model: "Artist",
-        strictPopulate: false,
+        // strictPopulate: false,
       });
     // console.log(AlbumNameArray);
 
@@ -49,7 +51,7 @@ export async function GET(req: NextRequest) {
         success: false,
         message: `Error while finding Albums ${error}`,
       },
-      { status: 404 }
+      { status: 500 }
     );
   }
 }

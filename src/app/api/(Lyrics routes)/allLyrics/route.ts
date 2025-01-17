@@ -37,7 +37,7 @@ export async function GET(req: NextRequest) {
         .populate({
           path: "albumDetails",
           select: "albumArt albumName",
-          model: "Album",
+          model: "NewAlbum",
           strictPopulate: false,
         })
         .sort({ createdAt: -1 })
@@ -45,7 +45,7 @@ export async function GET(req: NextRequest) {
     } else {
       response = await LyricsModel.find()
         .select("-lyricsText -__v -keywords -createdAt -updatedAt")
-        .populate({ path: "albumDetails", select: "albumArt", model: "Album" })
+        .populate({ path: "albumDetails", select: "albumArt", model: "NewAlbum" })
         .populate({ path: "singer", select: "name", model: "Artist" })
         .sort({ createdAt: -1 });
       // .populate("singer", "name")

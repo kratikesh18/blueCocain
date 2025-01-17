@@ -20,7 +20,7 @@ export function ScrollAreas({
         <div className="flex w-max space-x-4 p-4">
           {allItems?.map((item) => (
             <Link href={`/lyrics/${item._id}`} key={item._id} className="">
-              <figure className="shrink-0 ">
+              <figure className="shrink-0">
                 <div className="overflow-hidden rounded-md">
                   <img
                     src={item.albumArt || item.albumDetails?.albumArt}
@@ -28,9 +28,9 @@ export function ScrollAreas({
                     className="aspect-[6/4] h-32 w-full object-cover"
                   />
                 </div>
-                <figcaption className="pt-2 text-xs text-muted-foreground">
+                <figcaption className="pt-2 text-sm text-gray-300">
                   {item.singer.name}
-                  <span className="text-white  font-semibold text-foreground block  ">
+                  <span className="text-white text-base truncate font-semibold text-foreground block  ">
                     {item.songName}
                   </span>
                 </figcaption>

@@ -1,6 +1,7 @@
 "use server";
 import dbConnect from "@/lib/dbConnect";
 import AlbumModel from "@/models/AlbumModel";
+import AlbumModel1 from "@/models/NewAlbumModel";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
@@ -16,7 +17,7 @@ export async function GET(req: NextRequest) {
 
   await dbConnect();
   try {
-    const albumDBInfo = await AlbumModel.findById(albumIdForDetails)
+    const albumDBInfo = await AlbumModel1.findById(albumIdForDetails)
       .populate({
         path: "by",
         select: "name",

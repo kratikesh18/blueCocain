@@ -1,5 +1,6 @@
 import dbConnect from "@/lib/dbConnect";
 import AlbumModel from "@/models/AlbumModel";
+import AlbumModel1 from "@/models/NewAlbumModel";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function DELETE(req: NextRequest) {
@@ -11,7 +12,7 @@ export async function DELETE(req: NextRequest) {
     if (!albumId) {
       throw new Error("Please provide album id");
     }
-    const album = await AlbumModel.findByIdAndDelete(albumId);
+    const album = await AlbumModel1.findByIdAndDelete(albumId);
     // console.log(album);
     if (!album) {
       throw new Error("Album not found ");

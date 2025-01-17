@@ -3,7 +3,7 @@ import RightIcon from "@/components/icons/RightIcon";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { Input } from "@/components/ui/input";
 import { useDebounce } from "@/hooks/useDebounce";
-import axios from "axios";
+import axios, { Axios, AxiosError } from "axios";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
@@ -11,15 +11,13 @@ interface FetchedAlbum {
   _id?: string;
   albumName?: string;
   albumArt?: string;
-  by?: {
-    name?: string;
-  };
   releaseDate?: Date;
+  by: [{ name: string }];
 }
 
 const AddNewLyricsPage = () => {
   const [albumNameQuery, setAlbumNameQuery] = useState("");
-  const debouncedAlbumQuery = useDebounce(albumNameQuery, 400);
+  const debouncedAlbumQuery = useDebounce(albumNameQuery, 600);
   const [fetchedAlbums, setFetchedAlbums] = useState<FetchedAlbum[] | null>(
     null
   );
@@ -38,7 +36,11 @@ const AddNewLyricsPage = () => {
         );
         setFetchedAlbums(response.data.result);
       } catch (error) {
-        setError("No Albums found.");
+        if (axios.isAxiosError(error)) {
+          console.log();
+          setError(error.response?.data.message);
+        }
+        setError("500 Internal Server Error");
       } finally {
         setLoading(false);
       }
@@ -47,7 +49,7 @@ const AddNewLyricsPage = () => {
   }, [debouncedAlbumQuery]);
 
   return (
-    <div className="bg-black min-h-screen p-6">
+    <div className="bg-transparent min-h-screen p-6">
       <h1 className="text-4xl font-bold theme-text-style mb-6 text-center">
         Find An Album To Add Song
       </h1>
@@ -73,7 +75,8 @@ const AddNewLyricsPage = () => {
             >
               <div>
                 <h1 className="font-bold">{eachAlbum.albumName}</h1>
-                <h2 className="text-gray-400">{eachAlbum?.by?.name}</h2>
+                <h2 className="text-gray-400">{eachAlbum.by[0].name}</h2>
+                {/* <h3>{eachAlbum.releaseDate?.getUTCFullYear()}</h3> */}
               </div>
               <div>
                 <img

@@ -4,7 +4,7 @@ import React from "react";
 
 const LibraryPage = () => {
   return (
-    <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center justify-center">
+    <div className="min-h-screen text-white flex flex-col items-center justify-center">
       <h1 className="text-4xl font-bold mb-8">Library</h1>
       <div className="flex flex-col gap-8">
         <Link

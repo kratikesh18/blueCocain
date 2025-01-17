@@ -1,6 +1,7 @@
 import dbConnect from "@/lib/dbConnect";
 import AlbumModel from "@/models/AlbumModel";
 import ArtistModel from "@/models/ArtistModel";
+import AlbumModel1 from "@/models/NewAlbumModel";
 import mongoose from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -23,7 +24,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Check if the album already exists
-    const existingAlbum = await AlbumModel.findOne({ albumName });
+    const existingAlbum = await AlbumModel1.findOne({ albumName });
     if (existingAlbum) {
       return NextResponse.json(
         { message: "Album already exists", success: false },
@@ -32,7 +33,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Create a new album
-    const newAlbum = await AlbumModel.create(
+    const newAlbum = await AlbumModel1.create(
       [
         {
           albumName,
@@ -69,6 +70,7 @@ export async function POST(req: NextRequest) {
         success: true,
         message: "Album created successfully",
         result: newAlbum[0]._id,
+        data: newAlbum[0]
       },
       { status: 200 }
     );

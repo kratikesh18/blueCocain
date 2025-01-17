@@ -22,16 +22,16 @@ export const Searchbar = () => {
   }, [searchQuery]);
 
   return (
-    <div className="flex py-8 justify-center items-center mx-auto flex-col gap-4">
+    <div className="flex justify-center items-center mx-auto flex-col gap-4">
       <Input
         type="text"
         onChange={(e) => handleInputChange(e.target.value)}
         placeholder="Search for Lyrics "
-        className=" text-lg py-7 font-semibold px-4 w-fit rounded-xl bg-transparent text-white border-gray-300 focus:outline-none focus:border-blue-500  md:text-2xl"
+        className="text-lg py-7 font-semibold px-4 w-fit rounded-xl bg-gray-200/10 border border-white/20 text-white focus:outline-none focus:border-purple-400/60  md:text-2xl placeholder:text-gray-300/90"
       />
 
       {loading && <div className="loader"></div>}
-      
+
       {error && (
         <div className={`text-red-700 ${error ? "block" : "hidden"}`}>
           {error}

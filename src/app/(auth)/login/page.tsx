@@ -3,16 +3,29 @@
 import React, { useState } from "react";
 import { signIn } from "next-auth/react";
 import LeftArrow from "@/components/icons/LeftArrow";
-import { toast } from "@/components/ui/use-toast";
+import { useToast } from "@/components/ui/use-toast";
 
 const LoginPage: React.FC = () => {
+  const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSpotifyLogin = async () => {
     setIsLoading(true);
     try {
       const result = await signIn("spotify");
+   
+      toast({
+        title: "Login Successful",
+        description: "You are being redirected to your profile. Please wait...",
+      });
+
     } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: "There was a problem with your request.",
+      });
+
       console.error("Login failed:", error);
     } finally {
       setIsLoading(false);

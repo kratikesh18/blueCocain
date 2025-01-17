@@ -1,13 +1,404 @@
 "use server";
 import dbConnect from "@/lib/dbConnect";
-import { NextRequest } from "next/server";
+import AlbumModel from "@/models/AlbumModel";
+import AlbumModel1 from "@/models/NewAlbumModel";
+import { NextRequest, NextResponse } from "next/server";
 
+const dataToInsert = [
+  {
+    _id: "669927ccfb9c0f3c9be9d4e3",
+    albumName: "Shehron ke Raz",
+    albumArt:
+      "https://c.saavncdn.com/178/Shehron-Ke-Raaz-English-2021-20210622130715-500x500.jpg",
+    by: ["667d482589d69198eef0b28c"],
+    releaseDate: "2021-06-25T00:00:00.000Z",
+    genre: "Pop",
+    tracks: ["66851f1789640ac77cf75486", "66a640f0bc1a963da01c41b0"],
+    __v: 0,
+    createdAt: "2024-12-31T11:23:18.582Z",
+    updatedAt: "2024-12-31T11:23:18.582Z",
+  },
+  {
+    _id: "66a7bee3d266bd58f8eee964",
+    albumName: "Dunki",
+    albumArt:
+      "https://m.media-amazon.com/images/M/MV5BMzNlMDVhZWYtMWZmYy00ZDAzLThlMGMtZGJhMGRkMTczZTg2XkEyXkFqcGdeQXVyMTUyNjIwMDEw._V1_.jpg",
+    by: ["667d482589d69198eef0b28e"],
+    releaseDate: "2023-12-21T00:00:00.000Z",
+    genre: "Bollywood",
+    tracks: ["668adac7eb2802bcf2d615a6"],
+    __v: 0,
+    createdAt: "2024-12-31T11:23:18.583Z",
+    updatedAt: "2024-12-31T11:23:18.583Z",
+  },
+  {
+    _id: "670bc73e81f74cbf9aa9c7be",
+    albumName: "No.6 Collaborations Project",
+    albumArt:
+      "https://upload.wikimedia.org/wikipedia/en/4/4f/Ed_Sheeran_-_No._6_Collaborations_Project.png",
+    by: ["668d7413ae3513058769e2ad"],
+    releaseDate: "2019-07-12T00:00:00.000Z",
+    genre: "Pop",
+    tracks: ["670bc8ae81f74cbf9aa9c7c8"],
+    createdAt: "2024-10-13T13:12:30.333Z",
+    updatedAt: "2024-10-13T13:18:38.307Z",
+    __v: 0,
+  },
+  {
+    _id: "675316822af81dee3418bf14",
+    albumName: "Mulaqat",
+    albumArt:
+      "https://i.scdn.co/image/ab67616d0000b2733db58808045108732961ec28",
+    by: ["667d482589d69198eef0b28c"],
+    releaseDate: "2023-10-03T00:00:00.000Z",
+    genre: "Pop",
+    tracks: ["6753169c2af81dee3418bf26"],
+    createdAt: "2024-12-06T15:21:38.885Z",
+    updatedAt: "2024-12-06T15:22:04.242Z",
+    __v: 0,
+  },
+  {
+    _id: "6757134ceb977b6d262fd297",
+    albumName: "Bhoomi",
+    albumArt:
+      "https://upload.wikimedia.org/wikipedia/en/7/70/Bhoomi_Poster.jpg",
+    by: ["6755e4898fa80a103145c4e6"],
+    releaseDate: "2017-09-22T00:00:00.000Z",
+    genre: "Bollywood",
+    tracks: ["67571b540cf7daab86a3fa00"],
+    createdAt: "2024-12-09T15:57:00.125Z",
+    updatedAt: "2024-12-09T15:57:00.125Z",
+    __v: 0,
+  },
+  {
+    _id: "67685e8a701ad41bdc0b6fe8",
+    albumName: "Animal",
+    albumArt:
+      "https://upload.wikimedia.org/wikipedia/en/9/90/Animal_%282023_film%29_poster.jpg",
+    by: ["667d482589d69198eef0b28d", "667d482589d69198eef0b28e"],
+    releaseDate: "2023-12-01T00:00:00.000Z",
+    genre: "Bollywood",
+    tracks: ["67685eb4701ad41bdc0b6ff3", "67685f40701ad41bdc0b7088"],
+    createdAt: "2024-12-22T18:46:34.412Z",
+    updatedAt: "2024-12-22T18:49:36.641Z",
+    __v: 0,
+  },
+  {
+    _id: "66992dcbfb9c0f3c9be9d516",
+    albumName: "Rustom",
+    albumArt:
+      "https://assets-in.bmscdn.com/iedb/movies/images/mobile/thumbnail/xlarge/rustom-et00035722-17-04-2017-17-54-27.jpg",
+    by: ["667d482589d69198eef0b28e"],
+    releaseDate: "2016-08-07T00:00:00.000Z",
+    genre: "Bollywood",
+    tracks: [
+      "668aa3d4330fc3290409e78d",
+      "66a3c5fde8046fed382bc192",
+      "66a3dfaefc8650df8e4ec5a2",
+      "66a3e055fc8650df8e4ec5bd",
+      "66a3e171fc8650df8e4ec5c4",
+      "66a3f08ffc8650df8e4ec6ef",
+    ],
+    __v: 0,
+    createdAt: "2024-12-31T11:23:18.582Z",
+    updatedAt: "2024-12-31T11:23:18.582Z",
+  },
+  {
+    _id: "669ce6845afd2f8ad2e7121d",
+    albumName: "The Album",
+    albumArt:
+      "https://cdns-images.dzcdn.net/images/cover/08b26a84be2b1030aef7c13a1720cf50/500x500.jpg",
+    by: ["66992fedfb9c0f3c9be9d530"],
+    releaseDate: "2020-10-02T00:00:00.000Z",
+    genre: "K-Pop",
+    tracks: ["669022e370501964fd03a6c8"],
+    __v: 0,
+    createdAt: "2024-12-31T11:23:18.582Z",
+    updatedAt: "2024-12-31T11:23:18.582Z",
+  },
+  {
+    _id: "669022e470501964fd03a6cc",
+    albumName: "Take Me Home",
+    albumArt:
+      "https://upload.wikimedia.org/wikipedia/en/7/79/Take_Me_Home_by_One_Direction.png",
+    by: ["66900df4c601b364d4fcdda5"],
+    releaseDate: "2012-11-09T00:00:00.000Z",
+    genre: "Pop",
+    tracks: ["669022e370501964fd03a6c8", "66a4eac92b2994385d64b99f"],
+    __v: 0,
+    createdAt: "2024-12-31T11:23:18.582Z",
+    updatedAt: "2024-12-31T11:23:18.582Z",
+  },
+  {
+    _id: "66a5f193950d8d87214cb2cf",
+    albumName: "Midnights",
+    albumArt:
+      "https://upload.wikimedia.org/wikipedia/en/thumb/9/9f/Midnights_-_Taylor_Swift.png/220px-Midnights_-_Taylor_Swift.png",
+    by: ["667d482589d69198eef0b28b"],
+    releaseDate: "2022-10-21T00:00:00.000Z",
+    genre: "Pop",
+    tracks: [],
+    __v: 0,
+    createdAt: "2024-12-31T11:23:18.582Z",
+    updatedAt: "2024-12-31T11:23:18.582Z",
+  },
+  {
+    _id: "66a766f88ea9f3fe30c3f4a5",
+    albumName: "Singham",
+    albumArt:
+      "https://m.media-amazon.com/images/S/pv-target-images/80f2243df29305930dd5791580b5bce6ede4ab434b3254ca774b51f6190d4266.jpg",
+    by: ["667d482589d69198eef0b28d"],
+    releaseDate: "2011-07-22T00:00:00.000Z",
+    genre: "Bollywood",
+    tracks: [
+      "668cfd6d22aec9b2d5589adb",
+      "675069ee5abe0778101e0229",
+      "67647e16968886b892f2a20b",
+      "67648352968886b892f2a282",
+      "67685da3701ad41bdc0b6fa4",
+    ],
+    updatedAt: "2024-12-22T18:42:43.114Z",
+    __v: 0,
+    createdAt: "2024-12-31T11:23:18.582Z",
+  },
+  {
+    _id: "66a7c247d266bd58f8eeea3e",
+    albumName: "Jannat",
+    albumArt:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPZYFy1Np0lCN2C1RI12yr59Y_AMvusgQEEQ&s",
+    by: ["66a7c415b4b10c588c9cf1a1"],
+    releaseDate: "2008-05-16T00:00:00.000Z",
+    genre: "Bollywood",
+    tracks: ["6689632a9ba16e37fa72a6f3"],
+    __v: 0,
+    createdAt: "2024-12-31T11:23:18.583Z",
+    updatedAt: "2024-12-31T11:23:18.583Z",
+  },
+  {
+    _id: "66ac95b649396b7aed789ec8",
+    albumName: "Speak Now (Taylor's Version)",
+    albumArt:
+      "https://upload.wikimedia.org/wikipedia/en/5/5b/Taylor_Swift_-_Speak_Now_%28Taylor%27s_Version%29.png",
+    by: ["667d482589d69198eef0b28b"],
+    releaseDate: "2023-07-07T00:00:00.000Z",
+    genre: "Pop",
+    tracks: [],
+    __v: 0,
+    createdAt: "2024-12-31T11:23:18.583Z",
+    updatedAt: "2024-12-31T11:23:18.583Z",
+  },
+  {
+    _id: "66ac9aba7f46ca9cce6a9e4c",
+    albumName: "Lover",
+    albumArt:
+      "https://upload.wikimedia.org/wikipedia/en/c/cd/Taylor_Swift_-_Lover.png",
+    by: ["667d482589d69198eef0b28b"],
+    releaseDate: "2019-08-23T00:00:00.000Z",
+    genre: "Pop",
+    tracks: ["66ac9b067f46ca9cce6a9e60", "66d18a5c547958bc5f1da21c"],
+    updatedAt: "2024-08-30T09:01:16.816Z",
+    __v: 0,
+    createdAt: "2024-12-31T11:23:18.583Z",
+  },
+  {
+    _id: "66901dc070501964fd03a6b2",
+    albumName: "Kabir Singh",
+    albumArt:
+      "https://rukminim2.flixcart.com/image/850/1000/jy4q3680/poster/s/z/k/large-kabir-singh-movie-jumbo-poster-for-room-office-kabir-singh-original-imafgej6t5ny9ezt.jpeg?q=90&crop=false",
+    by: ["667d482589d69198eef0b28e", "667d482589d69198eef0b28d"],
+    releaseDate: "2019-06-21T00:00:00.000Z",
+    genre: "Bollywood",
+    tracks: [
+      "66901dc070501964fd03a6af",
+      "66901e7170501964fd03a6ba",
+      "66913f23c7c560456f05933c",
+      "669e312dc52f4fc2f37bdc25",
+      "669e312dc52f4fc2f37bdc24",
+      "66918b5570bada8857bcf97d",
+      "669e3126c52f4fc2f37bdc23",
+      "669d154e5afd2f8ad2e71c7c",
+      "669e3bb46cc50bf9ffbd32e1",
+      "669e3c4b6cc50bf9ffbd32fc",
+      "669e3f556cc50bf9ffbd3376",
+      "669e3f806cc50bf9ffbd3392",
+    ],
+    __v: 0,
+    createdAt: "2024-12-31T11:23:18.581Z",
+    updatedAt: "2024-12-31T11:23:18.581Z",
+  },
+  {
+    _id: "66a4a31255933ae9960f6081",
+    albumName: "Jab Harry Met Sejal",
+    albumArt:
+      "https://i.scdn.co/image/ab67616d0000b273a08a13555e245f7f11aba13f",
+    by: ["667d482589d69198eef0b28e"],
+    releaseDate: "2017-08-04T00:00:00.000Z",
+    genre: "Bollywood",
+    tracks: ["66a4a32955933ae9960f6086"],
+    __v: 0,
+    createdAt: "2024-12-31T11:23:18.582Z",
+    updatedAt: "2024-12-31T11:23:18.582Z",
+  },
+  {
+    _id: "66a767ca8ea9f3fe30c3f51a",
+    albumName: "Divide",
+    albumArt: "https://upload.wikimedia.org/wikipedia/en/4/45/Divide_cover.png",
+    by: ["668d7413ae3513058769e2ad"],
+    releaseDate: "2017-03-03T00:00:00.000Z",
+    genre: "Pop",
+    tracks: ["668d853eae3513058769e43d"],
+    __v: 0,
+    createdAt: "2024-12-31T11:23:18.582Z",
+    updatedAt: "2024-12-31T11:23:18.582Z",
+  },
+  {
+    _id: "66a768a58ea9f3fe30c3f58a",
+    albumName: "Holiday",
+    albumArt:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPLTgJFr0qKiEj4tVR0g_3CQkypb0amLagiw&s",
+    by: ["667d482589d69198eef0b28e"],
+    releaseDate: "2016-06-06T00:00:00.000Z",
+    genre: "Bollywood",
+    tracks: ["66901b3870501964fd03a6a4"],
+    __v: 0,
+    createdAt: "2024-12-31T11:23:18.582Z",
+    updatedAt: "2024-12-31T11:23:18.582Z",
+  },
+  {
+    _id: "66a769738ea9f3fe30c3f5b0",
+    albumName: "Phantom",
+    albumArt: "https://images.justwatch.com/poster/12367707/s592/phantom",
+    by: ["667d482589d69198eef0b28e"],
+    releaseDate: "2015-08-28T00:00:00.000Z",
+    genre: "Bollywood",
+    tracks: ["668ae843fcf06a1a723e0365"],
+    __v: 0,
+    createdAt: "2024-12-31T11:23:18.583Z",
+    updatedAt: "2024-12-31T11:23:18.583Z",
+  },
+  {
+    _id: "676e99e664f19badc54e6b0e",
+    albumName: "Ae Dil Hai Mushkil",
+    albumArt:
+      "https://upload.wikimedia.org/wikipedia/en/thumb/e/ec/Ae_Dil_Hai_Mushkil.jpg/220px-Ae_Dil_Hai_Mushkil.jpg",
+    by: ["667d482589d69198eef0b28e", "667d482589d69198eef0b28e"],
+    releaseDate: "2016-10-28T00:00:00.000Z",
+    genre: "Bollywood",
+    tracks: ["676e9a3f64f19badc54e6b1b"],
+    createdAt: "2024-12-27T12:13:26.302Z",
+    updatedAt: "2024-12-27T12:14:55.239Z",
+    __v: 0,
+  },
+  {
+    _id: "66a6458dbc1a963da01c4209",
+    albumName: "So Far So Good",
+    albumArt:
+      "https://i.scdn.co/image/ab67616d0000b273e741cd9dc139d57cc2906186",
+    by: ["66a64538bc1a963da01c4200"],
+    releaseDate: "2022-05-13T00:00:00.000Z",
+    genre: "Electronic",
+    tracks: ["66a64641bc1a963da01c4221"],
+    __v: 0,
+    createdAt: "2024-12-31T11:23:18.582Z",
+    updatedAt: "2024-12-31T11:23:18.582Z",
+  },
+  {
+    _id: "67648306968886b892f2a271",
+    albumName: "Jab We Met",
+    albumArt:
+      "https://upload.wikimedia.org/wikipedia/en/9/9f/Jab_We_Met_Poster.jpg",
+    by: ["6764809a968886b892f2a226", "667d482589d69198eef0b28d"],
+    releaseDate: "2007-10-26T00:00:00.000Z",
+    genre: "Bollywood",
+    tracks: ["6764839c968886b892f2a291", "676861cd701ad41bdc0b70df"],
+    createdAt: "2024-12-19T20:33:10.710Z",
+    updatedAt: "2024-12-22T19:00:29.404Z",
+    __v: 0,
+  },
+  {
+    _id: "669a70bc4486d9b390483d7e",
+    albumName: "Reputation",
+    albumArt:
+      "https://upload.wikimedia.org/wikipedia/en/thumb/f/f2/Taylor_Swift_-_Reputation.png/220px-Taylor_Swift_-_Reputation.png",
+    by: ["667d482589d69198eef0b28b"],
+    releaseDate: "2024-07-19T00:00:00.000Z",
+    genre: "Pop",
+    tracks: [
+      "66a3fb91fc8650df8e4ec840",
+      "66a40189fc8650df8e4ec863",
+      "66a4ceaa2b2994385d64b8e7",
+    ],
+    __v: 0,
+    createdAt: "2024-12-31T11:23:18.582Z",
+    updatedAt: "2024-12-31T11:23:18.582Z",
+  },
+  {
+    _id: "66a7bff2d266bd58f8eee9dc",
+    albumName: "Lapata Ladies",
+    albumArt:
+      "https://uzomediatv.com/wp-content/uploads/2024/03/Laapataa_Ladies_poster.jpg",
+    by: ["667d482589d69198eef0b28e"],
+    releaseDate: "2024-03-01T00:00:00.000Z",
+    genre: "Bollywood",
+    tracks: ["668ad8c8eb2802bcf2d6156b"],
+    __v: 0,
+    createdAt: "2024-12-31T11:23:18.583Z",
+    updatedAt: "2024-12-31T11:23:18.583Z",
+  },
+  {
+    _id: "66a7c480b4b10c588c9cf1aa",
+    albumName: "Om Shanti Om",
+    albumArt:
+      "https://i.scdn.co/image/ab67616d0000b273675b3f7dea80153c73581e5e",
+    by: ["66a7c415b4b10c588c9cf1a1"],
+    releaseDate: "2007-11-09T00:00:00.000Z",
+    genre: "Bollywood",
+    tracks: ["66a7c4ceb4b10c588c9cf1ba"],
+    __v: 0,
+    createdAt: "2024-12-31T11:23:18.583Z",
+    updatedAt: "2024-12-31T11:23:18.583Z",
+  },
+  {
+    _id: "6773eb458469a965c841c9c1",
+    albumName: "Ghost Stories",
+    albumArt:
+      "https://i.scdn.co/image/ab67616d0000b273e5a95573f1b91234630fd2cf",
+    by: ["670929ff4e1b7453de2c472f", "670929ff4e1b7453de2c472f"],
+    releaseDate: "2014-05-16T00:00:00.000Z",
+    genre: "Pop",
+    tracks: ["6773eb758469a965c841c9de"],
+    createdAt: "2024-12-31T13:01:57.051Z",
+    updatedAt: "2024-12-31T13:02:46.145Z",
+    __v: 0,
+  },
+  {
+    _id: "678251d87a917321532dcddd",
+    albumName: "3 Idiots",
+    albumArt:
+      "https://upload.wikimedia.org/wikipedia/en/d/df/3_idiots_poster.jpg",
+    by: ["677505a78949d5b4f04d9c60", "667d482589d69198eef0b28d"],
+    releaseDate: "2009-12-25T00:00:00.000Z",
+    genre: "Bollywood",
+    tracks: ["6782524f7a917321532dcdf1"],
+    createdAt: "2025-01-11T11:11:20.170Z",
+    updatedAt: "2025-01-11T11:13:20.066Z",
+    __v: 0,
+  },
+];
 export async function POST(req: NextRequest) {
   await dbConnect();
-  const { AlloatedAritstId } = await req.json();
-  console.log(AlloatedAritstId);
-  return Response.json(
-    { success: true, message: "Api Working fine" },
-    { status: 200 }
-  );
+  try {
+    const response = await AlbumModel1.insertMany(dataToInsert);
+
+    return NextResponse.json(
+      { success: true, data: response, message: "data seeded successfully" },
+      { status: 200 }
+    );
+  } catch (error: any) {
+    console.log(error);
+    return NextResponse.json(
+      { success: false, error: error.message, message: "Failed to Seed data" },
+      { status: 500 }
+    );
+  }
 }

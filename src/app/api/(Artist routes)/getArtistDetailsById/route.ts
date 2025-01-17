@@ -26,7 +26,7 @@ export async function GET(req: NextRequest) {
           "-lyricsText -contributedBy -singer -keywords -createdAt -updatedAt -__v -readyToPulish",
         populate: {
           path: "albumDetails",
-          model: "Album",
+          model: "NewAlbum",
           select: "albumName -_id createdAt albumArt",
           options: { sort: { createdAt: -1 } },
           // strictPopulate: false,
@@ -35,7 +35,7 @@ export async function GET(req: NextRequest) {
 
       .populate({
         path: "albums",
-        model: "Album",
+        model: "NewAlbum",
         strictPopulate: false,
         options: { sort: { createdAt: -1 } },
       });

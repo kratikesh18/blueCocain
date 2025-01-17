@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React from "react";
 import { ScrollArea, ScrollBar } from "../ui/scroll-area";
 import { ArtistPageType } from "@/app/(Artists Pags)/artist/[artistId]/page";
 import AlbumDetailsArtist from "../ArtistPageComponents/AlbumDetailsArtist";
@@ -9,12 +9,11 @@ interface ArtistProfileProps {
   artist: ArtistPageType;
 }
 
-
 const ArtistProfile: React.FC<ArtistProfileProps> = ({ artist }) => {
   return (
-    <div className="min-h-screen w-full flex flex-col items-center px-4 gap-6">
-      <div className="w-full flex flex-col mt-6 ">
-        <div className="flex justify-between absolute w-[92%] md:w-[97%]  ">
+    <div className="w-full flex flex-col items-center px-4 gap-6">
+      <div className="w-full flex flex-col mt-6 bg-gray-200/10 bg-opacity-10 container p-4 rounded-md border border-white/20">
+        <div className="flex justify-between md:w-[97%]  ">
           <div>
             <h2 className="text-base font-semibold mb-2">Genre</h2>
             <p className="text-gray-300 ">{artist.genre[0]}</p>
@@ -39,10 +38,10 @@ const ArtistProfile: React.FC<ArtistProfileProps> = ({ artist }) => {
         </div>
       </div>
 
-      <div className="w-full ">
+      <div className="w-full p-4 bg-gray-200/10 bg-opacity-10 rounded-md border border-white/20">
         <h2 className="text-2xl font-semibold mb-2">Albums</h2>
         {artist.albums.length > 0 ? (
-          <ScrollArea className="whitespace-nowrap rounded-md pl-2 ">
+          <ScrollArea className="whitespace-nowrap rounded-md pl-2  ">
             <div className="flex rounded-md backdrop-blur-3xl mb-3">
               {artist.albums.map((album) => (
                 <AlbumDetailsArtist key={album._id} album={album} />
@@ -55,7 +54,7 @@ const ArtistProfile: React.FC<ArtistProfileProps> = ({ artist }) => {
         )}
       </div>
 
-      <div className="w-full ">
+      <div className="w-full bg-gray-200/10 bg-opacity-10 p-4 border border-white/20 rounded-md">
         <h1 className="text-2xl font-semibold mb-2">Songs</h1>
         {artist.songs.length > 0 ? (
           <ScrollArea className="whitespace-nowrap rounded-md pl-2 ">
