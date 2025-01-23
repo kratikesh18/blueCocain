@@ -1,8 +1,8 @@
 "use server";
 import dbConnect from "@/lib/dbConnect";
-import mongoose from "mongoose";
 import LyricsModel from "@/models/LyricsModel";
 import { NextRequest } from "next/server";
+import mongoose from "mongoose";
 import ArtistModel from "@/models/ArtistModel";
 import AlbumModel from "@/models/AlbumModel";
 
@@ -11,8 +11,8 @@ if (!mongoose.models.Artist) {
   mongoose.model("Artist", new mongoose.Schema({ name: String }));
 }
 
-if (!mongoose.models.Album) {
-  mongoose.model("Album", new mongoose.Schema({ albumArt: String }));
+if (!mongoose.models.NewAlbum) {
+  mongoose.model("NewAlbum", new mongoose.Schema({ albumArt: String }));
 }
 if (!mongoose.models.Lyrics) {
   mongoose.model("Lyrics", new mongoose.Schema({ songName: String }));
@@ -45,7 +45,11 @@ export async function GET(req: NextRequest) {
     } else {
       response = await LyricsModel.find()
         .select("-lyricsText -__v -keywords -createdAt -updatedAt")
-        .populate({ path: "albumDetails", select: "albumArt", model: "NewAlbum" })
+        .populate({
+          path: "albumDetails",
+          select: "albumArt",
+          model: "NewAlbum",
+        })
         .populate({ path: "singer", select: "name", model: "Artist" })
         .sort({ createdAt: -1 });
       // .populate("singer", "name")

@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import { Inter, Roboto } from "next/font/google";
+import { Courier_Prime, Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import { LyricsProvider } from "@/context/LyricsContext";
 import AuthProvider from "@/context/AuthProvider";
 import { Toaster } from "@/components/ui/toaster";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Courier_Prime({ subsets: ["latin-ext"], weight: "400" });
 
 export const metadata: Metadata = {
   title: "BlueCocain : A Lyrics Library",

@@ -27,6 +27,10 @@ const LyricsLine: React.FC<LyricsLineProps> = ({
       className={`p-2 rounded transition-all duration-300 ${
         isCurrent ? "" : ""
       }`}
+      onClick={() => {
+        isCurrent = true;
+        // console.log("printing is current", isCurrent);
+      }}
     >
       {isEditing ? (
         <div className="flex">

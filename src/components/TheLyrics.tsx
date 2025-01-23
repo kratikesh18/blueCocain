@@ -15,7 +15,7 @@ import EditIcon from "./icons/EditIcon";
 // import { Libre_Caslon_Text, Oxygen_Mono } from "next/font/google";
 
 interface TheLyricsProps {
-  songId?: string | null;
+  songId: string;
   isEditing?: boolean;
   setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -31,9 +31,7 @@ const TheLyrics: React.FC<TheLyricsProps> = ({
   const { toast } = useToast();
 
   useEffect(() => {
-    if (songId) {
-      fetchLyricsDetails(songId);
-    }
+    fetchLyricsDetails(songId);
   }, [songId]);
 
   useEffect(() => {
@@ -104,41 +102,35 @@ const TheLyrics: React.FC<TheLyricsProps> = ({
   if (!lyricsDetails) return <LoadingSpinner />;
 
   const currentLine = getCurrentLine();
+
+  // console.log("Printing the currentline " , currentLine);
   const bgColors = [
-    "bg-rose-900",
-    "bg-emerald-900",
-    "bg-orange-900",
-    "bg-red-900",
-    "bg-purple-900",
-    "bg-violet-900",
-    "bg-indigo-900",
-    "bg-yellow-900",
-    "bg-pink-900",
-    "bg-green-900",
-    "bg-blue-950",
-    "bg-teal-900",
-    "bg-cyan-900",
-    "bg-amber-900",
-    "bg-lime-900",
-    "bg-fuchsia-900",
+    "bg-emerald-950/80",
+    "bg-orange-950/80",
+    "bg-red-950/80",
+    "bg-purple-950/80",
+    "bg-violet-950/80",
+    "bg-indigo-950/80",
+    "bg-rose-950/80",
+    "bg-yellow-950/80",
+    "bg-pink-950/80",
+    "bg-green-950/80",
+    "bg-blue-950/80",
+    "bg-teal-950/80",
+    "bg-cyan-950/80",
+    "bg-amber-950/80",
+    "bg-lime-950/80",
+    "bg-fuchsia-950/80",
   ];
 
-  let colorToBg = null;
-
-  if (songId) {
-    const songIdBase10 = Math.ceil(parseInt(songId, 16));
-    const colorIndex = songIdBase10 % bgColors.length;
-    colorToBg = bgColors[colorIndex];
-  }
-
   return (
-    <div className="flex flex-col justify-center h-screen items-center p-4 md:flex-row">
+    <div className=" container flex flex-col  justify-center h-screen items-center p-4 md:flex-row">
       <div className={`md:w-1/2`}>
         <LyricsInfoTile lyricsDetails={lyricsDetails} />
       </div>
 
       <div
-        className={` flex flex-col gap-4 text-left h-full text-2xl font-semibold w-full my-4 p-4 ${colorToBg} shadow-lg rounded-lg md:w-1/2 overflow-y-scroll scrollbar-thin scrollbar-thumb-black/20 scrollbar-track-black/20`}
+        className={`flex flex-col gap-4 text-left h-full text-2xl font-semibold w-full my-4 p-4  rounded-lg md:w-1/2 overflow-y-scroll scrollbar-thin scrollbar-thumb-black/20 scrollbar-track-black/20  bg-gray-500/20`}
       >
         {isEditing && (
           <LyricsEditor
@@ -150,6 +142,8 @@ const TheLyrics: React.FC<TheLyricsProps> = ({
         {!isEditing &&
           updatedLyrics.length > 0 &&
           updatedLyrics.map((line, index) => (
+            <div key={index} >
+
             <LyricsLine
               key={index}
               line={line}
@@ -157,7 +151,8 @@ const TheLyrics: React.FC<TheLyricsProps> = ({
               isCurrent={currentLine === line}
               index={index}
               handleLineChange={handleLineChange}
-            />
+              />
+              </div>
           ))}
 
         {!isEditing && updatedLyrics.length == 0 && (
@@ -173,6 +168,7 @@ const TheLyrics: React.FC<TheLyricsProps> = ({
             </Button>
           </div>
         )}
+
         {isEditing && (
           <div className="mt-4 self-center ">
             <Button

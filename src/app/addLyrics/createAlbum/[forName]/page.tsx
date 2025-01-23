@@ -82,7 +82,7 @@ const NewAlbumPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-800 to-black flex flex-col items-center justify-center py-10">
+    <div className="min-h-screen  flex flex-col items-center justify-center py-10">
       <h1 className="text-4xl font-bold text-center mb-8 theme-text-style text-white">
         Create New Album
       </h1>

@@ -21,7 +21,7 @@ import LoadingSpinner from "@/components/LoadingSpinner";
 
 interface AiGeneratedDataType {
   bio: string;
-  debutedate: string;
+  debutdate: string;
   genre: string;
 }
 
@@ -71,7 +71,7 @@ const NewArtistProfilePage = () => {
       setAiGenerateData(response.data.result);
       form.setValue("bio", response.data.result.bio);
       form.setValue("genre", response.data.result.genre);
-      form.setValue("debutDate", response.data.result.debutedate);
+      form.setValue("debutDate", response.data.result.debutDate);
     } catch (error: any) {
       console.log(error.message);
     } finally {
@@ -83,7 +83,7 @@ const NewArtistProfilePage = () => {
     return <LoadingSpinner />;
   }
   return (
-    <div className="min-h-screen w-full bg-gradient-to-b from-gray-800 to-black flex flex-col items-center py-10">
+    <div className="w-full flex flex-col items-center py-10">
       <h1 className="text-white theme-text-style text-2xl font-medium mb-6">
         Contribute An Artist Profile
       </h1>

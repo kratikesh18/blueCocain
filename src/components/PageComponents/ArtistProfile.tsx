@@ -11,9 +11,9 @@ interface ArtistProfileProps {
 
 const ArtistProfile: React.FC<ArtistProfileProps> = ({ artist }) => {
   return (
-    <div className="w-full flex flex-col items-center px-4 gap-6">
-      <div className="w-full flex flex-col mt-6 bg-gray-200/10 bg-opacity-10 container p-4 rounded-md border border-white/20">
-        <div className="flex justify-between md:w-[97%]  ">
+    <div className="w-full flex flex-col items-center px-4 gap-4">
+      <div className="w-full flex flex-col bg-gray-200/10 bg-opacity-10 container p-4 rounded-md border border-white/20">
+        <div className="flex justify-between  ">
           <div>
             <h2 className="text-base font-semibold mb-2">Genre</h2>
             <p className="text-gray-300 ">{artist.genre[0]}</p>

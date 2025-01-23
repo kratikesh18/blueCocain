@@ -77,7 +77,7 @@
   .loader {
     --w: 10ch;
     font-weight: bold;
-    font-family: monospace;
+    /* font-family: ; */
     font-size: 30px;
     letter-spacing: var(--w);
     width: var(--w);
@@ -155,7 +155,6 @@
 
 
 /* styles.css */
-@import url('https://fonts.googleapis.com/css2?family=Bubbler+One&display=swap');
 .theme-text-style {
   background: linear-gradient(to bottom, #e2e8f0, #ffffff, #718096);
   -webkit-background-clip: text;

@@ -1,5 +1,5 @@
+import { NewAlbumSchema } from "@/schemas/NewAlbumSchema";
 import mongoose, { Document, Schema } from "mongoose";
-
 export interface Album extends Document {
   albumName: string;
   albumArt: string;
@@ -8,7 +8,6 @@ export interface Album extends Document {
   genre: string;
   tracks: Schema.Types.ObjectId[];
 }
-
 const AlbumSchema: Schema<Album> = new Schema(
   {
     albumName: {
@@ -19,6 +18,7 @@ const AlbumSchema: Schema<Album> = new Schema(
     albumArt: {
       type: String,
       trim: true,
+      unique: true,
       required: [true, "AlbumArt is required"],
     },
     by: {
@@ -44,13 +44,31 @@ const AlbumSchema: Schema<Album> = new Schema(
   },
   { timestamps: true }
 );
-
 AlbumSchema.pre("save", function (next) {
-  console.log("first middleware");
+  console.log("Validating Album before saving...");
+
+  if (
+    !this.albumName ||
+    !this.albumArt ||
+    !this.by ||
+    !this.tracks ||
+    !this.releaseDate ||
+    !this.genre
+  ) {
+    const error = new Error(
+      "Validation failed: All required fields must be provided"
+    );
+    return next(error);
+  }
+
+  console.log("Validation successful.");
   next();
+});
+
+AlbumSchema.post("save", function (doc) {
+  console.log(`Album "${doc.albumName}" saved successfully.`);
 });
 
 const AlbumModel1 =
   mongoose.models.NewAlbum || mongoose.model<Album>("NewAlbum", AlbumSchema);
-
 export default AlbumModel1;

@@ -25,6 +25,7 @@ const ArtistSchema: Schema<Artist> = new Schema(
     },
     artistProfileImage: {
       type: String,
+      trim: true,
       required: [true, "Artist Profile is Required"],
       default: "",
     },

@@ -3,6 +3,7 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { SearchResultType } from "../SearchTile";
 import Link from "next/link";
 import { Artist } from "@/models/ArtistModel";
+import SongDetails from "../ArtistPageComponents/SongDetails";
 
 type ScrollAreasTypes = {
   allItems?: SearchResultType[] | null;
@@ -17,24 +18,27 @@ export function ScrollAreas({
   if (allItems && !allSingers && !allLiked) {
     return (
       <ScrollArea className="whitespace-nowrap rounded-md pl-2">
-        <div className="flex w-max space-x-4 p-4">
+        <div className="flex w-full space-x-4 ">
           {allItems?.map((item) => (
             <Link href={`/lyrics/${item._id}`} key={item._id} className="">
-              <figure className="shrink-0">
-                <div className="overflow-hidden rounded-md">
+              <object>
+                <SongDetails song={item} key={item._id} />
+              </object>
+              {/* <figure className="max-w-30 truncate p-4 border rounded-md">
+                <div className=" overflow-hidden rounded-md">
                   <img
                     src={item.albumArt || item.albumDetails?.albumArt}
                     alt={`Photo by ${item.albumArt}`}
                     className="aspect-[6/4] h-32 w-full object-cover"
                   />
                 </div>
-                <figcaption className="pt-2 text-sm text-gray-300">
+                <figcaption className="pt-2 text-sm text-gray-300 ">
                   {item.singer.name}
-                  <span className="text-white text-base truncate font-semibold text-foreground block  ">
+                  <p className="text-white text-base  font-semibold text-foreground block  ">
                     {item.songName}
-                  </span>
+                  </p>
                 </figcaption>
-              </figure>
+              </figure> */}
             </Link>
           ))}
         </div>
@@ -48,7 +52,7 @@ export function ScrollAreas({
         <div className="flex w-max space-x-4 p-4">
           {allSingers?.map((eachArtist, index) => (
             <Link href={`/artist/${eachArtist._id}`} key={index}>
-              <figure className="shrink-0 ">
+              <figure className=" ">
                 <div className="overflow-hidden rounded-md">
                   <img
                     src={eachArtist.artistProfileImage}

@@ -18,7 +18,6 @@ interface DetailsPageDataType {
 }
 
 const AlbumDetailsPage = () => {
- 
   const { albumId } = useParams();
   const [detailsPageData, setDetailsPageData] =
     useState<DetailsPageDataType | null>(null);
@@ -54,19 +53,21 @@ const AlbumDetailsPage = () => {
   }
 
   return (
-    <div className="container flex gap-4 ">
-      <div className="flex h-[10rem] gap-4 p-4 items-center border-[1px] border-gray-300/60 rounded-md   backdrop-blur-xl bg-gray-400/10">
-        <img
-          src={detailsPageData.albumArt}
-          alt={detailsPageData.albumName}
-          className="h-full  aspect-square object-cover rounded-lg"
-        />
+    <div className="container flex gap-4 flex-col md:flex-row">
+      <div className="flex flex-col gap-4 p-4 items-center border-[1px] border-gray-300/60 rounded-md backdrop-blur-xl">
         <div>
-          <h1 className="text-3xl">{detailsPageData.albumName}</h1>
+          <img
+            src={detailsPageData.albumArt}
+            alt={detailsPageData.albumName}
+            className="h-1/4 aspect-square object-cover rounded-lg"
+          />
+        </div>
+        <div className="">
+          <h1 className="md:text-3xl">{detailsPageData.albumName}</h1>
           <p>
             <span className="text-gray-50">By: </span>
             {detailsPageData.by.map((eachArtist) => (
-              <span className="">
+              <span className="text-sm" key={eachArtist._id}>
                 {eachArtist.name}
                 {", "}
               </span>
@@ -86,10 +87,11 @@ const AlbumDetailsPage = () => {
 
       <div className="flex flex-col gap-3 w-full">
         <h2 className="text-2xl">Tracks</h2>
+
         <ul>
           {detailsPageData.tracks.map((track) => (
-            <li key={track._id}>
-              <Link href={`/lyrics/${track._id}`}>
+            <Link href={`/lyrics/${track._id}`} key={track._id} className="">
+              <li >
                 <div className="flex w-full justify-between px-10 backdrop-blur-md border-[1px] p-1 bg-gray-400/20 border-gray-300/60 rounded-md ">
                   <h1 className="hover:underline ">{track.songName}</h1>
                   <Link
@@ -99,10 +101,12 @@ const AlbumDetailsPage = () => {
                     <h1>{track.singer.name}</h1>
                   </Link>
                 </div>
-              </Link>
-            </li>
+              </li>
+            </Link>
           ))}
         </ul>
+
+
       </div>
     </div>
   );

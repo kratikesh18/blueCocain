@@ -3,17 +3,13 @@ import LoadingSpinner from "@/components/LoadingSpinner";
 import SpotifyPlayerState from "@/components/ProfilePageComponents/SpotifyPlayerState";
 import { SearchResultType } from "@/components/SearchTile";
 import { ScrollAreas } from "@/components/specials/ScrollAreas";
-import { useToast } from "@/components/ui/use-toast";
 import { Artist } from "@/models/ArtistModel";
 import axios from "axios";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 const ProfilePage = () => {
   const { data: session, status } = useSession();
-  const router = useRouter();
-  const { toast } = useToast();
   const [allItems, setAllItems] = useState<SearchResultType[] | null>(null);
   const [allSingers, setAllSingers] = useState<Artist[] | null>(null);
   const [loading, setLoading] = useState({ lyrics: false, singers: false });
@@ -62,6 +58,7 @@ const ProfilePage = () => {
     getAllSingers();
   }, []);
 
+
   if (loading.lyrics || loading.singers || status === "loading") {
     return <LoadingSpinner />;
   }
@@ -78,7 +75,7 @@ const ProfilePage = () => {
       <div className="flex flex-col-reverse items-center bg-gray-200/10 bg-opacity-10 border border-white/20 md:justify-between md:flex-row p-5 rounded-lg">
         <div className="text-center md:text-left mt-4 md:mt-0  text-white">
           <h1 className=" text-5xl font-bold md:text-6xl">
-            Hey, {session.user?.name}
+            Hey,{session.user?.name}
           </h1>
           <div className="mt-2">
             <p className="">The President at blueCocain,</p>

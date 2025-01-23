@@ -1,13 +1,9 @@
 "use server";
 import dbConnect from "@/lib/dbConnect";
 import LyricsModel from "@/models/LyricsModel";
-
 import { NextRequest, NextResponse } from "next/server";
 import ArtistModel from "@/models/ArtistModel";
 import mongoose from "mongoose";
-
-console.log("ArtistModel", ArtistModel);
-console.log("LyricsModel", LyricsModel);
 
 // Explicitly register the models with mongoose
 if (!mongoose.models.Artist) {
@@ -16,6 +12,12 @@ if (!mongoose.models.Artist) {
 
 if (!mongoose.models.Lyrics) {
   mongoose.model("Lyrics", new mongoose.Schema({ songName: String }));
+}
+if (!mongoose.models.NewAlbum) {
+  mongoose.model(
+    "NewAlbum",
+    new mongoose.Schema({ albumArt: String, albumName: String })
+  );
 }
 
 export async function GET(req: NextRequest) {
@@ -43,7 +45,7 @@ export async function GET(req: NextRequest) {
       })
       .populate({
         path: "albumDetails",
-        select: "albumArt",
+        select: "albumArt albumName",
         model: "NewAlbum",
         strictPopulate: false,
       });
@@ -66,7 +68,6 @@ export async function GET(req: NextRequest) {
       },
       { status: 200 }
     );
-
   } catch (error: any) {
     console.log(error.message);
     return NextResponse.json(

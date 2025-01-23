@@ -46,7 +46,7 @@ const AlbumsPage = () => {
   }
 
   return (
-    <div className="lg:p-10 bg-gradient-to-b from-gray-800 via-slate-900 to-black min-h-screen">
+    <div className="container lg:p-10">
       <h1 className="text-3xl font-bold text-center mb-8 theme-text-style">
         All Albums
       </h1>

@@ -14,10 +14,7 @@ import LibraryIcon from "./icons/LibraryIcon";
 const Navbar = () => {
   const { data: session, status } = useSession();
   const pathname = usePathname();
-  useEffect(() => {
-    console.log("Re-rendred Navbar");
-  }, []);
-
+  
   return (
     <nav className=" text-white px-3 my-4">
       <div className="container rounded-lg py-3 bg-gray-200/10 bg-opacity-10 border border-white/20 flex gap-4 items-center justify-between">

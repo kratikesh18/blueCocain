@@ -26,29 +26,29 @@ const ExploreSections = ({}) => {
   }, []);
 
   return (
-    <div className="border container rounded-lg bg-gray-200/10 bg-opacity-10 border-white/20">
-      {loading ? (
-        <div className="h-full w-full flex justify-center items-center mt-8">
-          <div className="loader "></div>
-        </div>
-      ) : (
-        <div>
-          <div className="flex flex-col gap-4 py-7 px-2 overflow-auto text-white">
-          <Searchbar/>
-            {allItems && (
-              <h1 className="text-xl text-pretty font-bold md:text-2xl">
-                Explore our newest additions
-              </h1>
-            )}
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 md:px-8">
+    <div className="border container mt-0 rounded-lg bg-opacity-10 border-white/20">
+      <div>
+        <div className="flex flex-col gap-4 py-7 px-2 overflow-auto text-white">
+          <Searchbar />
+
+          <h1 className="text-xl text-pretty font-bold md:text-2xl">
+            Explore our newest additions
+          </h1>
+
+          {loading ? (
+            <div className="h-full w-full flex justify-center items-center mt-8">
+              <div className="loader "></div>
+            </div>
+          ) : (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 md:px-8 overflow-hidden">
               {allItems &&
                 allItems.map((item) => (
                   <SearchTile item={item} key={item._id} />
                 ))}
             </div>
-          </div>
+          )}
         </div>
-      )}
+      </div>
     </div>
   );
 };

@@ -23,7 +23,7 @@ export async function GET(req: NextRequest) {
         path: "by",
         select: "name -_id",
         model: "Artist",
-        // strictPopulate: false,
+        strictPopulate: false,
       });
     // console.log(AlbumNameArray);
 

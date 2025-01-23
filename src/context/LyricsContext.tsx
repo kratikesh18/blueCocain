@@ -5,7 +5,7 @@ import axios from "axios";
 
 // Define interfaces
 export interface Artist {
-  _id?: string;
+  _id: string;
   name: string;
 }
 
@@ -19,7 +19,7 @@ export interface Lyrics {
   _id: string;
   songName: string;
   singer: Artist;
-  albumDetails: { albumArt: string; _id?: string; albumName?: string };
+  albumDetails: { albumArt: string; _id: string; albumName: string };
   albumName?: string;
   genre?: string;
   releaseDate?: Date;
