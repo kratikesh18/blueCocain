@@ -58,7 +58,6 @@ const ProfilePage = () => {
     getAllSingers();
   }, []);
 
-
   if (loading.lyrics || loading.singers || status === "loading") {
     return <LoadingSpinner />;
   }
@@ -70,8 +69,9 @@ const ProfilePage = () => {
   }
 
   return (
-    <div className="container flex gap-3 flex-col">
+    <div className="container flex gap-3 flex-col h-[92.2vh] overflow-y-scroll scrollbar-none ">
       {/* Header Section */}
+      
       <div className="flex flex-col-reverse items-center bg-gray-200/10 bg-opacity-10 border border-white/20 md:justify-between md:flex-row p-5 rounded-lg">
         <div className="text-center md:text-left mt-4 md:mt-0  text-white">
           <h1 className=" text-5xl font-bold md:text-6xl">
@@ -93,7 +93,7 @@ const ProfilePage = () => {
       </div>
 
       {/* Spotify Section */}
-      <div className="bg-gray-200/10 bg-opacity-10 border border-white/20 px-5 rounded-lg ">
+      <div className="bg-gray-200/10 backdrop-blur-2xl bg-opacity-10 border border-white/20 px-5 rounded-lg ">
         <h1 className="text-xl text-white my-4 font-bold">
           Currently On Spotify
         </h1>

@@ -2,6 +2,7 @@
 import dbConnect from "@/lib/dbConnect";
 import ArtistModel from "@/models/ArtistModel";
 import LyricsModel from "@/models/LyricsModel";
+import mongoose from "mongoose";
 import { NextRequest } from "next/server";
 if (LyricsModel) {
   console.log(LyricsModel);
@@ -13,7 +14,15 @@ export async function GET(req: NextRequest) {
   if (!artistId) {
     throw new Error("ArtistId Not found");
   }
-
+  if (!mongoose.Types.ObjectId.isValid(artistId)) {
+    return Response.json(
+      {
+        sucess: false,
+        message: `Invalid Search Parameter, Provide Valid ObjectId`,
+      },
+      { status: 404 }
+    );
+  }
   await dbConnect();
 
   try {
@@ -53,7 +62,7 @@ export async function GET(req: NextRequest) {
     return Response.json(
       {
         sucess: false,
-        message: `Error occured fucked up:${error.message}`,
+        message: ``,
         result: null,
       },
       { status: 500 }

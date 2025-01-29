@@ -1,24 +1,25 @@
 "use client";
 
 import React, { useState } from "react";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import LeftArrow from "@/components/icons/LeftArrow";
 import { useToast } from "@/components/ui/use-toast";
 
 const LoginPage: React.FC = () => {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
+  const { data: session, status } = useSession();
 
   const handleSpotifyLogin = async () => {
     setIsLoading(true);
     try {
-      const result = await signIn("spotify");
-   
-      toast({
-        title: "Login Successful",
-        description: "You are being redirected to your profile. Please wait...",
-      });
+      await signIn("spotify");
 
+      toast({
+        title: "Logging in ... Please wait",
+        description:
+          "After Successfull login you will be redirected to profile. Please wait...",
+      });
     } catch (error) {
       toast({
         variant: "destructive",
@@ -49,14 +50,14 @@ const LoginPage: React.FC = () => {
       <div className="mt-12">
         <button
           onClick={handleSpotifyLogin}
-          disabled={isLoading}
+          disabled={status === "loading"}
           className={`flex items-center gap-4 px-8 py-4 text-lg font-medium text-white rounded-full shadow-lg transition-transform transform hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 ${
-            isLoading
+            status == "loading"
               ? "bg-green-400 cursor-not-allowed"
               : "bg-green-600 hover:bg-green-500 focus:ring-green-400"
           }`}
         >
-          {isLoading ? (
+          {status == "loading" ? (
             <>
               <LeftArrow />
               Logging in...

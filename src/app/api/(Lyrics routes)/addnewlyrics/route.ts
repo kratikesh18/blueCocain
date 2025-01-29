@@ -101,10 +101,15 @@ export async function POST(req: NextRequest) {
     );
 
     //updating the album
-    const updatedAlbum = await AlbumModel1.findByIdAndUpdate(albumId, {
-      $push: { tracks: newSongCreated._id, by: singerDetails._id },
-    });
+    const updatedAlbum = await AlbumModel1.findByIdAndUpdate(
+      albumId,
+      {
+        $push: { tracks: newSongCreated._id, by: singerDetails._id },
+      },
+      { new: true }
+    );
 
+    console.log(updatedAlbum);
     //artist and album is updated
 
     // if (!newSongCreated) {

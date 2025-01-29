@@ -86,7 +86,7 @@ const TheLyrics: React.FC<TheLyricsProps> = ({
 
   if (error) {
     return (
-      <div className="flex flex-col justify-center h-screen items-center p-4 gap-4 text-white text-center">
+      <div className="flex flex-col justify-center h-[92.2vh] items-center p-4 gap-4 text-white text-center">
         <h1 className="font-bold text-2xl ">
           Hold Still.. just refresh or try again after some time
         </h1>
@@ -124,13 +124,13 @@ const TheLyrics: React.FC<TheLyricsProps> = ({
   ];
 
   return (
-    <div className=" container flex flex-col  justify-center h-screen items-center p-4 md:flex-row">
-      <div className={`md:w-1/2`}>
+    <div className=" container flex flex-col justify-between h-[92.2vh] items-center p-4 md:flex-row-reverse">
+      <div className={`md:w-1/4`}>
         <LyricsInfoTile lyricsDetails={lyricsDetails} />
       </div>
 
       <div
-        className={`flex flex-col gap-4 text-left h-full text-2xl font-semibold w-full my-4 p-4  rounded-lg md:w-1/2 overflow-y-scroll scrollbar-thin scrollbar-thumb-black/20 scrollbar-track-black/20  bg-gray-500/20`}
+        className={`flex flex-col gap-4 text-left h-full text-2xl font-semibold w-full md:w-3/4 my-4 p-4  rounded-lg  overflow-y-scroll scrollbar-none`}
       >
         {isEditing && (
           <LyricsEditor
@@ -142,17 +142,16 @@ const TheLyrics: React.FC<TheLyricsProps> = ({
         {!isEditing &&
           updatedLyrics.length > 0 &&
           updatedLyrics.map((line, index) => (
-            <div key={index} >
-
-            <LyricsLine
-              key={index}
-              line={line}
-              isEditing={false}
-              isCurrent={currentLine === line}
-              index={index}
-              handleLineChange={handleLineChange}
+            <div key={index}>
+              <LyricsLine
+                key={index}
+                line={line}
+                isEditing={false}
+                isCurrent={currentLine === line}
+                index={index}
+                handleLineChange={handleLineChange}
               />
-              </div>
+            </div>
           ))}
 
         {!isEditing && updatedLyrics.length == 0 && (

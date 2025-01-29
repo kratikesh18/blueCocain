@@ -7,6 +7,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Artist } from "@/models/ArtistModel";
 import { Album } from "@/models/AlbumModel";
+import ArtistResult from "../NavbarComponents/ArtistResult";
 
 const SearchPopOverNav = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -54,6 +55,15 @@ const SearchPopOverNav = () => {
         className="border-2 py-5 px-4 w-fit text-xl rounded-md active:border-none "
       />
 
+      <ArtistResult
+        artistResult={{
+          _id: "kfajlkfja;kjf",
+          artistProfileImage:
+            "https://cdn.siasat.com/wp-content/uploads/2023/10/arijit-singh.jpg",
+          name: "Arijit Singh",
+        }}
+      />
+      
       {/* <Button onClick={handleSearch}>Search</Button> */}
       {loading && <div className="loader"></div>}
 

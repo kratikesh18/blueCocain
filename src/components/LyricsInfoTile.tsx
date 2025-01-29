@@ -55,7 +55,6 @@ const LyricsInfoTile = ({
 
           <div className="flex justify-between mt-4">
             <h3 className="text-lg ">
-              {}
               <Link href={`/artist/${lyricsDetails.singer._id}`}>
                 {lyricsDetails.singer.name}
               </Link>

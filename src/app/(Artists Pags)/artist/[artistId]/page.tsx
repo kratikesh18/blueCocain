@@ -1,7 +1,7 @@
 "use client";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import ArtistProfile from "@/components/PageComponents/ArtistProfile";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
@@ -42,6 +42,7 @@ const ArtistDetailsPage = () => {
   const [fetchedArtistProfile, setFetchedArtistProfile] =
     useState<ArtistPageType | null>(null);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   useEffect(() => {
     const getArtistDetailsFull = async () => {
       setLoading(true);
@@ -51,6 +52,10 @@ const ArtistDetailsPage = () => {
         );
         setFetchedArtistProfile(response.data.result);
       } catch (error) {
+        if (error instanceof AxiosError) {
+          const { response } = error;
+          setError(`Error ${response?.status} : ${response?.data.message}`);
+        }
         console.log("error while fetching the data", error);
       } finally {
         setLoading(false);
@@ -59,8 +64,15 @@ const ArtistDetailsPage = () => {
     getArtistDetailsFull();
   }, []);
 
-  if (!fetchedArtistProfile || loading) {
+  if (loading) {
     return <LoadingSpinner />;
+  }
+  if (!fetchedArtistProfile) {
+    return (
+      <div>
+        <h1>{error ? error : "No Artist Found with this id"}</h1>
+      </div>
+    );
   }
   return (
     <div className="container text-white">

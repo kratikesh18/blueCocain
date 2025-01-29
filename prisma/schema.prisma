@@ -1,0 +1,45 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+
+model Album {
+  id          String      @id @default(auto()) @map("_id") @db.ObjectId
+  albumName   String
+  albumArt    String
+  by          Artist[]
+  releaseDate DateTime
+  genre       String
+  tracks      Lyrics[]
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+}
+
+model Artist {
+  id                 String   @id @default(auto()) @map("_id") @db.ObjectId
+  name               String
+  bio                String
+  artistProfileImage String   @default("")
+  genre              String[]
+  songs              Song[]   @relation("ArtistSongs") // Relation to Song model
+  albums             Album[]  @relation("ArtistAlbums") // Relation to Album model
+  debutDate          DateTime @default(now())
+  keywords           String[]
+  createdAt          DateTime @default(now()) @map("created_at")
+  updatedAt          DateTime @updatedAt @map("updated_at")
+}
+
+model Lyrics{
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+}

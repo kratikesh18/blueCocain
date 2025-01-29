@@ -24,7 +24,7 @@ export default function RootLayout({
       <AuthProvider>
         <LyricsProvider>
           <body
-            className={`${inter.className} min-h-screen bg-gradient-to-br from-gray-900 via-purple-950 to-black text-white`}
+            className={`${inter.className} bg-gradient-to-br from-gray-900 via-purple-950 to-black text-white`}
           >
             <Navbar />
             {children}

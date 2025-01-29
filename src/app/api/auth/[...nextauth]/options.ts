@@ -82,6 +82,7 @@ export const authOptions: NextAuthOptions = {
       if (token.expiresAt && Date.now() < token.expiresAt) {
         return token;
       }
+
       return await refreshAccessToken(token);
     },
     async session({ session, token }) {

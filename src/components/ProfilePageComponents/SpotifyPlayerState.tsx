@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { Session } from "next-auth";
 import React, { useState } from "react";
 import { Button } from "../ui/button";
@@ -21,9 +21,10 @@ const SpotifyPlayerState = ({ session }: { session: Session }) => {
     useState<SpotifyTrackResponse | null>(null);
 
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState< string | null>(null);
-
-
+  const [error, setError] = useState<string | null>(null);
+  const [spotifyError, setSpotifyError] = useState<string>(
+    "See whats playing on your spotify!"
+  );
   // Fetch Current Spotify Player State
   const getCurrentPlayerState = async () => {
     setLoading(true);
@@ -37,13 +38,19 @@ const SpotifyPlayerState = ({ session }: { session: Session }) => {
         }
       );
       // const {name , artist, album} = await response.data;
-      console.log("Spotify State:", response.data.item);
-
+      // console.log("Spotify State:", response.data.item);
       if (response) {
-       setCurrentPlayerData(response.data.item);
+        setCurrentPlayerData(response.data.item);
+      }
+      if (response.status == 204) {
+        setSpotifyError("Heard Silence in your spotify");
       }
     } catch (error) {
-      console.error("Failed to fetch Spotify state:", error);
+      if (error instanceof AxiosError) {
+        const { response } = error;
+        // console.log(response?.data.error.message);
+        setSpotifyError(response?.data.error.message + " Please Login again ");
+      }
     } finally {
       setLoading(false);
     }
@@ -96,7 +103,7 @@ const SpotifyPlayerState = ({ session }: { session: Session }) => {
         </div>
       ) : (
         <div className="text-white border border-white w-1/2 p-3 text-center rounded-md md:w-1/6">
-          <h1>No Song is Playing on Spotify</h1>
+          <h1>{spotifyError}</h1>
           <Button
             className="bg-green-800 font-semibold"
             onClick={getCurrentPlayerState}
@@ -105,7 +112,7 @@ const SpotifyPlayerState = ({ session }: { session: Session }) => {
           </Button>
         </div>
       )}
-   </>
+    </>
   );
 };
 

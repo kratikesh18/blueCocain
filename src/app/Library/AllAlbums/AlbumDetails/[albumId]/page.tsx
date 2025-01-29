@@ -46,67 +46,92 @@ const AlbumDetailsPage = () => {
 
   if (!detailsPageData) {
     return (
-      <div>
-        <p>Album not found</p>
+      <div className="flex items-center justify-center min-h-screen text-center">
+        <p className="text-xl font-semibold text-gray-600">Album not found</p>
       </div>
     );
   }
 
   return (
-    <div className="container flex gap-4 flex-col md:flex-row">
-      <div className="flex flex-col gap-4 p-4 items-center border-[1px] border-gray-300/60 rounded-md backdrop-blur-xl">
-        <div>
+    <div className="container py-8 flex w-full gap-4">
+      {/* Album Details Section */}
+      <div className="flex flex-col items-center gap-8 w-2/5 bg-gray-500/20 text-white p-6 rounded-lg shadow-lg">
+        <div className="w-48 h-48 flex-shrink-0">
           <img
             src={detailsPageData.albumArt}
-            alt={detailsPageData.albumName}
-            className="h-1/4 aspect-square object-cover rounded-lg"
+            alt={`${detailsPageData.albumName} Cover`}
+            className="w-full h-full object-cover rounded-lg shadow-md"
           />
         </div>
-        <div className="">
-          <h1 className="md:text-3xl">{detailsPageData.albumName}</h1>
+        <div className="flex flex-col gap-4">
+          <h1 className="text-3xl font-bold">{detailsPageData.albumName}</h1>
           <p>
-            <span className="text-gray-50">By: </span>
-            {detailsPageData.by.map((eachArtist) => (
-              <span className="text-sm" key={eachArtist._id}>
-                {eachArtist.name}
-                {", "}
-              </span>
+            <span className="text-gray-400">By: </span>
+            {detailsPageData.by.map((artist, index) => (
+              <Link
+                href={`/artist/${artist._id}`}
+                key={artist._id}
+                className="hover:underline text-accent-foreground"
+              >
+                {artist.name}
+                {index < detailsPageData.by.length - 1 && ", "}
+              </Link>
             ))}
-          </p>{" "}
-          {/* Adjust this line if 'by' contains an object with artist details */}
-          <p>
-            <span className="text-gray-400">Release Date:</span>{" "}
-            {new Date(detailsPageData.releaseDate).toDateString()}
           </p>
           <p>
-            <span className="text-gray-400">Genre:</span>{" "}
+            <span className="text-gray-400">Release Date: </span>
+            {new Date(detailsPageData.releaseDate).toLocaleDateString()}
+          </p>
+          <p>
+            <span className="text-gray-400">Genre: </span>
             {detailsPageData.genre}
           </p>
         </div>
       </div>
 
-      <div className="flex flex-col gap-3 w-full">
-        <h2 className="text-2xl">Tracks</h2>
-
-        <ul>
+      {/* Tracks Section */}
+      <div className="mt-8 w-3/5">
+        <h2 className="text-2xl font-semibold mb-4  ">Tracks</h2>
+        <ul className="space-y-4">
           {detailsPageData.tracks.map((track) => (
-            <Link href={`/lyrics/${track._id}`} key={track._id} className="">
-              <li >
-                <div className="flex w-full justify-between px-10 backdrop-blur-md border-[1px] p-1 bg-gray-400/20 border-gray-300/60 rounded-md ">
-                  <h1 className="hover:underline ">{track.songName}</h1>
-                  <Link
-                    href={`/artist/${track.singer._id}`}
-                    className="hover:underline"
-                  >
-                    <h1>{track.singer.name}</h1>
-                  </Link>
-                </div>
-              </li>
-            </Link>
+            <li
+              key={track._id}
+              className="text-white bg-gray-500/20 transition duration-200 p-4 rounded-lg shadow-md"
+            >
+              <object>
+                <Link href={`/lyrics/${track._id}`} className="block">
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <h3 className="text-lg font-medium]">{track.songName}</h3>
+                      <object>
+                        <Link
+                          href={`/artist/${track.singer._id}`}
+                          className="text-sm text-green-600 hover:underline"
+                        >
+                          {track.singer.name}
+                        </Link>
+                      </object>
+                    </div>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={2}
+                      stroke="currentColor"
+                      className="w-5 h-5 text-gray-600"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M9 5l7 7-7 7"
+                      />
+                    </svg>
+                  </div>
+                </Link>
+              </object>
+            </li>
           ))}
         </ul>
-
-
       </div>
     </div>
   );

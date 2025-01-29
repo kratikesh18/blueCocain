@@ -12,9 +12,11 @@ const ExploreSections = ({}) => {
       setLoading(true);
       try {
         const response = await axios.get(`/api/allLyrics`);
+
         if (!response) {
           throw new Error("failed to fetch All Lyrics");
         }
+
         setAllItems(response.data.result);
       } catch (error) {
         console.log(error);
