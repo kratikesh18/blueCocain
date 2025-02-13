@@ -5,10 +5,10 @@ interface lyricsDetailsType {
   _id: string;
   songName: string;
   singer: {
-    _id: string;
+    _id?: string;
     name: string;
   };
-  albumDetails: { _id: string; albumArt: string; albumName: string };
+  albumDetails: { _id?: string; albumArt: string; albumName?: string };
   albumName?: string;
   genre?: string;
   releaseDate?: Date;

@@ -19,7 +19,7 @@ export const Searchbar = () => {
     if (searchQuery === "") {
       setLyrics(null);
     }
-  }, [searchQuery]);
+  }, [searchQuery,fetchLyrics,setLyrics]);
 
   return (
     <div className="flex justify-center items-center mx-auto flex-col gap-4">

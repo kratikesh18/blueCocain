@@ -34,7 +34,7 @@ const TheLyrics: React.FC<TheLyricsProps> = ({
     if (songId) {
       fetchLyricsDetails(songId);
     }
-  }, [songId]);
+  }, [songId,fetchLyricsDetails]);
 
   useEffect(() => {
     if (!isEditing) {

@@ -57,7 +57,7 @@ const ArtistDetailsPage = () => {
       }
     };
     getArtistDetailsFull();
-  }, []);
+  }, [artistId]);
 
   if (!fetchedArtistProfile || loading) {
     return <LoadingSpinner />;
