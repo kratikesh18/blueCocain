@@ -19,13 +19,12 @@ const SearchTile = ({ item }: { item: Lyrics | SearchResultType }) => {
     <Link
       href={`/lyrics/${item._id}`}
       className={cn(
-        "flex flex-col h-full bg-gray-500/20 shadow-xl rounded-lg overflow-hidden border border-gray-700 transition duration-500 ease-in-out ",
-        "hover:bg-gray-700 w-full max-w-lg mx-auto"
+        "flex flex-col h-auto bg-gray-500/20 shadow-xl rounded-lg overflow-hidden border border-gray-700 transition duration-500 ease-in-out hover:bg-gray-700 w-full max-w-lg mx-auto"
       )}
     >
       <div className="flex h-full w-full">
         {/* Album Art Section */}
-        <div className="flex-shrink-0 w-1/3 h-full relative">
+        <div className="w-1/3 h-full ">
           <img
             src={item.albumArt || item.albumDetails?.albumArt}
             alt={`${item.albumName || "Album"} cover`}

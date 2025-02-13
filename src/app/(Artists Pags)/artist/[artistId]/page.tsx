@@ -69,13 +69,13 @@ const ArtistDetailsPage = () => {
   }
   if (!fetchedArtistProfile) {
     return (
-      <div>
+      <div className="h-[92.2vh]">
         <h1>{error ? error : "No Artist Found with this id"}</h1>
       </div>
     );
   }
   return (
-    <div className="container text-white">
+    <div className="container text-white h-[92.2vh]">
       {<ArtistProfile artist={fetchedArtistProfile} />}
     </div>
   );

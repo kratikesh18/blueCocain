@@ -12,6 +12,7 @@ export const metadata: Metadata = {
   title: "BlueCocain : A Lyrics Library",
   description:
     "A Lyrics Library For Free, where you can find lyrics of all songs, Made by indian",
+  authors: [{ name: "Kartikesh Pachkawade" }],
 };
 
 export default function RootLayout({

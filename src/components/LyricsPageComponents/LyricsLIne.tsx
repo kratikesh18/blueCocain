@@ -24,7 +24,7 @@ const LyricsLine: React.FC<LyricsLineProps> = ({
 }) => {
   return (
     <div
-      className={`p-2 rounded transition-all duration-300 ${
+      className={`p-2 rounded transition-all duration-300  ${
         isCurrent ? "" : ""
       }`}
       onClick={() => {
@@ -43,7 +43,7 @@ const LyricsLine: React.FC<LyricsLineProps> = ({
         </div>
       ) : (
         <div>
-          <h1 className={`${isCurrent ? "text-white" : "text-gray-400/90"}`}>
+          <h1 className={`text-3xl ${isCurrent ? "text-white" : "text-gray-400/90"}`}>
             {line.line}
           </h1>
         </div>

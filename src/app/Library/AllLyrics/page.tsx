@@ -8,7 +8,7 @@ const AllLyricsPage = () => {
   const [allItems, setAllItems] = useState<SearchResultType[] | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
-  useEffect(() => {                                                               
+  useEffect(() => {
     async function getAllLyrics() {
       setLoading(true);
       try {
@@ -27,10 +27,12 @@ const AllLyricsPage = () => {
   }, []);
 
   return (
-    <div className="flex flex-wrap gap-4 min-h-screen bg-black">
-      {allItems?.map((eachItem) => (
-        <SearchTile item={eachItem} key={eachItem._id} />
-      ))}
+    <div className=" container bg-gray-500/10 p-4 h-[92.2vh] overflow-y-scroll scrollbar-none rounded-md  ">
+      <div className="gap-4 grid grid-cols-3">
+        {allItems?.map((eachItem) => (
+          <SearchTile item={eachItem} key={eachItem._id} />
+        ))}
+      </div>
     </div>
   );
 };

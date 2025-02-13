@@ -46,14 +46,14 @@ const AlbumDetailsPage = () => {
 
   if (!detailsPageData) {
     return (
-      <div className="flex items-center justify-center min-h-screen text-center">
+      <div className="flex items-center justify-center h-[92.2vh] text-center">
         <p className="text-xl font-semibold text-gray-600">Album not found</p>
       </div>
     );
   }
 
   return (
-    <div className="container py-8 flex w-full gap-4">
+    <div className="container py-8 flex w-full gap-4 h-[92.2vh]">
       {/* Album Details Section */}
       <div className="flex flex-col items-center gap-8 w-2/5 bg-gray-500/20 text-white p-6 rounded-lg shadow-lg">
         <div className="w-48 h-48 flex-shrink-0">
@@ -91,7 +91,7 @@ const AlbumDetailsPage = () => {
 
       {/* Tracks Section */}
       <div className="mt-8 w-3/5">
-        <h2 className="text-2xl font-semibold mb-4  ">Tracks</h2>
+        <h2 className="text-2xl font-semibold mb-4">Tracks</h2>
         <ul className="space-y-4">
           {detailsPageData.tracks.map((track) => (
             <li

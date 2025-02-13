@@ -31,15 +31,15 @@ const AllArtistsPage = () => {
 
   if (loading) {
     return (
-      <div className="h-screen w-full flex justify-center items-center">
+      <div className="h-[92.2vh] w-full flex justify-center items-center">
         <LoadingSpinner />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-950 py-10">
-      <div className="container mx-auto px-4">
+    <div className="h-[92.2vh] overflow-y-scroll scrollbar-none ">
+      <div className="container mx-auto px-4 bg-gray-500/20 p-4 rounded-md">
         <div className="text-white mb-8 flex justify-between items-center">
           <h1 className="text-3xl font-bold">All Artists</h1>
           <Link href={"/"}>Create an Artists Profile</Link>
@@ -52,7 +52,7 @@ const AllArtistsPage = () => {
               <Link
                 href={`/artist/${eachArtist._id}`}
                 key={index}
-                className="bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-2xl transition duration-300"
+                className="border-transparent border ease-linear  hover:border-gray-100/30 p-6 rounded-lg shadow-lg  transition duration-500 bg-gray-500/20"
               >
                 <div className="flex justify-center mb-4">
                   <img

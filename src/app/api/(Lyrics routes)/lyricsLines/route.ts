@@ -2,23 +2,7 @@
 import dbConnect from "@/lib/dbConnect";
 import LyricsModel from "@/models/LyricsModel";
 import { NextRequest, NextResponse } from "next/server";
-import ArtistModel from "@/models/ArtistModel";
-import mongoose from "mongoose";
-
-// Explicitly register the models with mongoose
-if (!mongoose.models.Artist) {
-  mongoose.model("Artist", new mongoose.Schema({ name: String }));
-}
-
-if (!mongoose.models.Lyrics) {
-  mongoose.model("Lyrics", new mongoose.Schema({ songName: String }));
-}
-if (!mongoose.models.NewAlbum) {
-  mongoose.model(
-    "NewAlbum",
-    new mongoose.Schema({ albumArt: String, albumName: String })
-  );
-}
+import { ObjectId } from "mongodb";
 
 export async function GET(req: NextRequest) {
   await dbConnect();
@@ -35,22 +19,49 @@ export async function GET(req: NextRequest) {
         { status: 400 }
       );
     }
-    const lyricsOfTheSong = await LyricsModel.findById(songId)
-      .select("-__v -createdAt -updatedAt")
-      .populate({
-        path: "singer",
-        select: "name",
-        model: "Artist",
-        strictPopulate: false,
-      })
-      .populate({
-        path: "albumDetails",
-        select: "albumArt albumName",
-        model: "NewAlbum",
-        strictPopulate: false,
-      });
 
-    if (lyricsOfTheSong.length === 0) {
+    const lyricsOfTheSong = await LyricsModel.aggregate([
+      {
+        $match: {
+          _id: new ObjectId(songId),
+        },
+      },
+      {
+        $lookup: {
+          from: "newalbums",
+          localField: "albumDetails",
+          foreignField: "_id",
+          as: "albumDetails",
+          pipeline: [
+            {
+              $project: {
+                albumName: 1,
+                albumArt: 1,
+              },
+            },
+          ],
+        },
+      },
+      { $unwind: "$albumDetails" },
+      {
+        $lookup: {
+          from: "artists",
+          localField: "singer",
+          foreignField: "_id",
+          as: "singer",
+          pipeline: [
+            {
+              $project: {
+                name: 1,
+              },
+            },
+          ],
+        },
+      },
+      { $unwind: "$singer" },
+    ]);
+
+    if (!lyricsOfTheSong.length) {
       return NextResponse.json(
         {
           success: false,
@@ -64,7 +75,7 @@ export async function GET(req: NextRequest) {
       {
         success: true,
         message: "Lyrics found",
-        results: lyricsOfTheSong,
+        results: lyricsOfTheSong[0],
       },
       { status: 200 }
     );
