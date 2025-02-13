@@ -1,11 +1,9 @@
 import dbConnect from "@/lib/dbConnect";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(req:NextRequest){
-    await dbConnect();
-    try {
-        
-    } catch (error) {
-        
-    }
+export async function GET(req: NextRequest) {
+  return NextResponse.json(
+    { success: true, message: "Api working fine" },
+    { status: 200 }
+  );
 }
