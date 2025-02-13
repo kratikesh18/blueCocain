@@ -18,7 +18,6 @@ interface DetailsPageDataType {
 }
 
 const AlbumDetailsPage = () => {
- 
   const { albumId } = useParams();
   const [detailsPageData, setDetailsPageData] =
     useState<DetailsPageDataType | null>(null);
@@ -66,7 +65,7 @@ const AlbumDetailsPage = () => {
           <p>
             <span className="text-gray-50">By: </span>
             {detailsPageData.by.map((eachArtist) => (
-              <span className="">
+              <span className="" key={eachArtist._id}>
                 {eachArtist.name}
                 {", "}
               </span>
