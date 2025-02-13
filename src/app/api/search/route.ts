@@ -1,5 +1,4 @@
 import dbConnect from "@/lib/dbConnect";
-import AlbumModel from "@/models/AlbumModel";
 import ArtistModel from "@/models/ArtistModel";
 import LyricsModel from "@/models/LyricsModel";
 import AlbumModel1 from "@/models/NewAlbumModel";
@@ -71,11 +70,13 @@ export async function GET(req: NextRequest) {
       },
       { status: 200 }
     );
-  } catch (error) {}
-  return {
-    status: 200,
-    body: {
-      message: "Hello from the search endpoint",
-    },
-  };
+  } catch (error: any) {
+    return NextResponse.json(
+      {
+        success: false,
+        message: `Error: ${error.message}`,
+      },
+      { status: 500 }
+    );
+  }
 }
