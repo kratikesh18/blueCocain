@@ -46,7 +46,7 @@ const GatherSongDetails: React.FC<{ albumdetailsProps: AlbumDetails }> = ({
     resolver: zodResolver(NewLyricsSchema),
     defaultValues: {
       songName: "",
-      singerName:  "",
+      singerName: "",
       albumName: albumdetailsProps.albumName || "",
       genre: albumdetailsProps.genre || "",
       albumArtUrl: "",

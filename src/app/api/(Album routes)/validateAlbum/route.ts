@@ -4,7 +4,6 @@ import AlbumModel1 from "@/models/NewAlbumModel";
 import mongoose from "mongoose";
 import { NextRequest } from "next/server";
 
-
 export async function GET(req: NextRequest) {
   await dbConnect();
 

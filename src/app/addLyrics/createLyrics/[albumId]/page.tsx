@@ -8,7 +8,7 @@ import React, { useEffect, useState } from "react";
 interface AlbumDetails {
   _id: string;
   albumName: string;
-  by: { name: string };
+  by: [{ name: string; _id: string }];
   releaseDate: string;
   genre: string;
 }
