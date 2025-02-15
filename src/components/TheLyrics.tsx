@@ -8,10 +8,11 @@ import LoadingSpinner from "./LoadingSpinner";
 import { Button } from "./ui/button";
 import axios from "axios";
 import { Toaster } from "./ui/toaster";
-import { useToast } from "./ui/use-toast";
+
 import { LyricsLine as LyricsLineType } from "@/models/LyricsModel";
 import EditIcon from "./icons/EditIcon";
 import Link from "next/link";
+import { useToast } from "@/hooks/use-toast";
 
 interface TheLyricsProps {
   songId: string;

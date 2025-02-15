@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { signIn, useSession } from "next-auth/react";
 import LeftArrow from "@/components/icons/LeftArrow";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 
 const LoginPage: React.FC = () => {
   const { toast } = useToast();

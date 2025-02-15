@@ -53,6 +53,7 @@ export async function GET(req: NextRequest) {
             {
               $project: {
                 name: 1,
+                artistProfileImage: 1,
               },
             },
           ],
